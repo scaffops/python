@@ -1,0 +1,16 @@
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+#
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+version: 2
+mkdocs:
+  configuration: "mkdocs.yml"
+build:
+  os: "ubuntu-latest"
+  tools:
+    python: "{{python_version}}"
+  jobs:
+    post_install:
+    - "pip install poetry"
+    - "poetry config virtualenvs.create false"
+    - "poetry install --with=docs"

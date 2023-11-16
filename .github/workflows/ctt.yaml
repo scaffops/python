@@ -1,0 +1,26 @@
+name: "CTT"
+
+on:
+  push:
+    branches:
+    - "main"
+
+jobs:
+  ctt-test:
+    name: "Test"
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: "actions/checkout@v4"
+      with:
+        fetch-depth: 0
+    - name: "Install Redis"
+      run: "sudo apt install redis"
+    - name: "Install Poetry"
+      run: "pipx install poetry"
+    - uses: "actions/setup-python@v5"
+      with:
+        cache: "poetry"
+    - name: "Install dependencies"
+      run: "poetry install"
+    - name: "Run CTT"
+      run: "poetry run ctt"

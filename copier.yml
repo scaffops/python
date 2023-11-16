@@ -1,0 +1,133 @@
+_envops:
+  block_end_string: "%#"
+  block_start_string: "#%"
+_exclude:
+- "copier.yml"
+- ".git"
+_jinja_extensions:
+- "copier_templates_extensions.TemplateExtensionLoader"
+- "extensions/commands.py:CommandsContextHook"
+- "extensions/context.py:SkeletonContextHook"
+- "extensions/context.py:SkeletonExtension"
+- "extensions/context.py:ProjectURLContextHook"
+- "extensions/context.py:PythonVersionsContextHook"
+- "extensions/context.py:VisibilityContextHook"
+- "extensions/context.py:TemplateContextHook"
+- "extensions/context.py:GitContextHook"
+- "extensions/stringops.py:StringOpsExtension"
+_subdirectory: "project"
+_tasks:
+- >-
+  set -eE
+  && (
+  ./handle-task-event
+  || (TEMPLATE_PREVIEW=$(mktemp); cp ./handle-task-event $TEMPLATE_PREVIEW)
+  )
+  && (
+  if test $TEMPLATE_PREVIEW;
+  then (
+  echo "Opening the failing template preview"
+  && $EDITOR $TEMPLATE_PREVIEW
+  );
+  fi
+  )
+
+repo_name:
+  type: "str"
+  help: "Repository name"
+project_description:
+  type: "str"
+  default: ""
+  help: "Short project description"
+visibility:
+  type: "str"
+  choices:
+  - "public"
+  - "private"
+  default: "private"
+  help: "Repository visibility"
+github_username:
+  type: "str"
+  help: "GitHub username of the owner of the repository, maybe organization"
+  default: "{{git_username or 'bswck'}}"
+author_username:
+  type: "str"
+  default: "{{github_username}}"
+  help: "GitHub username of the author and copyright holder"
+org_full_name:
+  type: "str"
+  default: "#% if github_username == 'bswck' %#Bartosz Sławecki#% endif %#"
+  help: "Full name of the copyright holder"
+email_address:
+  type: "str"
+  default: "{{git_email or 'bswck.dev@gmail.com'}}"
+  help: "Your e-mail address"
+publish_on_pypi:
+  type: "bool"
+  default: true
+  help: "Publish on PyPI"
+pypi_project_name:
+  type: "str"
+  default: "{{repo_name|kebabify}}"
+  help: "PyPI project name"
+  when: "{{publish_on_pypi}}"
+pypi_project_description:
+  type: "str"
+  default: "{{project_description}}"
+  help: "PyPI project description"
+  when: "{{publish_on_pypi}}"
+docs:
+  type: "bool"
+  default: true
+  help: "Include documentation suite?"
+docs_slug:
+  type: "str"
+  default: "{{repo_name|kebabify}}"
+  help: "Documentation project slug (XXXXX.readthedocs.io)"
+  when: "{{docs}}"
+tests:
+  type: "bool"
+  default: true
+  help: "Include test suite?"
+package_name:
+  type: "str"
+  default: "{{repo_name.replace('-', '_')}}"
+  help: "Package import name"
+python_version:
+  type: "str"
+  default: "3.8"
+  choices:
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
+  - "3.12"
+  help: "Minimal Python version"
+license_name:
+  type: "str"
+  default: "MIT"
+  choices:
+    "MIT License": "MIT"
+    "GNU Affero General Public License v3.0": "AGPL-3.0"
+    "Apache License 2.0": "Apache-2.0"
+    'BSD 2-Clause "Simplified" License': "BSD-2-Clause"
+    'BSD 3-Clause "New" or "Revised" License': "BSD-3-Clause"
+    "Boost Software License 1.0": "BSL-1.0"
+    "Creative Commons Zero v1.0 Universal": "CC0-1.0"
+    "Eclipse Public License 2.0": "EPL-2.0"
+    "GNU General Public License v2.0": "GPL-2.0"
+    "GNU General Public License v3.0": "GPL-3.0"
+    "GNU Lesser General Public License v2.1": "LGPL-2.1"
+    "Mozilla Public License 2.0": "MPL-2.0"
+    "The Unlicense": "Unlicense"
+    "Custom license/No license": "Custom"
+  help: "License name"
+use_precommit:
+  type: "bool"
+  default: true
+  help: "Use pre-commit?"
+ctt_mode:
+  type: "bool"
+  default: false
+  help: "Copier Template Tester mode?"
+  when: "{{False}}"

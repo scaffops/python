@@ -1,0 +1,75 @@
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+
+site_name: "{{repo_name}}"
+site_description: "{{project_description}}"
+site_url: "{{docs_url}}"
+repo_url: "{{repo_url}}"
+repo_name: "{{github_username}}/{{repo_name}}"
+watch:
+- "{{package_name}}"
+
+nav:
+- "Overview": "index.md"
+- "API Reference": "api.md"
+#%- if public %#
+- "Contributing": "contributing.md"
+#%- endif %#
+- "Changelog": "changelog.md"
+
+theme:
+  name: "material"
+  features:
+  - "content.code.annotate"
+  - "navigation.top"
+  - "navigation.tracking"
+  palette:
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: "material/brightness-auto"
+      name: "Switch to light mode"
+  - media: "(prefers-color-scheme: light)"
+    scheme: "default"
+    primary: "teal"
+    accent: "purple"
+    toggle:
+      icon: "material/weather-sunny"
+      name: "Switch to dark mode"
+  - media: "(prefers-color-scheme: dark)"
+    scheme: "slate"
+    primary: "black"
+    accent: "lime"
+    toggle:
+      icon: "material/weather-night"
+      name: "Switch to system preference"
+
+extra_css:
+- "css/mkdocstrings.css"
+
+markdown_extensions:
+- "pymdownx.highlight":
+    use_pygments: true
+- "pymdownx.superfences":
+    custom_fences:
+      - name: "mermaid"
+        class: "mermaid"
+        format: !!python/name:pymdownx.superfences.fence_code_format
+- "toc":
+    permalink: true
+- "admonition"
+- "pymdownx.emoji"
+- "pymdownx.magiclink"
+- "footnotes"
+
+plugins:
+- "autorefs"
+- "search"
+- "markdown-exec"
+- "mkdocstrings":
+    handlers:
+      python:
+        options:
+          members_order: "source"
+          show_signature_annotations: true
+        paths: ["{{package_name}}/"]
+        import:
+        - "https://docs.python.org/3/objects.inv"

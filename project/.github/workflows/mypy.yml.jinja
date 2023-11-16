@@ -1,0 +1,23 @@
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+
+name: "Mypy"
+
+on: ["push"]
+
+jobs:
+  typecheck:
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: "actions/checkout@v4"
+    - name: "Install Poetry"
+      run: "pipx install poetry"
+    - name: "Set up Python {{python_version}}"
+      uses: "actions/setup-python@v5"
+      with:
+        cache: "poetry"
+    - name: "Install the project"
+      run: "poetry install"
+    - name: "Type-check with mypy"
+      run: >
+        poetry run mypy . --strict
+        || (echo yes | poetry run mypy --install-types && poetry run mypy . --strict)
