@@ -4,3 +4,5 @@
 
 (C) 2023-present {{cookiecutter.author_full_name}} ({{cookiecutter.github_username}})
 """
+
+import __hello__
