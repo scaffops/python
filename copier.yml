@@ -101,8 +101,8 @@ _tasks:
         PYTHON_VERSION="$(cat .python-version)"
         poetry env use $PYTHON_VERSION
         poetry run poe lock
-        poetry run python _setup.py
-        rm _setup.py
+        poetry run python project_setup.py
+        rm project_setup.py
         git add .
         git commit -m "Initial commit"
         gh repo create {{ repo_name }} --{{ visibility }} --source=./ --remote=upstream
