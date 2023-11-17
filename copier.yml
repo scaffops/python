@@ -73,7 +73,7 @@ license_name:
 _tasks:
   - |-
     echo "Checking if this directory is a git repository..."
-    git rev-parse --is-inside-work-tree
+    git -C . rev-parse --is-inside-work-tree
     if [ $? -ne 0 ]; then  # $OPERATION=copy
         git init .
         poetry install
