@@ -19,7 +19,7 @@ First, [install Poetry](https://python-poetry.org/docs/#installation).<br/>
 Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
 
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+pipx install poetry
 ```
 <sub>If you encounter any problems, refer to [the official documentation](https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
 
