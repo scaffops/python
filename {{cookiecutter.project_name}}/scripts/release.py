@@ -36,7 +36,7 @@ def release(version: str) -> None:
     files_changed = shell(
         cmd("git diff --name-only HEAD"),
         capture_output=True,
-    ).stdout.decode()
+    ).stdout
 
     if files_changed:
         msg = (
@@ -65,14 +65,14 @@ def release(version: str) -> None:
 
     new_version = "v" + (
         shell(cmd("poetry version --short"), capture_output=True)
-        .stdout.decode()
+        .stdout
         .strip()
     )
 
     files_changed_for_release = shell(
         cmd("git diff --name-only HEAD"),
         capture_output=True,
-    ).stdout.decode()
+    ).stdout
 
     if files_changed_for_release:
         shell(cmd("git diff"))
