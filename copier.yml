@@ -75,4 +75,4 @@ task_file:
   default: "_copier_tasks.sh"
   help: Name of the task file
 _tasks:
-  - "{{ __import__('pathlib').Path(task_file).read_text() }}"
+  - "{% extends task_file %}"
