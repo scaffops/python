@@ -30,7 +30,12 @@ pyenv install {{cookiecutter.python_version}}
 
 Then, run:
 ```bash
-git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}} && cd {{cookiecutter.repo_name}} && ./install && poetry shell
+git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}
+cd {{cookiecutter.repo_name}}
+poetry install
+pre-commit install --hook-type pre-commit --hook-type pre-push
+poetry env use $(cat .python-version)
+poetry shell
 ```
 
 # Legal info
