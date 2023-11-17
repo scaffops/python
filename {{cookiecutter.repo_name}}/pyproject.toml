@@ -5,7 +5,7 @@ description = "{{cookiecutter.pypi_project_description}}"
 authors = ["{{cookiecutter.github_username}} <{{cookiecutter.email_address}}>"]
 license = "{{cookiecutter.license_name}}"
 readme = "README.md"
-packages = [{ include = "{{cookiecutter.project_name}}/" }]
+packages = [{ include = "{{cookiecutter.package_name}}/" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"

@@ -35,7 +35,7 @@ def generate_license_file() -> None:
             f"{datetime.now().year}–present",
         ).replace(
             "[fullname]",
-            "{{cookiecutter.full_name}} ({{cookiecutter.github_username}})",
+            "{{cookiecutter.author_full_name}} ({{cookiecutter.github_username}})",
         )
         Path("LICENSE").write_text(final_license_text)
 

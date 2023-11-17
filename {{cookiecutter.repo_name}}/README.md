@@ -1,4 +1,4 @@
-# {{cookiecutter.project_name}} [![Package version](https://img.shields.io/pypi/v/{{cookiecutter.pypi_project_name}}?label=PyPI)](https://pypi.org/project/{{cookiecutter.pypi_project_name}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{cookiecutter.pypi_project_name}}.svg?logo=python&label=Python)](https://pypi.org/project/{{cookiecutter.pypi_project_name}})
+# {{cookiecutter.repo_name}} [![Package version](https://img.shields.io/pypi/v/{{cookiecutter.pypi_project_name}}?label=PyPI)](https://pypi.org/project/{{cookiecutter.pypi_project_name}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{cookiecutter.pypi_project_name}}.svg?logo=python&label=Python)](https://pypi.org/project/{{cookiecutter.pypi_project_name}})
 [![Tests](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/actions/workflows/test.yml/badge.svg)](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/actions/workflows/test.yml)
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}})
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -34,7 +34,7 @@ git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.rep
 ```
 
 # Legal info
-© Copyright by {{cookiecutter.full_name}} ([@{{cookiecutter.github_username}}](https://github.com/{{cookiecutter.github_username}})).
+© Copyright by {{cookiecutter.author_full_name}} ([@{{cookiecutter.github_username}}](https://github.com/{{cookiecutter.github_username}})).
 {% if cookiecutter.license_name != "None" %}
 <br />This software is licensed under the [{{cookiecutter.license_name}} License](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/blob/main/LICENSE).
 {% endif %}
