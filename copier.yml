@@ -16,16 +16,20 @@ github_username:
   type: str
   default: bswck
   help: Your GitHub username
+publish_on_pypi:
+  type: bool
+  default: true
+  help: Publish on PyPI
 pypi_project_name:
   type: str
   default: "{{ repo_name.lower().replace('_', '-') }}"
   help: PyPI project name
-  when: "{{ visibility == 'public' }}"
+  when: "{{ publish_on_pypi }}"
 pypi_project_description:
   type: str
   default: "{{ project_description }}"
   help: PyPI project description
-  when: "{{ visibility == 'public' }}"
+  when: "{{ publish_on_pypi }}"
 author_full_name:
   type: str
   default: Bartosz Sławecki
@@ -71,6 +75,16 @@ license_name:
     "The Unlicense": Unlicense
     "No license": None
   help: License name
+_exclude:
+  - copier.yaml
+  - copier.yml
+  - ~*
+  - "*.py[co]"
+  - __pycache__
+  - .git
+  - .DS_Store
+  - .svn
+  - "{% if publish_on_pypi %}release.yml.jinja{% endif %}"
 _tasks:
   - |-
     echo "Checking if this directory is a git repository..."

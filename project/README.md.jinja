@@ -1,4 +1,4 @@
-# {{repo_name}} [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)](https://pypi.org/project/{{pypi_project_name}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)](https://pypi.org/project/{{pypi_project_name}})
+# {{repo_name}} {% if publish_on_pypi %}[![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)](https://pypi.org/project/{{pypi_project_name}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)](https://pypi.org/project/{{pypi_project_name}}){% endif %}
 [![Tests](https://github.com/{{github_username}}/{{repo_name}}/actions/workflows/test.yml/badge.svg)](https://github.com/{{github_username}}/{{repo_name}}/actions/workflows/test.yml)
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/{{github_username}}/{{repo_name}})
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -8,10 +8,12 @@
 
 # Installation
 
+{% if publish_on_pypi %}
 ## For the users 💻
 ```bash
 pip install {{pypi_project_name}}
 ```
+{% endif %}
 
 ## For the contributors ❤️
 > [!Note]
