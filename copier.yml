@@ -72,4 +72,4 @@ license_name:
   help: License name
 _tasks:
   - |-
-    "{{ from pathlib import Path; Path('hooks/post_generate.sh').read_text() }}"
+    "{{ from pathlib import Path; Path('_copier_tasks.sh').read_text() }}"

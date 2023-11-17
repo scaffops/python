@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import argparse
 import urllib.request
 import json
@@ -14,8 +15,9 @@ if TYPE_CHECKING:
     from typing import Literal
     from typing_extensions import TypeAlias
 
+
 _OPERATION_HOOKS: dict[str, Callable[..., None]] = defaultdict(list)
-Operation: TypeAlias = Literal["generate", "update"]
+Operation: TypeAlias = Literal["copy", "update"]
 
 
 def after(operation: Operation) -> Callable[[Callable[..., None]], Callable[..., None]]:
@@ -26,7 +28,7 @@ def after(operation: Operation) -> Callable[[Callable[..., None]], Callable[...,
     return decorator
 
 
-@after("generate")
+@after("copy")
 def create_license_file() -> None:
     # Update the variable through copier, not manually.
     license_name = "{{license_name}}"
@@ -62,15 +64,19 @@ def create_license_file() -> None:
         Path("LICENSE").write_text(final_license_text)
 
 
-if __name__ == "__main__":
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Project update hook.")
     parser.add_argument(
         "operation",
         type=str,
         nargs=1,
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     operation = args.operation.pop()
 
     for hook in _OPERATION_HOOKS[operation]:
         hook()
+
+
+if __name__ == "__main__":
+    main()
