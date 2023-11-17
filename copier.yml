@@ -71,4 +71,4 @@ license_name:
     "No license": None
   help: License name
 _tasks:
-  - pwd
+  - "echo {{ _copier_conf.src_path }}"
