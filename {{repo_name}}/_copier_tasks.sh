@@ -2,6 +2,7 @@
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # This script is run automatically by copier.
+# Don't change it here but at https://github.com/bswck/skeleton.
 # As of 17.11.2023, https://github.com/copier-org/copier/issues/240 is not resolved.
 echo "Checking if this directory is a git repository..."
 git rev-parse --is-inside-work-tree

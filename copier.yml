@@ -3,13 +3,13 @@ repo_name:
   help: Repository name
 project_description:
   type: str
-  default: ''
+  default: ""
   help: Short project description
 visibility:
   type: str
   choices:
-  - public
-  - private
+    - public
+    - private
   help: Repository visibility
 github_username:
   type: str
@@ -45,11 +45,11 @@ python_version:
   type: str
   default: "3.8"
   choices:
-  - "3.8"
-  - "3.9"
-  - "3.10"
-  - "3.11"
-  - "3.12"
+    - "3.8"
+    - "3.9"
+    - "3.10"
+    - "3.11"
+    - "3.12"
   help: Minimal Python version
 license_name:
   type: str
@@ -58,8 +58,8 @@ license_name:
     "MIT License": MIT
     "GNU Affero General Public License v3.0": AGPL-3.0
     "Apache License 2.0": Apache-2.0
-    "BSD 2-Clause \"Simplified\" License": BSD-2-Clause
-    "BSD 3-Clause \"New\" or \"Revised\" License": BSD-3-Clause
+    'BSD 2-Clause "Simplified" License': BSD-2-Clause
+    'BSD 3-Clause "New" or "Revised" License': BSD-3-Clause
     "Boost Software License 1.0": BSL-1.0
     "Creative Commons Zero v1.0 Universal": CC0-1.0
     "Eclipse Public License 2.0": EPL-2.0
@@ -70,6 +70,9 @@ license_name:
     "The Unlicense": Unlicense
     "No license": None
   help: License name
+task_file:
+  type: str
+  default: "_copier_tasks.sh"
+  help: Name of the task file
 _tasks:
-  - |-
-    "{{ from pathlib import Path; Path('_copier_tasks.sh').read_text() }}"
+  - "{{ __import__('pathlib').Path(task_file).read_text() }}"
