@@ -1,3 +1,12 @@
+"""
+Project setup script.
+
+This script is run automatically by copier after the project is created.
+It is not run when the project is updated.
+
+(C) 2023-present Bartosz Sławecki (bswck)
+"""
+
 from __future__ import annotations
 
 import urllib.request
@@ -6,11 +15,9 @@ import pprint
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 
 def create_license_file() -> None:
-    # Update the variable through copier, not manually.
     license_name = "{{license_name}}"
     if license_name == "None":
         return
