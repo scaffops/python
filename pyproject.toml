@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "skeleton"
+version = "0.1.0"
+description = "The cruft templates for bswck projects."
+authors = ["bswck <bswck.dev@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "~3.8"
+cruft = "^2.15.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

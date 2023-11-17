@@ -1,0 +1,72 @@
+{
+    "full_name": "Bartosz Sławecki",
+    "email_address": "bswck.dev@gmail.com",
+    "github_username": "bswck",
+    "project_name": null,
+    "project_description": "",
+    "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "repo_description": "{{ cookiecutter.project_description }}",
+    "pypi_project_name": "{{ cookiecutter.project_name.lower().replace('_', '-') }}",
+    "pypi_project_description": "{{ cookiecutter.project_description }}",
+    "import_name": "{{ cookiecutter.repo_name }}",
+    "ci_mypy_args": "{{ cookiecutter.import_name }}",
+    "ci_ruff_args": "{{ cookiecutter.import_name }}",
+    "project_version": "0.0.1",
+    "python_version": "3.8",
+    "visibility": [
+        "public",
+        "private"
+    ],
+    "license_name": [
+        "mit",
+        "agpl-3.0",
+        "apache-2.0",
+        "bsd-2-clause",
+        "bsd-3-clause",
+        "bsl-1.0",
+        "cc0-1.0",
+        "epl-2.0",
+        "gpl-2.0",
+        "gpl-3.0",
+        "lgpl-2.1",
+        "mpl-2.0",
+        "unlicense",
+        "none"
+    ],
+    "__prompts__": {
+        "full_name": "Full name",
+        "email_address": "Email address",
+        "github_username": "GitHub username",
+        "project_name": "Project name",
+        "project_description": "Project description",
+        "repo_name": "Repository name",
+        "repo_description": "Repository description",
+        "pypi_project_name": "PyPI project name",
+        "pypi_project_description": "PyPI project description",
+        "import_name": "Package import name",
+        "ci_mypy_args": "Mypy CLI arguments",
+        "ci_ruff_args": "Ruff CLI arguments",
+        "project_version": "Project version",
+        "python_version": "Python version",
+        "visibility": "Repository visibility",
+        "license_name": {
+            "__prompt__": "License name",
+            "__options__": [
+                "MIT License",
+                "GNU Affero General Public License v3.0",
+                "Apache License 2.0",
+                "BSD 2-Clause \"Simplified\" License",
+                "BSD 3-Clause \"New\" or \"Revised\" License",
+                "Boost Software License 1.0",
+                "Creative Commons Zero v1.0 Universal",
+                "Eclipse Public License 2.0",
+                "GNU General Public License v2.0",
+                "GNU General Public License v3.0",
+                "GNU Lesser General Public License v2.1",
+                "Mozilla Public License 2.0",
+                "The Unlicense",
+                "No license"
+            ]
+        }
+    }
+}

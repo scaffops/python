@@ -1,0 +1,75 @@
+[tool.poetry]
+name = "{{cookiecutter.repo_name}}"
+version = "{{cookiecutter.project_version}}"
+description = "{{cookiecutter.pypi_project_description}}"
+authors = [
+    "{{cookiecutter.github_username}} <{{cookiecutter.email_address}}>",
+]
+license = "{{cookiecutter.license_name}}"
+readme = "README.md"
+packages = [{ include = "{{cookiecutter.project_name}}/" }]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.7.0"
+ruff = "^0.1.2"
+pytest = "^7.4.3"
+coverage = "^7.3.2"
+pre-commit = "^3.5.0"
+
+[tool.ruff]
+exclude = ["tests/"]
+# To discuss the presented rationales, contact the author ({{cookiecutter.github_username}}).
+select = ["ALL"]
+ignore = [
+    # Description: Missing type annotation for self in method
+    # Rationale: It is mostly redundant, as is for ANN102.
+    "ANN101",
+
+    # Description: Missing type annotation for cls in method
+    # Rationale: It is mostly redundant, as is for ANN101.
+    "ANN102",
+
+    # Description: Dynamically typed expressions (typing.Any) are disallowed
+    # Rationale:
+    #  We use Any to allow user to constrain return types of our functions on their own.
+    #  For example, having a function `def foo() -> Any: ...` allows user to write
+    #  `my_foo: int = foo()` and have it passed type checking, since `Any` disables
+    #  type checking completely.
+    "ANN401",
+
+    # Description: 1 blank line required before class docstring
+    # Rationale: Remove the warning -- D211 (no-blank-line-before-class) preferred.
+    "D203",
+
+    # Description: Multi-line docstring summary should start at the second line
+    # Rationale: Remove the warning -- D213 (multi-line-summary-second-line) preferred.
+    "D212",
+]
+
+[tool.mypy]
+strict = true
+
+[tool.isort]
+profile = "black"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["./README.md"]
+
+[tool.coverage.report]
+omit = ["tests/*"]
+fail_under = 96
+exclude_lines = [
+    # Be sure to include lines that are not meant to be covered
+    # by tests or encountered by the users at runtime.
+    "raise NotImplementedError",          # Do not cover abstract methods.
+    "if ((t|typing)\\.?)?TYPE_CHECKING:", # Do not cover type checking imports.
+    "@((t|typing)\\.?)?overload",         # Do not cover overload definitions.
+    "\\(((t|typing)\\.?)?Protocol\\):$",  # Do not cover entire protocol definitions.
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
