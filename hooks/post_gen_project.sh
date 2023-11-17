@@ -4,7 +4,7 @@
 # Setup a new project with Poetry and GitHub.
 # This script is run automatically by cookiecutter.
 # https://cookiecutter.readthedocs.io/en/2.4.0/advanced/hooks.html#types-of-hooks
-git init
+git init .
 poetry check
 poetry install
 if [ $? -eq 0 ]; then
@@ -20,5 +20,6 @@ poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
 git add .
 git commit -m "Initial commit"
 gh repo create {{ cookiecutter.repo_name }} --{{ cookiecutter.visibility }} --source=./ --remote=upstream
+git branch -M master
 git remote add origin https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}.git
 git push -u origin master
