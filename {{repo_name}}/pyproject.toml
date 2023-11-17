@@ -21,7 +21,7 @@ poethepoet = "^0.24.3"
 [tool.poe.tasks]
 test = "pytest"
 lock = "scripts/lock.sh"
-hook.script = "scripts.hook:main"
+skeleton.script = "scripts.skeleton:main"
 release.script = "scripts.release:main"
 
 [tool.ruff]
