@@ -74,7 +74,7 @@ license_name:
 _tasks:
   - |-
     echo "Checking if this directory is a git repository..."
-    if test "$(git rev-parse --show-toplevel)" = "$(pwd)"; then  # $OPERATION=copy
+    if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then  # $OPERATION=copy
         echo "This directory is not a git repository."
         git init .
         poetry install
