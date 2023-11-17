@@ -8,7 +8,7 @@ from pathlib import Path
 
 def generate_license_file() -> None:
     license_name = "{{cookiecutter.license_name}}"
-    if license_name == "none":
+    if license_name == "None":
         return
 
     license_text: str | None

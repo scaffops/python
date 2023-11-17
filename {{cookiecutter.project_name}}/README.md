@@ -35,6 +35,6 @@ git clone https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.rep
 
 # Legal info
 © Copyright by {{cookiecutter.full_name}} ([@{{cookiecutter.github_username}}](https://github.com/{{cookiecutter.github_username}})).
-{% if cookiecutter.license_name != "none" %}
-This software is licensed under the [{{cookiecutter.license_name}} License](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/blob/main/LICENSE).
+{% if cookiecutter.license_name != "None" %}
+<br />This software is licensed under the [{{cookiecutter.license_name}} License](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/blob/main/LICENSE).
 {% endif %}
