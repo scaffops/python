@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements-dev.txt
     - name: Type-check with mypy
       run: >-
-        mypy . --strict || (echo yes | mypy --install-types && mypy {{cookiecutter.ci_mypy_args}} --strict)
+        mypy . --strict || (echo yes | mypy --install-types && mypy . --strict)
