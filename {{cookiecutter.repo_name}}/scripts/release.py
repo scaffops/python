@@ -122,7 +122,9 @@ def release(version: str) -> None:
                 print(release_notes)
                 print()
                 release_notes_done = (
-                    input("Do you confirm the release notes? (y/n) [y]").strip()[0] == "y"
+                    input(
+                        "Do you confirm the release notes? (y/n) [y]",
+                    ).strip()[0] == "y"
                 )
 
             shell(
