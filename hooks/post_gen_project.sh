@@ -16,10 +16,10 @@ fi
 PYTHON_VERSION="$(cat .python-version)"
 poetry env use $PYTHON_VERSION
 poetry run poe lock
-poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+# poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
 git add .
+git commit -m "Initial commit"
 git branch -M master
 gh repo create {{ cookiecutter.repo_name }} --{{ cookiecutter.visibility }} --source=./ --remote=upstream
 git remote add origin https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}.git
-git commit -m "Initial commit"
 git push -u origin master
