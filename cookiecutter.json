@@ -8,7 +8,7 @@
     "repo_description": "{{ cookiecutter.project_description }}",
     "pypi_project_name": "{{ cookiecutter.project_name.lower().replace('_', '-') }}",
     "pypi_project_description": "{{ cookiecutter.project_description }}",
-    "import_name": "{{ cookiecutter.repo_name }}",
+    "import_name": "{{ cookiecutter.repo_name.replace('-', '_') }}",
     "ci_mypy_args": "{{ cookiecutter.import_name }}",
     "ci_ruff_args": "{{ cookiecutter.import_name }}",
     "project_version": "0.0.1",
