@@ -20,7 +20,7 @@ import subprocess
 import sys
 
 _LOGGER = logging.getLogger("release")
-_TEXT_EDITOR_CMD = os.environ.get("EDITOR", "vim")
+_EDITOR = os.environ.get("EDITOR", "vim")
 
 
 def abort(msg: str, /) -> None:
@@ -116,7 +116,7 @@ def release(version: str) -> None:
             release_notes_done = False
             while not release_notes_done:
                 tmp_file = pathlib.Path(f".release-notes-{new_version}.txt")
-                shell(cmd(f"{_TEXT_EDITOR_CMD} {tmp_file}"))
+                shell(cmd(f"{_EDITOR} {tmp_file}"))
                 release_notes = tmp_file.read_text()
                 print("Release notes:")
                 print(release_notes)
@@ -138,10 +138,10 @@ def release(version: str) -> None:
 def main(argv: list[str] | None = None) -> None:
     """Run the script."""
     _LOGGER.setLevel(logging.INFO)
-    (_LOGGER_HANDLER := logging.StreamHandler()).setFormatter(
+    (_logger_handler := logging.StreamHandler()).setFormatter(
         logging.Formatter("%(levelname)s: %(message)s"),
     )
-    _LOGGER.addHandler(_LOGGER_HANDLER)
+    _LOGGER.addHandler(_logger_handler)
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
     parser.add_argument(
