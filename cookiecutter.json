@@ -1,18 +1,18 @@
 {
-    "author_full_name": "Bartosz Sławecki",
-    "email_address": "bswck.dev@gmail.com",
-    "github_username": "bswck",
     "repo_name": null,
-    "project_description": "",
-    "pypi_project_name": "{{ cookiecutter.repo_name.lower().replace('_', '-') }}",
-    "pypi_project_description": "{{ cookiecutter.project_description }}",
-    "package_name": "{{ cookiecutter.repo_name.replace('-', '_') }}",
-    "project_version": "0.0.1",
-    "python_version": "3.8",
+    "github_username": "bswck",
     "visibility": [
         "public",
         "private"
     ],
+    "project_description": "",
+    "pypi_project_name": "{{ cookiecutter.repo_name.lower().replace('_', '-') }}",
+    "pypi_project_description": "{{ cookiecutter.project_description }}",
+    "author_full_name": "Bartosz Sławecki",
+    "email_address": "bswck.dev@gmail.com",
+    "package_name": "{{ cookiecutter.repo_name.replace('-', '_') }}",
+    "project_version": "0.0.1",
+    "python_version": "3.8",
     "license_name": [
         "MIT",
         "AGPL-3.0",
