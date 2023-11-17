@@ -1,5 +1,7 @@
 import urllib.request
 import json
+import pprint
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -9,8 +11,9 @@ def generate_license_file() -> None:
     if license_name == "none":
         return
 
+    license_text: str | None
     try:
-        license_text: str | None = json.loads(
+        license_response = json.loads(
             urllib.request.urlopen(
                 f"https://api.github.com/licenses/{license_name}"
             ).read(),
@@ -18,6 +21,13 @@ def generate_license_file() -> None:
     except urllib.error.HTTPError as exc:
         print(f"Error finding license {license_name}: {exc}")
         license_text = None
+    else:
+        try:
+            license_text = license_response["body"]
+        except KeyError:
+            print(f"Incorrect license output for {license_name}", file=sys.stderr)
+            pprint.pprint(license_response, stream=sys.stderr)
+            license_text = None
 
     if license_text:
         final_license_text = license_text.replace(
