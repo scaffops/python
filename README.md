@@ -1,2 +1,2 @@
-# python-cruft
+# skeleton
 My cruft project template.
