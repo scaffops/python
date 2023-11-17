@@ -75,6 +75,10 @@ license_name:
     "The Unlicense": Unlicense
     "No license": None
   help: License name
+main_branch:
+  type: str
+  default: master
+  help: Main branch name
 _exclude:
   - copier.yaml
   - copier.yml
@@ -105,9 +109,10 @@ _tasks:
         rm project_setup.py
         git add .
         git commit -m "Initial commit"
+        git branch -M {{ main_branch }}
         gh repo create {{ repo_name }} --{{ visibility }} --source=./ --remote=upstream
         git remote add origin https://github.com/{{ github_username }}/{{ repo_name }}.git
-        git push -u origin master
+        git push -u origin {{ main_branch }}
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     else  # $OPERATION=update
         echo "This directory is a git repository."
