@@ -19,7 +19,7 @@ def generate_license_file() -> None:
             ).read(),
         )
     except urllib.error.HTTPError as exc:
-        print(f"Error finding license {license_name}: {exc}")
+        print(f"Error finding license {license_name}: {exc}", file=sys.stderr)
         license_text = None
     else:
         try:
