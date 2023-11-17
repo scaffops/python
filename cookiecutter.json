@@ -9,8 +9,6 @@
     "pypi_project_name": "{{ cookiecutter.project_name.lower().replace('_', '-') }}",
     "pypi_project_description": "{{ cookiecutter.project_description }}",
     "import_name": "{{ cookiecutter.repo_name.replace('-', '_') }}",
-    "ci_mypy_args": "{{ cookiecutter.import_name }}",
-    "ci_ruff_args": "{{ cookiecutter.import_name }}",
     "project_version": "0.0.1",
     "python_version": "3.8",
     "visibility": [
@@ -44,8 +42,6 @@
         "pypi_project_name": "PyPI project name",
         "pypi_project_description": "PyPI project description",
         "import_name": "Package import name",
-        "ci_mypy_args": "Mypy CLI arguments",
-        "ci_ruff_args": "Ruff CLI arguments",
         "project_version": "Project version",
         "python_version": "Python version",
         "visibility": "Repository visibility",

@@ -26,4 +26,4 @@ jobs:
         pip install -r requirements-dev.txt
     - name: Analyze the code with ruff
       run: >-
-        ruff {{cookiecutter.ci_ruff_args}}
+        ruff .
