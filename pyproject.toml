@@ -8,7 +8,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.8"
-cruft = "^2.15.0"
+copier = "^9.0.1"
+poethepoet = "^0.24.3"
+
+[tool.poe.tasks]
+copier-tasks = "copier-tasks"
 
 [build-system]
 requires = ["poetry-core"]
