@@ -5,9 +5,7 @@
 # This script is run automatically by cookiecutter.
 # https://cookiecutter.readthedocs.io/en/2.4.0/advanced/hooks.html#types-of-hooks
 git init .
-poetry check
-poetry install
-if [ $? -eq 0 ]; then
+if [ $(poetry install) -eq 0 ]; then
     echo "Successfully installed dependencies."
 else
     echo "Failed to install dependencies."
