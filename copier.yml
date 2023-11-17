@@ -70,9 +70,5 @@ license_name:
     "The Unlicense": Unlicense
     "No license": None
   help: License name
-task_file:
-  type: str
-  default: "_copier_tasks.sh"
-  help: Name of the task file
 _tasks:
-  - "{% extends task_file %}"
+  - "{% extends 'copier_tasks.sh' %}"
