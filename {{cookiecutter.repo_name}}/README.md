@@ -40,7 +40,5 @@ poetry shell
 ```
 
 # Legal info
-© Copyright by {{cookiecutter.author_full_name}} ([@{{cookiecutter.github_username}}](https://github.com/{{cookiecutter.github_username}})).
-{% if cookiecutter.license_name != "None" %}
-<br />This software is licensed under the [{{cookiecutter.license_name}} License](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/blob/main/LICENSE).
+© Copyright by {{cookiecutter.author_full_name}} ([@{{cookiecutter.github_username}}](https://github.com/{{cookiecutter.github_username}})).{% if cookiecutter.license_name != "None" %}<br />This software is licensed under the [{{cookiecutter.license_name}} License](https://github.com/{{cookiecutter.github_username}}/{{cookiecutter.repo_name}}/blob/main/LICENSE).
 {% endif %}
