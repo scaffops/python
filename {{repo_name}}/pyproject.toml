@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "{{cookiecutter.repo_name}}"
-version = "{{cookiecutter.project_version}}"
-description = "{{cookiecutter.pypi_project_description}}"
-authors = ["{{cookiecutter.github_username}} <{{cookiecutter.email_address}}>"]
-license = "{{cookiecutter.license_name}}"
+name = "{{repo_name}}"
+version = "{{project_version}}"
+description = "{{pypi_project_description}}"
+authors = ["{{github_username}} <{{email_address}}>"]
+license = "{{license_name}}"
 readme = "README.md"
-packages = [{ include = "{{cookiecutter.package_name}}/" }]
+packages = [{ include = "{{package_name}}/" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -25,7 +25,7 @@ release.script = "scripts.release:main"
 
 [tool.ruff]
 exclude = ["tests/", "scripts/"]
-# To discuss the presented rationales, contact the author ({{cookiecutter.github_username}}).
+# To discuss the presented rationales, contact the author ({{github_username}}).
 select = ["ALL"]
 ignore = [
     # Description: Missing type annotation for self in method

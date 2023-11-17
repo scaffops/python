@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # (C) 2023–present Bartosz Sławecki (bswck)
+#
+# Note:
+# If you want to change this file, you might want to do it at the infrastructure
+# level. See https://github.com/bswck/skeleton.
 """
 Automate the release process by updating local files, creating and pushing a new tag.
 
@@ -29,19 +33,19 @@ def abort(msg: str, /) -> None:
     sys.exit(-1)
 
 
-def release(version: str) -> None:
+def release(version: str, /) -> None:
     """Release a semver version."""
     cmd, shell = str.split, functools.partial(subprocess.run, check=True)
 
-    files_changed = shell(
+    changed_files = shell(
         cmd("git diff --name-only HEAD"),
         capture_output=True,
     ).stdout
 
-    if files_changed:
+    if changed_files:
         msg = (
             "There are uncommitted changes in the working tree in these files:\n"
-            f"{files_changed}\n"
+            f"{changed_files}\n"
             "Continue? They will be included in the release commit. (y/n) [n]: "
         )
         continue_confirm = (input(msg).casefold().strip() or "n")[0] == "y"
@@ -52,9 +56,9 @@ def release(version: str) -> None:
     # Let's do a final check for safety
     msg = f"You are about to release {version!r} version. Are you sure? (y/n) [y]: "
 
-    release_confirm = ((input(msg).casefold().strip()) or "y") == "y"
+    do_release = ((input(msg).casefold().strip()) or "y") == "y"
 
-    if release_confirm:
+    if do_release:
         abort(f"You said no when prompted to bump the {version!r} version.")
 
     shell(cmd("poetry self add poetry-bumpversion@latest"))
@@ -69,21 +73,21 @@ def release(version: str) -> None:
         .strip()
     )
 
-    files_changed_for_release = shell(
+    changed_for_release = shell(
         cmd("git diff --name-only HEAD"),
         capture_output=True,
     ).stdout
 
-    if files_changed_for_release:
+    if changed_for_release:
         shell(cmd("git diff"))
         msg = (
             "You are about to commit and push auto-changed files due "
             "to version upgrade, see the diff view above. "
             "Are you sure? (y/n) [y]: "
         )
-        commit_confirm = ((input(msg).casefold().strip()) or "y")[0] == "y"
+        do_commit = ((input(msg).casefold().strip()) or "y")[0] == "y"
 
-        if commit_confirm:
+        if do_commit:
             shell([*cmd("git commit -am"), f"Release {new_version}"])
             shell(cmd("git push"))
         else:
@@ -102,26 +106,26 @@ def release(version: str) -> None:
         _LOGGER.info("Pushing local tags...")
         shell(cmd("git push --tags"))
 
-    create_release = (
+    do_release = (
         input("Create a GitHub release now? GitHub CLI required. (y/n) [y]: ").strip()
         or "y"
     ) == "y"
 
-    if create_release:
-        write_release_notes = (
+    if do_release:
+        do_write_notes = (
             input("Do you want to write release notes? (y/n) [y]").strip()[0] == "y"
         )
 
-        if write_release_notes:
-            release_notes_done = False
-            while not release_notes_done:
+        if do_write_notes:
+            notes_complete = False
+            while not notes_complete:
                 tmp_file = pathlib.Path(f".release-notes-{new_version}.txt")
                 shell(cmd(f"{_EDITOR} {tmp_file}"))
                 release_notes = tmp_file.read_text()
                 print("Release notes:")
                 print(release_notes)
                 print()
-                release_notes_done = (
+                notes_complete = (
                     input(
                         "Do you confirm the release notes? (y/n) [y]",
                     ).strip()[0] == "y"

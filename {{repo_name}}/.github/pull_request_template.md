@@ -1,5 +1,5 @@
 <!--
-Thank you for contributing to {{cookiecutter.repo_name}}! 🎉
+Thank you for contributing to {{repo_name}}! 🎉
 
 Provide a general summary of your proposed changes in the Title field above.
 -->

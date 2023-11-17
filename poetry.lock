@@ -203,7 +203,7 @@ rich = "*"
 [[package]]
 name = "cruft"
 version = "2.15.0"
-description = "Allows you to maintain all the necessary cruft for packaging and building projects separate from the code you intentionally write. Built on-top of CookieCutter."
+description = "Allows you to maintain all the necessary cruft for packaging and building projects separate from the code you intentionally write. Built on-top of "
 optional = false
 python-versions = ">=3.7"
 files = [
