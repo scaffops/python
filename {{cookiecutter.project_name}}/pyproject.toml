@@ -20,10 +20,11 @@ poethepoet = "^0.24.3"
 
 [tool.poe.tasks]
 test = "pytest"
+lock = "scripts/lock.sh"
 release.script = "scripts.release:main"
 
 [tool.ruff]
-exclude = ["tests/"]
+exclude = ["tests/", "scripts/"]
 # To discuss the presented rationales, contact the author ({{cookiecutter.github_username}}).
 select = ["ALL"]
 ignore = [
