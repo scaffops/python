@@ -74,7 +74,7 @@ _tasks:
   - |-
     echo "Checking if this directory is a git repository..."
     git rev-parse --is-inside-work-tree
-    if [ $? -e 0 ]; then  # $OPERATION=copy
+    if [ $? -ne 0 ]; then  # $OPERATION=copy
         git init .
         poetry install
         if [ $? -eq 0 ]; then
