@@ -1,34 +1,14 @@
 from __future__ import annotations
 
-import argparse
 import urllib.request
 import json
 import pprint
 import sys
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-    from typing import Literal
-    from typing_extensions import TypeAlias
 
-
-_OPERATION_HOOKS: dict[str, Callable[..., None]] = defaultdict(list)
-Operation: TypeAlias = Literal["copy", "update"]
-
-
-def after(operation: Operation) -> Callable[[Callable[..., None]], Callable[..., None]]:
-    """Run the script."""
-    def decorator(func: Callable[..., None]) -> Callable[..., None]:
-        _OPERATION_HOOKS[operation] = func
-        return func
-    return decorator
-
-
-@after("copy")
 def create_license_file() -> None:
     # Update the variable through copier, not manually.
     license_name = "{{license_name}}"
@@ -65,17 +45,7 @@ def create_license_file() -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Project update hook.")
-    parser.add_argument(
-        "operation",
-        type=str,
-        nargs=1,
-    )
-    args = parser.parse_args(argv)
-    operation = args.operation.pop()
-
-    for hook in _OPERATION_HOOKS[operation]:
-        hook()
+    create_license_file()
 
 
 if __name__ == "__main__":
