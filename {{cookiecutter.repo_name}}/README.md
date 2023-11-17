@@ -13,7 +13,8 @@ pip install {{cookiecutter.pypi_project_name}}
 ```
 
 ## For the contributors ❤️
-_Note: If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install)._
+> [!Note]
+> If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 First, [install Poetry](https://python-poetry.org/docs/#installation).<br/>
 Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
