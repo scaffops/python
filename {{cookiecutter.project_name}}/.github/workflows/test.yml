@@ -12,10 +12,10 @@ jobs:
         python-minor-version: [8, 9, 10, 11, 12]
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python {{${{ matrix.python-major-version }}.${{ matrix.python-minor-version }}}}
+    - name: Set up Python {{${{ matrix.python-major-version }}}}.{{${{ matrix.python-minor-version }}}}
       uses: actions/setup-python@v3
       with:
-        python-version: '{{${{ matrix.python-major-version }}.${{ matrix.python-minor-version }}}}'
+        python-version: '{{${{ matrix.python-major-version }}}}.{{${{ matrix.python-minor-version }}}}'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
