@@ -2,9 +2,7 @@
 name = "{{cookiecutter.repo_name}}"
 version = "{{cookiecutter.project_version}}"
 description = "{{cookiecutter.pypi_project_description}}"
-authors = [
-    "{{cookiecutter.github_username}} <{{cookiecutter.email_address}}>",
-]
+authors = ["{{cookiecutter.github_username}} <{{cookiecutter.email_address}}>"]
 license = "{{cookiecutter.license_name}}"
 readme = "README.md"
 packages = [{ include = "{{cookiecutter.project_name}}/" }]
@@ -18,6 +16,11 @@ ruff = "^0.1.2"
 pytest = "^7.4.3"
 coverage = "^7.3.2"
 pre-commit = "^3.5.0"
+poethepoet = "^0.24.3"
+
+[tool.poe.tasks]
+test = "pytest"
+release.script = "scripts.release:main"
 
 [tool.ruff]
 exclude = ["tests/"]
