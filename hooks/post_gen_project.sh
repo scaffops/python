@@ -23,4 +23,7 @@ if [ $? -ne 0 ]; then
     git remote add origin https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}.git
     git push -u origin master
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+else
+    echo "This directory is already a git repository."
+    echo "Initial commit and remote setup skipped."
 fi
