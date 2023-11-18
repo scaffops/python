@@ -4,8 +4,8 @@ echo "Working directory: "$(pwd)
 TMP=$(pwd | grep "^/tmp/")
 if test "$TMP"; then
     echo "Operation: new/old copy for smart comparison"
-    export OPERATION=smartcopy
     echo
+    export OPERATION=smartcopy
     {% include "tasks/copier_hook.sh" %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
@@ -53,6 +53,8 @@ else  # $OPERATION=update
 
     git add .
     OLD_COMMIT=$(redis-cli getdel {{repo_name}}_skeleton_old_commit)
+    echo "Previous skeleton revision: $OLD_COMMIT"
+    echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
         echo "The version of the skeleton has not changed."
         git commit --no-verify -m "Patch copier answers and keep bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
