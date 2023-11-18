@@ -11,8 +11,8 @@ if test "$TMP"; then
     exit 0
 fi
 
-REMOTE=$(git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD)
-if [ $REMOTE -eq 0 ]; then
+git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
+if [ $? -eq 0 ]; then
     echo "Operation: update"
     export OPERATION=update
 else
