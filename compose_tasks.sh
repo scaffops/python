@@ -52,7 +52,7 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    OLD_COMMIT=$(redis-cli getdel {{repo_name}}_skeleton_old_commit)
+    OLD_COMMIT=$(redis-cli get {{repo_name}}_skeleton_old_commit)
     echo "Previous skeleton revision: $OLD_COMMIT"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
