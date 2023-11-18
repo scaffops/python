@@ -47,4 +47,4 @@ This project is licensed under the terms of the [MIT License](/LICENSE).
 Coming soon.
 
 
-(C) 2023—present Bartosz Sławecki ([@bswck](https://github.com/bswck)).
+(C) 2023–present Bartosz Sławecki ([@bswck](https://github.com/bswck)).
