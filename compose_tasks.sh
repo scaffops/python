@@ -3,13 +3,18 @@ echo "Working directory: "$(pwd)
 
 TMP=$(pwd | grep "^/tmp/")
 if test "$TMP"; then
-    echo "Operation: new/old copy for smart comparison"$(pwd)
+    echo "Operation: new/old copy for smart comparison"
     export OPERATION=smartcopy
     echo
     echo "Invoking copier hook..."
     {% with poetry_cleanup=True %}
     {% include "tasks/copier_hook.sh" %}
     {% endwith %}
+    OLD=$(pwd | grep "old_copy")
+    if test "$OLD"; then
+        echo "Old commit: {{_copier_answers['_commit']}}"
+        export OLD_COMMIT={{_copier_answers['_commit']}}
+    fi
     exit 0
 fi
 
@@ -51,7 +56,11 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    git commit --no-verify -m "Upgrade bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    if test $OLD_COMMIT = "{{_copier_answers['_commit']}}"; then
+        git commit --no-verify -m "Patch with bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
+    else
+        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    fi
     git push --no-verify
 fi
 
