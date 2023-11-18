@@ -10,7 +10,11 @@ _exclude:
   - .svn
   - "{% if publish_on_pypi %}release.yml.jinja{% endif %}"
 _tasks:
-  - |-
+  - |
+    echo Debug info
+    echo ----------
+    echo Working directory: $(pwd)
+  - |
     echo Checking if this directory is a git repository...
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo This directory is not a git repository.
