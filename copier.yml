@@ -58,7 +58,6 @@ _tasks:
     {% else %}
         gh workflow disable release.yml
     {% endif %}
-    {% endif %}
 
 repo_name:
   type: str
