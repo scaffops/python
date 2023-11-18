@@ -8,8 +8,6 @@ _exclude:
   - .git
   - .DS_Store
   - .svn
-  - "{% if publish_on_pypi -%}release.yml.jinja{% endif -%}"
-  - "{% if visibility == 'private' -%}smokeshow.yml.jinja{% endif -%}"
 _tasks:
   - |
     echo Debug info
@@ -20,8 +18,8 @@ _tasks:
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo This directory is not a git repository.
         git init .
-        {% include "tasks/poetry_setup.sh" -%}
-        {% include "tasks/copier_hook.sh" -%}
+        {% include "tasks/poetry_setup.sh" %}
+        {% include "tasks/copier_hook.sh" %}
         git add .
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
         git commit --no-verify -m "Initial commit from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
@@ -36,8 +34,8 @@ _tasks:
             STASHED=true
         fi
         echo This directory is a git repository.
-        {% include "tasks/poetry_setup.sh" -%}
-        {% include "tasks/copier_hook.sh" -%}
+        {% include "tasks/poetry_setup.sh" %}
+        {% include "tasks/copier_hook.sh" %}
         git add .
         git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
         if test "$STASHED"; then
@@ -46,7 +44,7 @@ _tasks:
         fi
     fi
     {% if visibility == "public" -%}
-        {% include "tasks/supply_smokeshow_key.sh" -%}
+        {% include "tasks/supply_smokeshow_key.sh" %}
         gh workflow enable smokeshow.yml
     {% else -%}
         gh workflow disable smokeshow.yml
