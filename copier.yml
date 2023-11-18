@@ -11,9 +11,9 @@ _exclude:
   - "{% if publish_on_pypi %}release.yml.jinja{% endif %}"
 _tasks:
   - |-
-    echo "Checking if this directory is a git repository..."
+    echo Checking if this directory is a git repository...
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
-        echo "This directory is not a git repository."
+        echo This directory is not a git repository.
         git init .
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
@@ -31,14 +31,14 @@ _tasks:
             git stash
             STASHED=true
         fi
+        echo This directory is a git repository.
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
-        echo "This directory is a git repository."
         git add .
         git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
         git push --no-verify
         if test "$STASHED"; then
-            echo "Unstashing changes..."
+            echo Unstashing changes...
             git stash pop
         fi
     fi
