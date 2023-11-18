@@ -15,9 +15,9 @@ _tasks:
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo "This directory is not a git repository."
         git init .
-        git add .
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
+        git add .
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
         git commit --no-verify -m "Initial commit from https://github.com/bswck/skeleton/tree/{{_vsc_ref or 'HEAD'}}"
         git branch -M {{main_branch}}
