@@ -43,6 +43,7 @@ _tasks:
             git stash pop
         fi
     fi
+    git push --no-verify -u origin {{main_branch}}
     {% if visibility == "public" -%}
         {% include "tasks/supply_smokeshow_key.sh" %}
         gh workflow enable smokeshow.yml
@@ -54,7 +55,6 @@ _tasks:
     {% else -%}
         gh workflow disable release.yml
     {% endif -%}
-    git push --no-verify -u origin {{main_branch}}
 
 repo_name:
   type: str
