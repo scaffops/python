@@ -22,7 +22,7 @@ _tasks:
         {% include "tasks/copier_hook.sh" %}
         git add .
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-        git commit --no-verify -m "Initial commit from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+        git commit --no-verify -m "Copy https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
         git branch -M {{main_branch}}
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
@@ -37,7 +37,7 @@ _tasks:
         {% include "tasks/poetry_setup.sh" %}
         {% include "tasks/copier_hook.sh" %}
         git add .
-        git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
+        git commit --no-verify -m "Incorporate https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
         if test "$STASHED"; then
             echo Unstashing changes...
             git stash pop
