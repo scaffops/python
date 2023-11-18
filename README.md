@@ -2,6 +2,7 @@
 My [copier](https://github.com/copier-org/copier) project template.
 
 # How to use it
+You might use this template or fork it and modify it to your needs.
 
 ## Configure [GitHub CLI](https://cli.github.com/)
 ```bash
@@ -12,8 +13,9 @@ Ensure the `workflows` scope is in your authorized scopes:
 gh auth refresh -h github.com -s workflows
 ```
 
-## Install pipx and copier
+## Install [Redis](https://github.com/redis/redis), [pipx](https://github.com/pypa/pipx) and [Copier](https://github.com/copier-org/copier)
 ```bash
+sudo apt install redis
 python3 -m pip install --user pipx
 pipx install copier
 ```

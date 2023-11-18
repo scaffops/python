@@ -9,8 +9,9 @@ if test "$TMP"; then
     {% include "tasks/copier_hook.sh" %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
-        echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-        export OLD_COMMIT="{{_copier_answers['_commit']}}"
+        OLD_COMMIT="{{_copier_answers['_commit']}}"
+        echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
+        redis-cli set {{repo_name}}_skeleton_old_commit $OLD_COMMIT
     fi
     exit 0
 fi
@@ -51,8 +52,10 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
+    OLD_COMMIT=$(redis-cli getdel {{repo_name}}_skeleton_old_commit)
     if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
-        git commit --no-verify -m "Patch and keep bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
+        echo "The version of the skeleton has not changed."
+        git commit --no-verify -m "Patch copier answers and keep bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
     else
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     fi
