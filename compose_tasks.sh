@@ -1,12 +1,11 @@
 echo "Working directory: "$(pwd)
 echo
 
-OLD_COPY=$(pwd | grep "^/tmp/")
-if test "$OLD_COPY"; then
-    echo "This directory is an old copy."
-    echo "Copier is copying from bswck/skeleton@{{_copier_answers['commit']}} for comparison with this repository."
+TMP=$(pwd | grep "^/tmp/")
+if test "$TMP"; then
     {% include "tasks/poetry_setup.sh" %}
     {% include "tasks/copier_hook.sh" %}
+    poetry env remove python
     exit 0
 fi
 echo "Checking if this directory is on remote..."
