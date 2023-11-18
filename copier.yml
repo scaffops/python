@@ -10,8 +10,6 @@ _exclude:
   - .svn
 _tasks:
   - |
-    echo Debug info
-    echo ----------
     echo Working directory: $(pwd)
     echo
     echo Checking if this directory is a git repository...
