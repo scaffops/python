@@ -8,8 +8,8 @@ _exclude:
   - .git
   - .DS_Store
   - .svn
-  - "{% if publish_on_pypi %}release.yml.jinja{% endif %}"
-  - "{% if visibility == 'private' %}smokeshow.yml.jinja{% endif %}"
+  - "{% if publish_on_pypi -%}release.yml.jinja{% endif -%}"
+  - "{% if visibility == 'private' -%}smokeshow.yml.jinja{% endif -%}"
 _tasks:
   - |
     echo Debug info
@@ -20,15 +20,14 @@ _tasks:
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo This directory is not a git repository.
         git init .
-        {% include "tasks/poetry_setup.sh" %}
-        {% include "tasks/copier_hook.sh" %}
+        {% include "tasks/poetry_setup.sh" -%}
+        {% include "tasks/copier_hook.sh" -%}
         git add .
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
         git commit --no-verify -m "Initial commit from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
         git branch -M {{main_branch}}
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
-        git push --no-verify -u origin {{main_branch}}
     else  # $OPERATION=update
         if test "$(git status --porcelain)"; then
             echo This directory is a git repository with uncommitted changes.
@@ -37,27 +36,27 @@ _tasks:
             STASHED=true
         fi
         echo This directory is a git repository.
-        {% include "tasks/poetry_setup.sh" %}
-        {% include "tasks/copier_hook.sh" %}
+        {% include "tasks/poetry_setup.sh" -%}
+        {% include "tasks/copier_hook.sh" -%}
         git add .
         git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
-        git push --no-verify
         if test "$STASHED"; then
             echo Unstashing changes...
             git stash pop
         fi
     fi
-    {% if visibility == "public" %}
-        {% include "tasks/supply_smokeshow_key.sh" %}
+    {% if visibility == "public" -%}
+        {% include "tasks/supply_smokeshow_key.sh" -%}
         gh workflow enable smokeshow.yml
-    {% else %}
+    {% else -%}
         gh workflow disable smokeshow.yml
-    {% endif %}
-    {% if publish_on_pypi %}
+    {% endif -%}
+    {% if publish_on_pypi -%}
         gh workflow enable release.yml
-    {% else %}
+    {% else -%}
         gh workflow disable release.yml
-    {% endif %}
+    {% endif -%}
+    git push --no-verify -u origin {{main_branch}}
 
 repo_name:
   type: str
