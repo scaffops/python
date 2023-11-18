@@ -40,9 +40,7 @@ if test "$OPERATION" = "copy"; then
     fi
 
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-    git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}
-
-    Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
 
 else  # $OPERATION=update
@@ -58,11 +56,7 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    git commit --no-verify -m "Incorporate bswck/skeleton@{{_copier_answers['_commit']}}
-
-    All changes from the skeleton repository until the linked one have been incorporated.
-    Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    "
+    git commit --no-verify -m "Incorporate infrastructure changes until bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify
 
     if test "$STASHED"; then
