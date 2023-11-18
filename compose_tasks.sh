@@ -7,7 +7,9 @@ if test "$TMP"; then
     export OPERATION=smartcopy
     echo
     echo "Invoking copier hook..."
+    {% with poetry_cleanup=True %}
     {% include "tasks/copier_hook.sh" %}
+    {% endwith %}
     exit 0
 fi
 
@@ -49,7 +51,7 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    git commit --no-verify -m "Incorporate infrastructure changes until bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    git commit --no-verify -m "Upgrade bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify
 fi
 

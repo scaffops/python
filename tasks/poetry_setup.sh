@@ -8,3 +8,7 @@ fi
 PYTHON_VERSION="$(cat .python-version)"
 poetry env use $PYTHON_VERSION
 poetry run poe lock
+{% if poetry_cleanup %}
+echo "Removing virtual environment..."
+poetry env remove python
+{% endif %}
