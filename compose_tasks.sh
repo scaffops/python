@@ -40,7 +40,9 @@ if test "$OPERATION" = "copy"; then
     fi
 
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-    git commit --no-verify -m "Copy https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}
+
+    View skeleton at this revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
 
 else  # $OPERATION=update
@@ -82,3 +84,4 @@ gh workflow disable release.yml || :
 
 echo "----"
 echo "Done! 🎉"
+echo "Your repository: https://github.com/{{github_username}}/{{repo_name}}"
