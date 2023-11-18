@@ -42,7 +42,6 @@ if test "$OPERATION" = "copy"; then
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
-
 else  # $OPERATION=update
     echo "Re-setting up virtual environment..."
     {% include "tasks/poetry_setup.sh" %}
