@@ -48,7 +48,17 @@ _tasks:
         fi
     fi
     {% if visibility == "public" %}
-    {% include "tasks/supply_smokeshow_key.sh" %}
+        {% include "tasks/supply_smokeshow_key.sh" %}
+    {% endif %}
+    {% if publish_on_pypi %}
+        gh workflow enable release.yml
+    {% else %}
+        gh workflow disable release.yml
+    {% endif %}
+    {% if visibility == 'public' %}
+        gh workflow enable smokeshow.yml
+    {% else %}
+        gh workflow disable smokeshow.yml
     {% endif %}
 
 repo_name:
