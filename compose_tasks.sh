@@ -14,7 +14,6 @@ fi
 if test "$OPERATION" = "copy"; then
     {% include "tasks/poetry_setup.sh" %}
     {% include "tasks/copier_hook.sh" %}
-    poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then
         echo "This directory is not a git repositroy. Initializing."
         git init .
@@ -23,6 +22,7 @@ if test "$OPERATION" = "copy"; then
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
     fi
+    poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
 else  # $OPERATION=update
