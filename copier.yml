@@ -12,7 +12,7 @@ _exclude:
 _tasks:
   - |-
     echo "Checking if this directory is a git repository..."
-    if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then { # $OPERATION=copy
+    if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo "This directory is not a git repository."
         git init .
         git add .
@@ -24,24 +24,24 @@ _tasks:
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
         git push -u origin {{main_branch}}
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-    } else {  # $OPERATION=update
-        if test "$(git status --porcelain)"; then {
+    else  # $OPERATION=update
+        if test "$(git status --porcelain)"; then
             echo "This directory is a git repository with uncommitted changes."
             echo "Stashing changes..."
             git stash
             STASHED=true
-        }
+        fi
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
         echo "This directory is a git repository."
         git add .
         git commit -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
         git push
-        if test "$STASHED"; then {
+        if test "$STASHED"; then
             echo "Unstashing changes..."
             git stash pop
-        } fi
-    } fi
+        fi
+    fi
 
 repo_name:
   type: str
