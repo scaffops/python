@@ -55,7 +55,7 @@ def generate_license_file(license_name: str | None = None) -> None:
         Path("LICENSE").write_text(generated_license_text)
 
 
-def main(argv: list[str] | None = None) -> None:
+def main() -> None:
     generate_license_file()
 
 
