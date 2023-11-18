@@ -6,7 +6,6 @@ if test "$TMP"; then
     echo "Operation: new/old copy for smart comparison"
     export OPERATION=smartcopy
     echo
-    echo "Invoking copier hook..."
     {% include "tasks/copier_hook.sh" %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
@@ -29,9 +28,8 @@ echo "----"
 echo
 
 if test "$OPERATION" = "copy"; then
-    echo "Setting up virtual environment..."
+    echo "Setting up the project..."
     {% include "tasks/poetry_setup.sh" %}
-    echo "Invoking copier hook..."
     {% include "tasks/copier_hook.sh" %}
 
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then
@@ -48,14 +46,13 @@ if test "$OPERATION" = "copy"; then
     git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
 else  # $OPERATION=update
-    echo "Re-setting up virtual environment..."
+    echo "Re-setting up the project..."
     {% include "tasks/poetry_setup.sh" %}
-    echo "Re-invoking copier hook..."
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    if test $OLD_COMMIT = "{{_copier_answers['_commit']}}"; then
-        git commit --no-verify -m "Patch with bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
+    if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
+        git commit --no-verify -m "Patch and keep bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
     else
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     fi

@@ -1,3 +1,4 @@
+echo "Running poetry installation routine..."
 poetry install
 if [ $? -eq 0 ]; then
     echo "Successfully installed dependencies."
@@ -6,9 +7,7 @@ else
     exit 1
 fi
 PYTHON_VERSION="$(cat .python-version)"
+echo "Using Python version $PYTHON_VERSION"
 poetry env use $PYTHON_VERSION
+echo "Updating poetry lock..."
 poetry run poe lock
-{% if poetry_cleanup %}
-echo "Removing virtual environment..."
-poetry env remove python
-{% endif %}
