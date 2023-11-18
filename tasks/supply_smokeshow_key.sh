@@ -6,4 +6,8 @@ fi
 echo "Smokeshow secret does not exist, creating..."
 SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
 gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY"
-[$? -eq 0] && echo "Smokeshow secret created." || echo "Failed to create smokeshow secret."
+if [$? -eq 0]; then
+  echo "Smokeshow secret created."
+else
+  echo "Failed to create smokeshow secret."
+fi
