@@ -44,12 +44,6 @@ if test "$OPERATION" = "copy"; then
     git push --no-verify -u origin {{main_branch}}
 
 else  # $OPERATION=update
-    if test "$(git diff --name-only HEAD | grep '.*')"; then
-        echo "Stashing changes..."
-        git stash
-        STASHED=true
-    fi
-
     echo "Re-setting up virtual environment..."
     {% include "tasks/poetry_setup.sh" %}
     echo "Re-invoking copier hook..."
@@ -58,11 +52,6 @@ else  # $OPERATION=update
     git add .
     git commit --no-verify -m "Incorporate infrastructure changes until bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify
-
-    if test "$STASHED"; then
-        echo "Unstashing changes..."
-        git stash pop
-    fi
 fi
 
 sleep 3
