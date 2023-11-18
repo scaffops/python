@@ -45,6 +45,7 @@ _tasks:
             git stash pop
         fi
     fi
+    sleep 5
     {% if visibility == "public" -%}
         {% include "tasks/supply_smokeshow_key.sh" %}
         gh workflow enable smokeshow.yml
