@@ -1,8 +1,7 @@
 """
-Project setup script.
+Copier copy/update hook script.
 
-This script is run automatically by copier after the project is created.
-It is not run when the project is updated.
+This script is run automatically by copier after the project is created or updated.
 
 (C) 2023-present Bartosz Sławecki (bswck)
 """
@@ -17,9 +16,14 @@ from datetime import datetime
 from pathlib import Path
 
 
-def create_license_file() -> None:
-    license_name = "{{license_name}}"
-    if license_name == "None":
+LICENSE_NAME = "{{license_name}}"
+
+
+def generate_license_file(license_name: str | None = None) -> None:
+    if license_name is None:
+        license_name = LICENSE_NAME
+
+    if license_name == "Custom":
         return
 
     license_text: str | None
@@ -41,18 +45,18 @@ def create_license_file() -> None:
             license_text = None
 
     if license_text:
-        final_license_text = license_text.replace(
+        generated_license_text = license_text.replace(
             "[year]",
             f"{datetime.now().year}–present",
         ).replace(
             "[fullname]",
             "{{author_full_name}} ({{github_username}})",
         )
-        Path("LICENSE").write_text(final_license_text)
+        Path("LICENSE").write_text(generated_license_text)
 
 
 def main(argv: list[str] | None = None) -> None:
-    create_license_file()
+    generate_license_file()
 
 
 if __name__ == "__main__":
