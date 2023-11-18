@@ -1,4 +1,4 @@
-echo Check if smokeshow secret needs to be created..
+echo "Check if smokeshow secret needs to be created.."
 if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"; then
   echo "Smokeshow secret already exists"
   exit 0
