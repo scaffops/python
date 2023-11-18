@@ -23,9 +23,12 @@ Please make sure that you trust me before running this command.
 ```bash
 copier copy --trust --vcs-ref HEAD gh:bswck/skeleton <project_name>
 # Answer questions
+cd <project_name>
+# Happy coding!
+# Your repository is on GitHub, and has CI, badges, pre-commit set up and more!
 ```
 
-## Update your existing project
+## Update your project
 ```bash
 copier update --trust --vcs-ref HEAD
 ```
