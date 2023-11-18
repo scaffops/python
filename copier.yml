@@ -18,12 +18,13 @@ _tasks:
         git add .
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
-        git commit -m "Initial commit"
+        poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+        pre-commit run --all-files --hook-stage push
+        git commit -m "Initial commit from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
         git branch -M {{main_branch}}
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
         git push -u origin {{main_branch}}
-        poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     else  # $OPERATION=update
         if test "$(git status --porcelain)"; then
             echo "This directory is a git repository with uncommitted changes."
