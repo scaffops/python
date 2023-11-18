@@ -44,7 +44,7 @@ if test "$OPERATION" = "copy"; then
     git push --no-verify -u origin {{main_branch}}
 
 else  # $OPERATION=update
-    if test "$(git diff --name-only HEAD)"; then
+    if test "$(git diff --name-only HEAD | grep '.*')"; then
         echo "Stashing changes..."
         git stash
         STASHED=true
