@@ -17,7 +17,9 @@ pytest = "^7.4.3"
 coverage = "^7.3.2"
 pre-commit = "^3.5.0"
 poethepoet = "^0.24.3"
+{% if visibility == "public" %}
 smokeshow = "^0.4.0"
+{% endif %}
 
 [tool.poe.tasks]
 test = "pytest -v"
