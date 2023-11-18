@@ -35,7 +35,7 @@ if test "$OPERATION" = "copy"; then
         git add .
         git branch -M {{main_branch}}
         echo "Main branch: {{main_branch}}"
-        gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
+        gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
     fi
 
