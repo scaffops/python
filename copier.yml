@@ -19,8 +19,7 @@ _tasks:
         {% include '_poetry_setup_task.sh' %}
         {% include '_copier_hook_task.sh' %}
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-        pre-commit run --all-files --hook-stage push
-        git commit -m "Initial commit from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
+        git commit --no-verify -m "Initial commit from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
         git branch -M {{main_branch}}
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
@@ -36,7 +35,7 @@ _tasks:
         {% include '_copier_hook_task.sh' %}
         echo "This directory is a git repository."
         git add .
-        git commit -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
+        git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_vsc_ref}}"
         git push
         if test "$STASHED"; then
             echo "Unstashing changes..."
@@ -56,6 +55,7 @@ visibility:
   choices:
     - public
     - private
+  default: private
   help: Repository visibility
 github_username:
   type: str
