@@ -20,7 +20,7 @@ poethepoet = "^0.24.3"
 smokeshow = "^0.4.0"
 
 [tool.poe.tasks]
-test = "pytest"
+test = "pytest -v"
 lock = "scripts/lock.sh"
 skeleton.script = "scripts.skeleton:main"
 release.script = "scripts.release:main"
