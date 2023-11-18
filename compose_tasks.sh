@@ -1,5 +1,6 @@
 echo "Running copier+poetry task composer! 🚀"
 echo "Working directory: "$(pwd)
+echo "PID: "$$
 
 TMP=$(pwd | grep "^/tmp/")
 if test "$TMP"; then
@@ -11,7 +12,8 @@ if test "$TMP"; then
     if test "$OLD"; then
         OLD_COMMIT="{{_copier_answers['_commit']}}"
         echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
-        redis-cli set {{repo_name}}_skeleton_old_commit $OLD_COMMIT
+        redis-cli set $($$)_skeleton_old_commit $OLD_COMMIT
+        echo
     fi
     exit 0
 fi
@@ -52,7 +54,7 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    OLD_COMMIT=$(redis-cli get {{repo_name}}_skeleton_old_commit)
+    OLD_COMMIT=$(redis-cli get $($$)_skeleton_old_commit)
     echo "Previous skeleton revision: $OLD_COMMIT"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
