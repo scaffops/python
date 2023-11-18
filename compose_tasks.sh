@@ -4,7 +4,7 @@ echo
 OLD_COPY=$(pwd | grep "^/tmp/")
 if test "$OLD_COPY"; then
     echo "This directory is an old copy."
-    echo "Copier is copying from bswck/skeleton@{{_vcs_ref['commit']}} for comparison with this repository."
+    echo "Copier is copying from bswck/skeleton@{{_copier_answers['commit']}} for comparison with this repository."
     {% include "tasks/poetry_setup.sh" %}
     {% include "tasks/copier_hook.sh" %}
     exit 0
