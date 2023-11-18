@@ -7,9 +7,7 @@ if test "$TMP"; then
     export OPERATION=smartcopy
     echo
     echo "Invoking copier hook..."
-    {% with poetry_cleanup=True %}
     {% include "tasks/copier_hook.sh" %}
-    {% endwith %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
         echo "Old commit: {{_copier_answers['_commit']}}"
