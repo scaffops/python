@@ -9,6 +9,7 @@ _exclude:
   - .DS_Store
   - .svn
   - "{% if publish_on_pypi %}release.yml.jinja{% endif %}"
+  - "{% if visibility == 'private' %}smokeshow.yml.jinja{% endif %}"
 _tasks:
   - |
     echo Debug info
@@ -19,8 +20,8 @@ _tasks:
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"; then # $OPERATION=copy
         echo This directory is not a git repository.
         git init .
-        {% include '_poetry_setup_task.sh' %}
-        {% include '_copier_hook_task.sh' %}
+        {% include "tasks/poetry_setup.sh" %}
+        {% include "tasks/copier_hook.sh" %}
         git add .
         poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
         git commit --no-verify -m "Initial commit from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
@@ -30,14 +31,14 @@ _tasks:
         git push --no-verify -u origin {{main_branch}}
     else  # $OPERATION=update
         if test "$(git status --porcelain)"; then
-            echo "This directory is a git repository with uncommitted changes."
-            echo "Stashing changes..."
+            echo This directory is a git repository with uncommitted changes.
+            echo Stashing changes...
             git stash
             STASHED=true
         fi
         echo This directory is a git repository.
-        {% include '_poetry_setup_task.sh' %}
-        {% include '_copier_hook_task.sh' %}
+        {% include "tasks/poetry_setup.sh" %}
+        {% include "tasks/copier_hook.sh" %}
         git add .
         git commit --no-verify -m "Infrastructure update from https://github.com/{{github_username}}/{{repo_name}}/tree/{{_copier_answers['_commit']}}"
         git push --no-verify
@@ -46,6 +47,9 @@ _tasks:
             git stash pop
         fi
     fi
+    {% if visibility == "public" %}
+    {% include "tasks/supply_smokeshow_key.sh" %}
+    {% endif %}
 
 repo_name:
   type: str
