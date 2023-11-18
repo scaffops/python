@@ -9,8 +9,8 @@ if test "$TMP"; then
     {% include "tasks/copier_hook.sh" %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
-        echo "Old commit: {{_copier_answers['_commit']}}"
-        export OLD_COMMIT={{_copier_answers['_commit']}}
+        echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+        export OLD_COMMIT="{{_copier_answers['_commit']}}"
     fi
     exit 0
 fi
