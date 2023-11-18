@@ -37,11 +37,10 @@ More information about copier [here](https://copier.readthedocs.io/en/stable/).
 This project is licensed under the terms of the [MIT License](/LICENSE).
 
 # Credits
-[@pawamoy](https://github.com/pawamoy), for creating copier and a sample poetry project template.
-
+[@pawamoy](https://github.com/pawamoy), for creating copier and a sample poetry project template.<br/>
 [@jaraco](https://github.com/jaraco), for inspiring me to create my own skeleton, like [the one he has](https://github.com/jaraco/skeleton).
 
-[Read more about copier.](https://copier.readthedocs.io/en/stable/)
+[Read more about copier.](https://copier.readthedocs.io/en/stable/)<br/>
 [Read more about jaraco/skeleton.](https://blog.jaraco.com/skeleton)
 
 # Documentation
