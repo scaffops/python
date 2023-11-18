@@ -1,6 +1,14 @@
 echo "Working directory: "$(pwd)
 echo
 
+OLD_COPY=$(pwd | grep "^/tmp/")
+if test "$OLD_COPY"; then
+    echo "This directory is an old copy."
+    echo "Copier is copying from bswck/skeleton@{{_vcs_ref['commit']}} for comparison with this repository."
+    {% include "tasks/poetry_setup.sh" %}
+    {% include "tasks/copier_hook.sh" %}
+    exit 0
+fi
 echo "Checking if this directory is on remote..."
 git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
 if [ $? -eq 0 ]; then
