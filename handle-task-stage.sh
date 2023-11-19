@@ -24,7 +24,6 @@ setup_task_stage() {
 
     determine_project_path
     determine_last_ref
-    echo
     echo "--- Task stage: $TASK_STAGE"
     echo "--- Last skeleton revision: ${LAST_REF:-"N/A"}"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
