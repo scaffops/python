@@ -57,16 +57,26 @@ after_task() {
 
 main() {
     cd ${PROJECT_PATH:=$(git rev-parse --show-toplevel)}
-    echo "Syncing with {{_copier_answers['_src_path']}}..."
+    echo "--- Project path: $PROJECT_PATH"
+    echo "--- Last skeleton revision: $LAST_REF"
+
+    echo "UPDATE TASK: Syncing with bswck/skeleton."
+    echo "-----------------------------------------"
+    echo "Running pre-update hooks..."
     before_task
+    echo
+    echo "Running update..."
     task
+    echo
+    echo "Running post-update hooks..."
     after_task
-    if test "$DID_STASH"
-    then
-        echo "Unstashing changes..."
-        git stash pop
-    fi
-    echo "Synced with {{_copier_answers['_src_path']}}!"
+    echo "-----------------------------------------"
+    echo "UPDATE TASK COMPLETE. ✅"
+    echo
+    echo "Done! 🎉"
+    echo
+    echo "Your repository is now up to date with this bswck/skeleton revision:"
+    echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
 }
 
 main
