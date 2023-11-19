@@ -12,8 +12,8 @@ setup_task_event() {
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
-        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)"
-        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
+        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" $SILENT
+        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD $SILENT
         if test $? = 0
         then
             export TASK_EVENT="UPDATE"
@@ -57,17 +57,16 @@ run_copier_hook() {
     python copier_hook.py
     echo "Copier hook exited with code $?."
     echo "Removing copier hook..."
-    rm copier_hook.py || (echo "Failed to remove copier hook." && exit 1)
+    rm copier_hook.py || (echo "Failed to remove copier hook." $STDERR && exit 1)
 }
 
 setup_poetry_virtualenv() {
-    PYTHON_VERSION="$(cat .python-version)"
-    echo "Using Python version $PYTHON_VERSION"
+    echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
     poetry env use $PYTHON_VERSION
     echo "Running poetry installation routines..."
     if test "$TASK_EVENT" = "COPY"
     then
-        poetry install || (echo "Failed to install dependencies." && exit 1)
+        poetry install || (echo "Failed to install dependencies." $STDERR && exit 1)
     fi
     poetry run poe lock
 }
@@ -80,17 +79,18 @@ supply_smokeshow_key() {
     fi
     echo "Smokeshow secret does not exist, creating..."
     SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY"
+    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" $SILENT_STDERR
     if test $? = 0
     then
         echo "Smokeshow secret created."
     else
-        echo "Failed to create smokeshow secret."
+        echo "Failed to create smokeshow secret." $STDERR
     fi
 }
 
 after_copy() {
     echo "Setting up the project..."
+    echo
     setup_poetry_virtualenv
     run_copier_hook
     echo
@@ -104,9 +104,14 @@ after_copy() {
         gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
         git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
     fi
+    echo
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-    git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    local COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
+    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    echo
+    git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify -u origin {{main_branch}}
+    echo
     echo "Sleeping for 3 seconds..."
     sleep 3
     toggle_workflows
@@ -149,7 +154,7 @@ handle_task_event() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
-        redis-cli del "$PROJECT_PATH_KEY"
+        redis-cli del "$PROJECT_PATH_KEY" $SILENT
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."

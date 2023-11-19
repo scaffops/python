@@ -6,6 +6,11 @@
 # Usage:
 # $ poe sync
 
+export $STDERR="1>&2"
+export $SILENT_STDOUT=">/dev/null"
+export $SILENT_STDERR="2>/dev/null"
+export $SILENT=">/dev/null 2>&1"
+
 # BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 {% filter indent(width=0) %}
 {%- include "handle-task-event.sh" -%}
@@ -32,19 +37,20 @@ run_update_algorithm() {
 after_update_algorithm() {
     cd "$PROJECT_PATH"
 
-    echo "Previous skeleton revision: $LAST_REF"
+    echo "Previous skeleton revision: ${LAST_REF:-"N/A"}"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
 
-    REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
 
     git add .
     if test "$LAST_REF" = "{{_copier_answers['_commit']}}"
     then
         echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF" -m "$REVISION_PARAGRAPH"
+        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF"
     else
-        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "$REVISION_PARAGRAPH"
+        local COMMIT_MSG="Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}"
     fi
+    git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
     echo "Sleeping for 3 seconds..."
     sleep 3
@@ -86,8 +92,8 @@ main() {
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
     echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    redis-cli del "$PROJECT_PATH_KEY"
-    redis-cli del "$LAST_REF_KEY"
+    redis-cli del "$PROJECT_PATH_KEY" $SILENT
+    redis-cli del "$LAST_REF_KEY" $SILENT
 }
 
 main
