@@ -18,7 +18,7 @@ setup_task_event() {
         redis-cli set $PROJECT_PATH_KEY "$PROJECT_PATH"
         echo $PROJECT_PATH > $PROJECT_PATH_DUMP_DEST
         git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
-        if [ $? -eq 0 ]
+        if test $? = 0
         then
             export TASK_EVENT="UPDATE"
         else
@@ -85,7 +85,7 @@ supply_smokeshow_key() {
     echo "Smokeshow secret does not exist, creating..."
     SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
     gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY"
-    if [ $? -eq 0 ]
+    if test $? = 0
     then
         echo "Smokeshow secret created."
     else
