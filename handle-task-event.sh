@@ -1,5 +1,4 @@
 #%- if not sync_script -%#
-#!/usr/bin/env sh
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # Don't ask me why, I don't know either.
@@ -9,6 +8,7 @@
 # Later on, this script will be included in your project and run automatically within:
 # $ poe sync
 
+# shellcheck shell=sh
 # shellcheck disable=SC1054,SC1073,1083
 
 setup_task_event() {
@@ -52,7 +52,7 @@ run_copier_hook() {
 
 setup_poetry_virtualenv() {
     echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
-    poetry env use $PYTHON_VERSION
+    poetry env use "$PYTHON_VERSION"
     echo "Running poetry installation routines..."
     if test "$TASK_EVENT" = "COPY"
     then
@@ -79,8 +79,8 @@ after_copy() {
     fi
     echo
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
-    local COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
-    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
+    REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     echo
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify -u origin "{{main_branch}}"
@@ -179,7 +179,8 @@ toggle_workflows() {
 }
 
 determine_project_path() {
-    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
+    export PROJECT_PATH
+    PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
 supply_smokeshow_key() {
