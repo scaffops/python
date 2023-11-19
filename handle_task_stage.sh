@@ -1,29 +1,31 @@
-OLD_REF_KEY=$PPID"_skeleton_old_commit"
-PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
+setup-task-stage() {
+    OLD_REF_KEY=$PPID"_skeleton_old_commit"
+    PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
 
-if test $(pwd | grep "^/tmp/")
-then
-    if test $(pwd | grep "old_copy")
+    if test $(pwd | grep "^/tmp/")
     then
-        export TASK_STAGE="CHECKOUT_CURRENT_SKELETON"
+        if test $(pwd | grep "old_copy")
+        then
+            export TASK_STAGE="CHECKOUT_CURRENT_SKELETON"
+        else
+            export TASK_STAGE="CHECKOUT_NEW_SKELETON"
+        fi
     else
-        export TASK_STAGE="CHECKOUT_NEW_SKELETON"
+        redis-cli set $PROJECT_PATH_KEY $(pwd)
+        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
+        if [ $? -eq 0 ]
+        then
+            export TASK_STAGE="UPDATE"
+        else
+            export TASK_STAGE="COPY"
+        fi
     fi
-else
-    redis-cli set $PROJECT_PATH_KEY $(pwd)
-    git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
-    if [ $? -eq 0 ]
-    then
-        export TASK_STAGE="UPDATE"
-    else
-        export TASK_STAGE="COPY"
-    fi
-fi
+}
 
 toggle-workflows() {
     echo "Toggling workflows..."
     {% if visibility == "public" -%}
-    {% include "tasks/supply_smokeshow_key.sh" %}
+    {% include "snippets/supply_smokeshow_key.sh" %}
     gh workflow enable smokeshow.yml || :
     {% else -%}
     gh workflow disable smokeshow.yml || :
@@ -42,8 +44,8 @@ project-path() {
 
 on-copy() {
     echo "Setting up the project..."
-    {% include "tasks/poetry_setup.sh" %}
-    {% include "tasks/copier_hook.sh" %}
+    {% include "snippets/poetry_setup.sh" %}
+    {% include "snippets/copier_hook.sh" %}
     echo
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
@@ -71,7 +73,7 @@ on-copy() {
 on-checkout-current-skeleton() {
     echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
     echo "-----------------------------------------------------------------------"
-    {% include "tasks/copier_hook.sh" %}
+    {% include "snippets/copier_hook.sh" %}
     echo "-----------------------------------------------------------------------"
     echo "STAGE 1 COMPLETE. ✅"
 }
@@ -80,15 +82,15 @@ on-update() {
     echo "TASK STAGE 2: Updating the project with the latest skeleton."
     echo "------------------------------------------------------------"
     echo "Re-setting up the project..."
-    {% include "tasks/poetry_setup.sh" %}
-    {% include "tasks/copier_hook.sh" %}
+    {% include "snippets/poetry_setup.sh" %}
+    {% include "snippets/copier_hook.sh" %}
     echo "------------------------------------------------------------"
 }
 
 on-checkout-new-skeleton() {
     echo "TASK STAGE 3: Bringing back the local files and committing the changes."
     echo "-----------------------------------------------------------------------"
-    {% include "tasks/copier_hook.sh" %}
+    {% include "snippets/copier_hook.sh" %}
     cd $(project-path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
@@ -113,7 +115,7 @@ on-checkout-new-skeleton() {
     echo
 }
 
-compose-tasks() {
+handle-task-stage() {
     if test "$TASK_STAGE" = "COPY"
     then
         on-copy
@@ -129,4 +131,5 @@ compose-tasks() {
     fi
 }
 
-compose-tasks
+setup-task-stage
+handle-task-stage

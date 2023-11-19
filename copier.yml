@@ -10,7 +10,7 @@ _exclude:
   - .svn
 _tasks:
   - |
-    {% include "compose_tasks.sh" %}
+    {% include "handle_task_stage.sh" %}
 repo_name:
   type: str
   help: Repository name
