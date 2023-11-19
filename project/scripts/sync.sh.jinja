@@ -11,7 +11,7 @@
 {% filter indent(width=0) %}
 {%- include "handle-task-event.sh" -%}
 {% endfilter %}
-# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh   #
+#  END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh  #
 #############################################################################
 
 before_update_algorithm() {
@@ -60,8 +60,8 @@ after_update_algorithm() {
 }
 
 main() {
-    export PROJECT_PATH_KEY="${PPID}_skeleton_project_path"
-    export LAST_REF_KEY="${PPID}_skeleton_last_ref"
+    export PROJECT_PATH_KEY="${$$}_skeleton_project_path"
+    export LAST_REF_KEY="${$$}_skeleton_last_ref"
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
