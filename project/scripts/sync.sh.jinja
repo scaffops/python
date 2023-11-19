@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+echo "Syncing with bswck/skeleton..."
+
+before_task() {
+    :
+}
+
+run_task() {
+    ${1:="HEAD"}
+    copier update --trust --vcs-ref $1
+}
+
+after_task() {
+    cd $PROJECT_PATH
+
+    echo "Previous skeleton revision: $LAST_REF"
+    echo "Current skeleton revision: {{_copier_answers['_commit']}}"
+
+    REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+
+    git add .
+    if test "$LAST_REF" = "{{_copier_answers['_commit']}}"
+    then
+        echo "The version of the skeleton has not changed."
+        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF" -m "$REVISION_PARAGRAPH"
+    else
+        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "$REVISION_PARAGRAPH"
+    fi
+    git push --no-verify
+    echo "Sleeping for 3 seconds..."
+    sleep 3
+    toggle_workflows
+}
+
+{% include "handle-task-stage.sh %}
+
+before_task
+run_task
+after_task

@@ -45,11 +45,11 @@ toggle_workflows() {
 }
 
 determine_project_path() {
-    PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
+    export PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
 }
 
 determine_last_ref() {
-    LAST_REF=$(redis-cli get $LAST_REF_KEY)
+    export LAST_REF=$(redis-cli get $LAST_REF_KEY)
 }
 
 run_copier_hook() {
@@ -176,6 +176,8 @@ handle_task_stage() {
         echo "TASK STAGE 3: Incorporating the latest skeleton into the current project."
         echo "-------------------------------------------------------------------------"
         after_checkout_new_skeleton
+        determine_project_path
+        determine_last_ref
         echo "-------------------------------------------------------------------------"
         echo "TASK STAGE 3 COMPLETE. ✅"
         echo
@@ -186,6 +188,3 @@ handle_task_stage() {
         echo
     fi
 }
-
-setup_task_stage
-handle_task_stage
