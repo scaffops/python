@@ -159,7 +159,7 @@ handle_task_stage() {
         echo "---------------------------------------------------------------------"
         echo "UPDATE STAGE [1/3] COMPLETE. ✅"
         echo
-        echo "Answer the following questions to update your project with the latest skeleton."
+        echo "Answer the following questions to update your project with the new skeleton."
         echo
     elif test "$TASK_STAGE" = "UPDATE"
     then
