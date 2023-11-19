@@ -105,20 +105,10 @@ after_copy() {
     git push --no-verify -u origin {{main_branch}}
     sleep 3
     toggle_workflows
-    echo
-    echo "----"
-    echo "Done! 🎉"
-    echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
-    echo "$ cd "$(project_path)
-    echo "Happy coding!"
 }
 
 after_checkout_current_skeleton() {
-    echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
-    echo "-----------------------------------------------------------------------"
     run_copier_hook
-    echo "-----------------------------------------------------------------------"
-    echo "STAGE 1 COMPLETE. ✅"
 }
 
 before_update() {
@@ -132,20 +122,15 @@ before_update() {
 }
 
 after_update() {
-    echo "TASK STAGE 2: Updating the project with the latest skeleton."
-    echo "------------------------------------------------------------"
-    echo "Re-setting up the project..."
     setup_poetry_virtualenv
     run_copier_hook
-    echo "------------------------------------------------------------"
 }
 
 before_checkout_new_skeleton() {
+    :
 }
 
 after_checkout_new_skeleton() {
-    echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
-    echo "----------------------------------------------------------------------"
     run_copier_hook
     cd $(project_path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
@@ -170,29 +155,55 @@ after_checkout_new_skeleton() {
         redis-cli del $DID_STASH_KEY
     fi
     cd --
-    echo "----------------------------------------------------------------------"
-    echo "Done! 🎉"
-    echo
-    echo "Your repository is now up to date with this bswck/skeleton revision:"
-    echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    echo
 }
 
 handle_task_stage() {
     if test "$TASK_STAGE" = "COPY"
     then
+        echo "TASK STAGE 0: Copying/recopying the skeleton."
+        echo "---------------------------------------------"
         after_copy
+        echo "---------------------------------------------"
+        echo "TASK STAGE 0 COMPLETE. ✅"
+        echo
+        echo "Done! 🎉"
+        echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
+        echo "$ cd "$(project_path)
+        echo
+        echo "Happy coding!"
+        echo "-- bswck"
     elif test "$TASK_STAGE" = "CHECKOUT_CURRENT_SKELETON"
     then
+        echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
+        echo "-----------------------------------------------------------------------"
         after_checkout_current_skeleton
         before_update
+        echo "-----------------------------------------------------------------------"
+        echo "TASK STAGE 1 COMPLETE. ✅"
+        echo
     elif test "$TASK_STAGE" = "UPDATE"
     then
+        echo "TASK STAGE 2: Updating the project with the latest skeleton."
+        echo "------------------------------------------------------------"
+        echo "Re-setting up the project..."
         after_update
         before_checkout_new_skeleton
+        echo "------------------------------------------------------------"
+        echo "TASK STAGE 2 COMPLETE. ✅"
+        echo
     elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
     then
+        echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
+        echo "----------------------------------------------------------------------"
         after_checkout_new_skeleton
+        echo "----------------------------------------------------------------------"
+        echo "TASK STAGE 3 COMPLETE. ✅"
+        echo
+        echo "Done! 🎉"
+        echo
+        echo "Your repository is now up to date with this bswck/skeleton revision:"
+        echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+        echo
     fi
 }
 
