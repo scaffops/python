@@ -32,8 +32,13 @@ cd <project_name>
 
 ## Update your project
 ```bash
-copier update --trust --vcs-ref HEAD
+poe sync
 ```
+For more verbosity:
+```bash
+poe sync HEAD
+```
+
 You might use some other ref than HEAD, up to you.
 
 More information about copier [here](https://copier.readthedocs.io/en/stable/).

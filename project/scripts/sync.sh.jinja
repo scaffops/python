@@ -5,7 +5,7 @@ before_task() {
     :
 }
 
-run_task() {
+task() {
     ${1:="HEAD"}
     copier update --trust --vcs-ref $1
 }
@@ -32,8 +32,8 @@ after_task() {
     toggle_workflows
 }
 
-{% include "handle-task-stage.sh %}
+{% include "handle-task-stage.sh" %}
 
 before_task
-run_task
+task
 after_task
