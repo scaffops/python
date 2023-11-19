@@ -6,8 +6,7 @@ before_task() {
 }
 
 task() {
-    ${1:="HEAD"}
-    copier update --trust --vcs-ref $1
+    copier update --trust --vcs-ref ${1:="HEAD"}
 }
 
 after_task() {
