@@ -22,8 +22,10 @@ setup_task_stage() {
     fi
 
     determine_project_path
+    echo
     echo "[Task stage: $TASK_STAGE]"
     echo "[Project path: $PROJECT_PATH]"
+    echo
 }
 
 toggle_workflows() {
