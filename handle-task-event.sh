@@ -158,11 +158,11 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
-{%- endif -%}
+{% endif %}
 
-{%- if sync_script -%}
+{% if sync_script %}
 # Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
-{%- endif -%}
+{%- endif %}
 
 toggle_workflows() {
     echo "Toggling workflows..."
@@ -200,6 +200,6 @@ supply_smokeshow_key() {
     fi
 }
 
-{%- if sync_script -%}
+{% if sync_script -%}
 # End of copied code
-{%- endif -%}
+{%- endif %}
