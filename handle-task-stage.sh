@@ -23,8 +23,8 @@ setup_task_stage() {
 
     determine_project_path
     echo
-    echo "[Task stage: $TASK_STAGE]"
-    echo "[Project path: $PROJECT_PATH]"
+    echo "--- Task stage: $TASK_STAGE"
+    echo "--- Project path: "$("$PROJECT_PATH" || "N/A")
     echo
 }
 
@@ -73,7 +73,7 @@ supply_smokeshow_key() {
     echo "Smokeshow secret does not exist, creating..."
     SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
     gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY"
-    if [$? -eq 0]
+    if [ $? -eq 0 ]
     then
         echo "Smokeshow secret created."
     else
@@ -99,6 +99,7 @@ after_copy() {
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
+    echo "Sleeping for 3 seconds..."
     sleep 3
     toggle_workflows
 }
@@ -132,13 +133,13 @@ after_checkout_new_skeleton() {
     if test "$OLD_REF" = "{{_copier_answers['_commit']}}"
     then
         echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$OLD_REF" -m $REVISION_PARAGRAPH
+        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$OLD_REF" -m "$REVISION_PARAGRAPH"
     else
-        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m $REVISION_PARAGRAPH
+        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "$REVISION_PARAGRAPH"
     fi
     git push --no-verify
-    echo "Sleeping for 5 seconds..."
-    sleep 5
+    echo "Sleeping for 3 seconds..."
+    sleep 3
     toggle_workflows
 }
 
