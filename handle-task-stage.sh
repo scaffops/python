@@ -68,9 +68,8 @@ setup_poetry_virtualenv() {
     if test "$TASK_STAGE" = "COPY"
     then
         poetry install || (echo "Failed to install dependencies." && exit 1)
-    else
-        poetry run poe lock
     fi
+    poetry run poe lock
 }
 
 supply_smokeshow_key() {
