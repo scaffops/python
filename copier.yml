@@ -10,10 +10,10 @@ _exclude:
   - .svn
 _tasks:
   - |
-    export $STDERR="1>&2"
-    export $SILENT_STDOUT=">/dev/null"
-    export $SILENT_STDERR="2>/dev/null"
-    export $SILENT=">/dev/null 2>&1"
+    export $__STDERR="1>&2"
+    export $__SILENT_STDOUT=">/dev/null"
+    export $__SILENT_STDERR="2>/dev/null"
+    export $__SILENT=">/dev/null 2>&1"
     {% filter indent(width=0) %}
     {% include "handle-task-event.sh" %}
     setup_task_event
