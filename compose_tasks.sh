@@ -2,17 +2,17 @@ echo "Running copier+poetry task composer! 🚀"
 echo "Working directory: "$(pwd)
 echo "PPID: $PPID"
 
-TMP=$(pwd | grep "^/tmp/")
-if test "$TMP"; then
+OLD_REF_KEY=$PPID"_skeleton_old_commit"
+
+if test $(pwd | grep "^/tmp/"); then
     echo "Operation: new/old copy for smart comparison"
     echo ""
     export OPERATION=smartcopy
     {% include "tasks/copier_hook.sh" %}
-    OLD=$(pwd | grep "old_copy")
-    if test "$OLD"; then
-        OLD_COMMIT="{{_copier_answers['_commit']}}"
-        echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
-        redis-cli set $(echo $PPID)_skeleton_old_commit $OLD_COMMIT
+    if test $(pwd | grep "old_copy"); then
+        OLD_REF="{{_copier_answers['_commit']}}"
+        echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_REF"
+        redis-cli set OLD_REF_KEY $OLD_REF
         echo ""
     fi
     exit 0
@@ -54,12 +54,12 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    OLD_COMMIT=$(redis-cli get $(echo $PPID)_skeleton_old_commit)
-    echo "Previous skeleton revision: $OLD_COMMIT"
+    OLD_REF=$(redis-cli get $OLD_REF_KEY)
+    echo "Previous skeleton revision: $OLD_REF"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
-    if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
+    if test "$OLD_REF" = "{{_copier_answers['_commit']}}"; then
         echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch copier answers and keep bswck/skeleton@$OLD_COMMIT" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
+        git commit --no-verify -m "Patch copier answers and keep bswck/skeleton@$OLD_REF" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_REF"
     else
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     fi
