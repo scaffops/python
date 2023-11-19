@@ -23,8 +23,8 @@ setup_task_event() {
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
-        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" >/dev/null 2>&1
-        git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD >/dev/null 2>&1
+        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" > /dev/null 2>&1
+        git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD > /dev/null 2>&1
         if test $? = 0
         then
             redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
@@ -127,7 +127,7 @@ handle_task_event() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
-        redis-cli del "$PROJECT_PATH_KEY" >/dev/null 2>&1
+        redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."
@@ -158,9 +158,8 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
-{% endif %}
-
-{% if sync_script %}
+{% endif -%}
+{%- if sync_script %}
 # Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 {%- endif %}
 
@@ -191,7 +190,7 @@ supply_smokeshow_key() {
     fi
     echo "Smokeshow secret does not exist, creating..."
     SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" 2>/dev/null
+    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" 2> /dev/null
     if test $? = 0
     then
         echo "Smokeshow secret created."
@@ -202,4 +201,4 @@ supply_smokeshow_key() {
 
 {% if sync_script -%}
 # End of copied code
-{%- endif %}
+{%- endif -%}
