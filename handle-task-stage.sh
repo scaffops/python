@@ -94,6 +94,7 @@ after_copy() {
     setup_poetry_virtualenv
     run_copier_hook
     echo
+    chmod +x scripts/sync.sh
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
         echo "Initializing git repository..."
