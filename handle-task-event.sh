@@ -1,3 +1,13 @@
+#!/usr/bin/env bash
+# (C) 2023–present Bartosz Sławecki (bswck)
+#
+# Don't ask me why, I don't know either.
+#
+# Usage:
+# $ copier copy --trust --vcs-ref HEAD gh:bswck/skeleton project
+# Later on, this script will be included in your project and run automatically within:
+# $ poe sync
+
 # shellcheck disable=SC1054,SC1073,1083
 
 setup_task_event() {
