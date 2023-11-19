@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
-echo "Syncing with {{_copier_answers['_src_path']}}..."
+
+# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
+
+{% include "handle-task-stage.sh" %}
+
+# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
 
 before_task() {
-    :
+    if test $(git diff --name-only | wc -l) > 0
+    then
+        echo "There are uncommitted changes in the project."
+        echo "Stashing them..."
+        git stash push --include-untracked --message "Stash before syncing with {{_copier_answers['_src_path']}}"
+        DID_STASH=1
+    fi
 }
 
 task() {
-    copier update --trust --vcs-ref ${1:="HEAD"}
+    copier update --trust --vcs-ref ${1:-"HEAD"}
 }
 
 after_task() {
@@ -31,10 +42,18 @@ after_task() {
     toggle_workflows
 }
 
-# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
-{% include "handle-task-stage.sh" %}
-# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
+main() {
+    cd ${PROJECT_PATH:=$(git rev-parse --show-toplevel)}
+    echo "Syncing with {{_copier_answers['_src_path']}}..."
+    before_task
+    task
+    after_task
+    if test "$DID_STASH"
+    then
+        echo "Unstashing changes..."
+        git stash pop
+    fi
+    echo "Synced with {{_copier_answers['_src_path']}}!"
+}
 
-before_task
-task
-after_task
+main
