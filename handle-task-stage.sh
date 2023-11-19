@@ -1,10 +1,12 @@
 setup-task-stage() {
     OLD_REF_KEY=$PPID"_skeleton_old_commit"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
+    DID_STASH_KEY=$PPID"_skeleton_did_stash"
 
     if test $(pwd | grep "^/tmp/")
     then
         if test $(pwd | grep "old_copy")
+        redis-cli set $PROJECT_PATH_KEY $(cat /proc/$$/cmdline | awk 'NF{ print $NF }')
         then
             export TASK_STAGE="CHECKOUT_CURRENT_SKELETON"
         else
@@ -20,12 +22,15 @@ setup-task-stage() {
             export TASK_STAGE="COPY"
         fi
     fi
+
+    echo "[Task stage: $TASK_STAGE]"
+    echo "[Project path: $(project-path)]"
 }
 
 toggle-workflows() {
     echo "Toggling workflows..."
     {% if visibility == "public" -%}
-    {% include "snippets/supply_smokeshow_key.sh" %}
+    {% include "snippets/supply-smokeshow-key.sh" %}
     gh workflow enable smokeshow.yml || :
     {% else -%}
     gh workflow disable smokeshow.yml || :
@@ -42,10 +47,14 @@ project-path() {
     return $(redis-cli get $PROJECT_PATH_KEY)
 }
 
-on-copy() {
+did-stash() {
+    return $(redis-cli get $DID_STASH_KEY)
+}
+
+after-copy() {
     echo "Setting up the project..."
-    {% include "snippets/poetry_setup.sh" %}
-    {% include "snippets/copier_hook.sh" %}
+    {% include "snippets/setup-poetry-virtualenv.sh" %}
+    {% include "snippets/run-copier-hook.sh" %}
     echo
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
@@ -70,26 +79,39 @@ on-copy() {
     echo "Happy coding!"
 }
 
-on-checkout-current-skeleton() {
+after-checkout-current-skeleton() {
     echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
     echo "-----------------------------------------------------------------------"
-    {% include "snippets/copier_hook.sh" %}
+    {% include "snippets/run-copier-hook.sh" %}
     echo "-----------------------------------------------------------------------"
     echo "STAGE 1 COMPLETE. ✅"
 }
 
-on-update() {
+before-update() {
+    cd $(project-path)
+    if test $(git diff --name-only HEAD || grep '.*')
+    then
+        echo "Stashing local changes..."
+        git stash push -u -m "Stash local changes before updating skeleton."
+        redis-cli set $DID_STASH_KEY 1
+    fi
+}
+
+after-update() {
     echo "TASK STAGE 2: Updating the project with the latest skeleton."
     echo "------------------------------------------------------------"
     echo "Re-setting up the project..."
-    {% include "snippets/poetry_setup.sh" %}
-    {% include "snippets/copier_hook.sh" %}
+    {% include "snippets/setup-poetry-virtualenv.sh" %}
+    {% include "snippets/run-copier-hook.sh" %}
     echo "------------------------------------------------------------"
 }
 
-on-checkout-new-skeleton() {
-    echo "TASK STAGE 3: Bringing back the local files and committing the changes."
-    echo "-----------------------------------------------------------------------"
+before-checkout-new-skeleton() {
+}
+
+after-checkout-new-skeleton() {
+    echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
+    echo "----------------------------------------------------------------------"
     {% include "snippets/copier_hook.sh" %}
     cd $(project-path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
@@ -106,8 +128,14 @@ on-checkout-new-skeleton() {
     git push --no-verify
     sleep 3
     toggle-workflows
+    if test did-stash = 1
+    then
+        echo "Unstashing local changes..."
+        git stash pop
+        redis-cli del $DID_STASH_KEY
+    fi
     cd --
-    echo "-----------------------------------------------------------------------"
+    echo "----------------------------------------------------------------------"
     echo "Done! 🎉"
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
@@ -118,16 +146,18 @@ on-checkout-new-skeleton() {
 handle-task-stage() {
     if test "$TASK_STAGE" = "COPY"
     then
-        on-copy
+        after-copy
     elif test "$TASK_STAGE" = "CHECKOUT_CURRENT_SKELETON"
     then
-        on-checkout-current-skeleton
+        after-checkout-current-skeleton
+        before-update
     elif test "$TASK_STAGE" = "UPDATE"
     then
-        on-update
+        after-update
+        before-checkout-new-skeleton
     elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
     then
-        on-checkout-new-skeleton
+        after-checkout-new-skeleton
     fi
 }
 
