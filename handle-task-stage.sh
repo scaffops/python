@@ -23,8 +23,9 @@ setup_task_stage() {
         fi
     fi
 
+    determine_project_path
     echo "[Task stage: $TASK_STAGE]"
-    echo "[Project path: $(project_path)]"
+    echo "[Project path: $PROJECT_PATH]"
 }
 
 toggle_workflows() {
@@ -41,8 +42,8 @@ toggle_workflows() {
     echo "Done! 🎉"
 }
 
-project_path() {
-    return $(redis-cli get $PROJECT_PATH_KEY)
+determine_project_path() {
+    PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
 }
 
 did_stash() {
@@ -112,7 +113,8 @@ after_checkout_current_skeleton() {
 }
 
 before_update() {
-    cd $(project_path)
+    determine_project_path
+    cd $PROJECT_PATH
     if test $(git diff --name-only HEAD || grep '.*')
     then
         echo "Stashing local changes..."
@@ -132,7 +134,8 @@ before_checkout_new_skeleton() {
 
 after_checkout_new_skeleton() {
     run_copier_hook
-    cd $(project_path)
+    determine_project_path
+    cd $PROJECT_PATH
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
@@ -163,12 +166,13 @@ handle_task_stage() {
         echo "TASK STAGE 0: Copying/recopying the skeleton."
         echo "---------------------------------------------"
         after_copy
+        determine_project_path
         echo "---------------------------------------------"
         echo "TASK STAGE 0 COMPLETE. ✅"
         echo
         echo "Done! 🎉"
         echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
-        echo "$ cd "$(project_path)
+        echo "$ cd "$PROJECT_PATH
         echo
         echo "Happy coding!"
         echo "-- bswck"
