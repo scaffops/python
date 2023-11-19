@@ -1,4 +1,4 @@
-setup-task-stage() {
+setup_task_stage() {
     OLD_REF_KEY=$PPID"_skeleton_old_commit"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
     DID_STASH_KEY=$PPID"_skeleton_did_stash"
@@ -24,10 +24,10 @@ setup-task-stage() {
     fi
 
     echo "[Task stage: $TASK_STAGE]"
-    echo "[Project path: $(project-path)]"
+    echo "[Project path: $(project_path)]"
 }
 
-toggle-workflows() {
+toggle_workflows() {
     echo "Toggling workflows..."
     {% if visibility == "public" -%}
     {% include "snippets/supply-smokeshow-key.sh" %}
@@ -43,15 +43,15 @@ toggle-workflows() {
     echo "Done! 🎉"
 }
 
-project-path() {
+project_path() {
     return $(redis-cli get $PROJECT_PATH_KEY)
 }
 
-did-stash() {
+did_stash() {
     return $(redis-cli get $DID_STASH_KEY)
 }
 
-after-copy() {
+after_copy() {
     echo "Setting up the project..."
     {% include "snippets/setup-poetry-virtualenv.sh" %}
     {% include "snippets/run-copier-hook.sh" %}
@@ -70,16 +70,16 @@ after-copy() {
     git commit --no-verify -m "Copy bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git push --no-verify -u origin {{main_branch}}
     sleep 3
-    toggle-workflows
+    toggle_workflows
     echo
     echo "----"
     echo "Done! 🎉"
     echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
-    echo "$ cd "$(project-path)
+    echo "$ cd "$(project_path)
     echo "Happy coding!"
 }
 
-after-checkout-current-skeleton() {
+after_checkout_current_skeleton() {
     echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
     echo "-----------------------------------------------------------------------"
     {% include "snippets/run-copier-hook.sh" %}
@@ -87,8 +87,8 @@ after-checkout-current-skeleton() {
     echo "STAGE 1 COMPLETE. ✅"
 }
 
-before-update() {
-    cd $(project-path)
+before_update() {
+    cd $(project_path)
     if test $(git diff --name-only HEAD || grep '.*')
     then
         echo "Stashing local changes..."
@@ -97,7 +97,7 @@ before-update() {
     fi
 }
 
-after-update() {
+after_update() {
     echo "TASK STAGE 2: Updating the project with the latest skeleton."
     echo "------------------------------------------------------------"
     echo "Re-setting up the project..."
@@ -106,14 +106,14 @@ after-update() {
     echo "------------------------------------------------------------"
 }
 
-before-checkout-new-skeleton() {
+before_checkout_new_skeleton() {
 }
 
-after-checkout-new-skeleton() {
+after_checkout_new_skeleton() {
     echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
     echo "----------------------------------------------------------------------"
     {% include "snippets/run-copier-hook.sh" %}
-    cd $(project-path)
+    cd $(project_path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
@@ -127,8 +127,8 @@ after-checkout-new-skeleton() {
     fi
     git push --no-verify
     sleep 3
-    toggle-workflows
-    if test did-stash = 1
+    toggle_workflows
+    if test did_stash = 1
     then
         echo "Unstashing local changes..."
         git stash pop
@@ -143,23 +143,23 @@ after-checkout-new-skeleton() {
     echo
 }
 
-handle-task-stage() {
+handle_task_stage() {
     if test "$TASK_STAGE" = "COPY"
     then
-        after-copy
+        after_copy
     elif test "$TASK_STAGE" = "CHECKOUT_CURRENT_SKELETON"
     then
-        after-checkout-current-skeleton
-        before-update
+        after_checkout_current_skeleton
+        before_update
     elif test "$TASK_STAGE" = "UPDATE"
     then
-        after-update
-        before-checkout-new-skeleton
+        after_update
+        before_checkout_new_skeleton
     elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
     then
-        after-checkout-new-skeleton
+        after_checkout_new_skeleton
     fi
 }
 
-setup-task-stage
-handle-task-stage
+setup_task_stage
+handle_task_stage
