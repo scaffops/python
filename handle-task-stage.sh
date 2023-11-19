@@ -126,11 +126,11 @@ after_update() {
     run_copier_hook
 }
 
-before_checkout_new_skeleton() {
+before_checkout_project() {
     :
 }
 
-after_checkout_new_skeleton() {
+after_checkout_project() {
     run_copier_hook
 }
 
@@ -167,7 +167,7 @@ handle_task_stage() {
         echo "-------------------------------------------------------------------------------"
         echo "Re-setting up the project..."
         after_update
-        before_checkout_new_skeleton
+        before_checkout_project
         echo "-------------------------------------------------------------------------------"
         echo "UPDATE STAGE [2/3] COMPLETE. ✅"
         echo
@@ -175,7 +175,7 @@ handle_task_stage() {
     then
         echo "UPDATE STAGE [3/3]: Checked out the project."
         echo "--------------------------------------------"
-        after_checkout_new_skeleton
+        after_checkout_project
         echo "--------------------------------------------"
         echo "UPDATE STAGE [3/3] COMPLETE. ✅"
     fi
