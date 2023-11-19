@@ -137,12 +137,12 @@ after_checkout_new_skeleton() {
 handle_task_stage() {
     if test "$TASK_STAGE" = "COPY"
     then
-        echo "TASK STAGE 0: Copying/recopying the skeleton."
-        echo "---------------------------------------------"
+        echo "TASK COPY: Copying the skeleton."
+        echo "--------------------------------"
         after_copy
         determine_project_path
-        echo "---------------------------------------------"
-        echo "TASK STAGE 0 COMPLETE. ✅"
+        echo "--------------------------------"
+        echo "TASK COPY COMPLETE. ✅"
         echo
         echo "Done! 🎉"
         echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
@@ -152,33 +152,31 @@ handle_task_stage() {
         echo "-- bswck"
     elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "TASK STAGE 1: Checking out the last used skeleton."
-        echo "--------------------------------------------------"
+        echo "UPDATE STAGE [1/3]: Checked out the last used skeleton."
+        echo "-------------------------------------------------------"
         after_checkout_last_skeleton
         before_update
         echo "--------------------------------------------------"
-        echo "TASK STAGE 1 COMPLETE. ✅"
+        echo "UPDATE STAGE [1/3] COMPLETE. ✅"
         echo
         echo "Answer the following questions to update your project with the latest skeleton."
         echo
     elif test "$TASK_STAGE" = "UPDATE"
     then
-        echo "TASK STAGE 2: Updating the project with the latest skeleton."
-        echo "------------------------------------------------------------"
+        echo "UPDATE STAGE [2/3]: Overwrote the old skeleton."
+        echo "-----------------------------------------------"
         echo "Re-setting up the project..."
         after_update
         before_checkout_new_skeleton
-        echo "------------------------------------------------------------"
-        echo "TASK STAGE 2 COMPLETE. ✅"
+        echo "------------------------------------------------------------------"
+        echo "UPDATE STAGE [2/3] COMPLETE. ✅"
         echo
     elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
     then
-        echo "TASK STAGE 3: Incorporating the latest skeleton into the current project."
-        echo "-------------------------------------------------------------------------"
+        echo "UPDATE STAGE [3/3]: Incorporated the new skeleton into the project."
+        echo "-------------------------------------------------------------------"
         after_checkout_new_skeleton
-        determine_project_path
-        determine_last_ref
-        echo "-------------------------------------------------------------------------"
-        echo "TASK STAGE 3 COMPLETE. ✅"
+        echo "-------------------------------------------------------------------"
+        echo "UPDATE STAGE [3/3] COMPLETE. ✅"
     fi
 }

@@ -12,7 +12,7 @@
 {% endfilter %}
 # END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
 
-before_task() {
+before_update() {
     if test $(git diff --name-only | grep ".*")
     then
         echo "There are uncommitted changes in the project."
@@ -21,14 +21,16 @@ before_task() {
     fi
 }
 
-task() {
+update() {
     copier update --trust --vcs-ref ${1:-"HEAD"}
     COPIER_PPID=$!
     LAST_REF_KEY=$COPIER_PPID"_skeleton_last_ref"
     PROJECT_PATH_KEY=$COPIER_PPID"_skeleton_project_path"
+    determine_project_path
+    determine_last_ref
 }
 
-after_task() {
+after_update() {
     cd $PROJECT_PATH
 
     echo "Previous skeleton revision: $LAST_REF"
@@ -57,21 +59,27 @@ after_task() {
 
 main() {
     cd ${PROJECT_PATH:=$(git rev-parse --show-toplevel)}
+    echo
+    echo "UPDATE TASK [1/3]: Running pre-update hooks."
+    echo "--------------------------------------------"
+    before_update
+    echo "--------------------------------------------"
+    echo "UPDATE TASK [1/3] COMPLETE. ✅"
+    echo
+    echo "UPDATE TASK [2/3]: Running the underlying update algorithm."
+    echo "-----------------------------------------------------------"
+    update
+    echo "-----------------------------------------------------------"
+    echo "UPDATE TASK [2/3] COMPLETE. ✅"
+    echo
     echo "--- Project path: $PROJECT_PATH"
-    echo "--- Last skeleton revision: $LAST_REF"
-
-    echo "UPDATE TASK: Syncing with bswck/skeleton."
-    echo "-----------------------------------------"
-    echo "Running pre-update hooks..."
-    before_task
+    echo "--- Last skeleton revision: ${LAST_REF-"N/A"}"
     echo
-    echo "Running update..."
-    task
-    echo
-    echo "Running post-update hooks..."
-    after_task
-    echo "-----------------------------------------"
-    echo "UPDATE TASK COMPLETE. ✅"
+    echo "UPDATE TASK [3/3]: Running post-update hooks."
+    echo "---------------------------------------------"
+    after_update
+    echo "---------------------------------------------"
+    echo "UPDATE TASK [3/3] COMPLETE. ✅"
     echo
     echo "Done! 🎉"
     echo
