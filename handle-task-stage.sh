@@ -180,11 +180,5 @@ handle_task_stage() {
         determine_last_ref
         echo "-------------------------------------------------------------------------"
         echo "TASK STAGE 3 COMPLETE. ✅"
-        echo
-        echo "Done! 🎉"
-        echo
-        echo "Your repository is now up to date with this bswck/skeleton revision:"
-        echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-        echo
     fi
 }
