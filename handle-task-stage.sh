@@ -137,7 +137,8 @@ after_checkout_new_skeleton() {
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m $REVISION_PARAGRAPH
     fi
     git push --no-verify
-    sleep 3
+    echo "Sleeping for 5 seconds..."
+    sleep 5
     toggle_workflows
 }
 
