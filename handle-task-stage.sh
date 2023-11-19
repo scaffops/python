@@ -22,9 +22,10 @@ setup_task_stage() {
     fi
 
     determine_project_path
+    local PROJECT_PATH=
     echo
     echo "--- Task stage: $TASK_STAGE"
-    echo "--- Project path: "$("$PROJECT_PATH" || "N/A")
+    echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
     echo
 }
 
