@@ -112,7 +112,7 @@ before-checkout-new-skeleton() {
 after-checkout-new-skeleton() {
     echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
     echo "----------------------------------------------------------------------"
-    {% include "snippets/copier_hook.sh" %}
+    {% include "snippets/run-copier-hook.sh" %}
     cd $(project-path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
