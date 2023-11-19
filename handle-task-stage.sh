@@ -1,4 +1,3 @@
-{% filter indent(width=4) %}
 setup_task_stage() {
     OLD_REF_KEY=$PPID"_skeleton_old_commit"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
@@ -165,4 +164,3 @@ handle_task_stage() {
 
 setup_task_stage
 handle_task_stage
-{% endfilter %}

@@ -10,7 +10,9 @@ _exclude:
   - .svn
 _tasks:
   - |
+    {% filter indent(width=4) %}
     {% include "handle-task-stage.sh" %}
+    {% endfilter %}
 repo_name:
   type: str
   help: Repository name
