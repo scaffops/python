@@ -26,13 +26,13 @@ before_update_algorithm() {
 }
 
 run_update_algorithm() {
-    copier update --trust --vcs-ref ${1:-"HEAD"}
+    copier update --trust --vcs-ref "${1:-"HEAD"}"
     determine_last_ref
     determine_project_path
 }
 
 after_update_algorithm() {
-    cd "$PROJECT_PATH"
+    cd "$PROJECT_PATH" || exit 1
 
     echo "Previous skeleton revision: ${LAST_REF:-"N/A"}"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
@@ -62,7 +62,7 @@ after_update_algorithm() {
 main() {
     export PROJECT_PATH_KEY="${PPID}_skeleton_project_path"
     export LAST_REF_KEY="${PPID}_skeleton_last_ref"
-    cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}"
+    cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
     echo "-----------------------------------------------"
@@ -72,7 +72,7 @@ main() {
     echo
     echo "UPDATE ROUTINE [2/3]: Running the underlying update algorithm."
     echo "--------------------------------------------------------------"
-    run_update_algorithm
+    run_update_algorithm "$@"
     echo "--------------------------------------------------------------"
     echo "UPDATE ROUTINE [2/3] COMPLETE. ✅"
     echo
@@ -93,4 +93,4 @@ main() {
     redis-cli del "$LAST_REF_KEY" >/dev/null 2>&1
 }
 
-main
+main "$@"

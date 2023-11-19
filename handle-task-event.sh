@@ -1,3 +1,5 @@
+# shellcheck disable=SC1054,SC1073,1083
+
 setup_task_event() {
     echo "--- Last ref key: ${LAST_REF_KEY:="${PPID}_skeleton_last_ref"}"
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
@@ -13,7 +15,7 @@ setup_task_event() {
         fi
     else
         redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" >/dev/null 2>&1
-        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD >/dev/null 2>&1
+        git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD >/dev/null 2>&1
         if test $? = 0
         then
             export TASK_EVENT="UPDATE"
@@ -99,10 +101,10 @@ after_copy() {
         echo "Initializing git repository..."
         git init .
         git add .
-        git branch -M {{main_branch}}
+        git branch -M "{{main_branch}}"
         echo "Main branch: {{main_branch}}"
-        gh repo create {{repo_name}} --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
-        git remote add origin https://github.com/{{github_username}}/{{repo_name}}.git
+        gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
+        git remote add origin "https://github.com/{{github_username}}/{{repo_name}}.git"
     fi
     echo
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
@@ -110,7 +112,7 @@ after_copy() {
     local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     echo
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
-    git push --no-verify -u origin {{main_branch}}
+    git push --no-verify -u origin "{{main_branch}}"
     echo
     echo "Sleeping for 3 seconds..."
     sleep 3
