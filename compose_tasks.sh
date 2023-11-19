@@ -5,15 +5,15 @@ echo "PPID: $PPID"
 TMP=$(pwd | grep "^/tmp/")
 if test "$TMP"; then
     echo "Operation: new/old copy for smart comparison"
-    echo
+    echo ""
     export OPERATION=smartcopy
     {% include "tasks/copier_hook.sh" %}
     OLD=$(pwd | grep "old_copy")
     if test "$OLD"; then
         OLD_COMMIT="{{_copier_answers['_commit']}}"
         echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_COMMIT"
-        redis-cli set $($PPID)_skeleton_old_commit $OLD_COMMIT
-        echo
+        redis-cli set $(echo $PPID)_skeleton_old_commit $OLD_COMMIT
+        echo ""
     fi
     exit 0
 fi
@@ -54,7 +54,7 @@ else  # $OPERATION=update
     {% include "tasks/copier_hook.sh" %}
 
     git add .
-    OLD_COMMIT=$(redis-cli get $($PPID)_skeleton_old_commit)
+    OLD_COMMIT=$(redis-cli get $(echo $PPID)_skeleton_old_commit)
     echo "Previous skeleton revision: $OLD_COMMIT"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     if test "$OLD_COMMIT" = "{{_copier_answers['_commit']}}"; then
