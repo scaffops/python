@@ -150,11 +150,11 @@ handle_task_event() {
         echo
         echo "Done! 🎉"
         echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
-        echo "$ cd "$PROJECT_PATH
+        echo "$ cd $PROJECT_PATH"
         echo
         echo "Happy coding!"
         echo "-- bswck"
-        redis-cli del $PROJECT_PATH_KEY
+        redis-cli del "$PROJECT_PATH_KEY"
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."

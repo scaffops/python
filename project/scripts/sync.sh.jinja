@@ -86,8 +86,8 @@ main() {
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
     echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    redis-cli del $PROJECT_PATH_KEY
-    redis-cli del $LAST_REF_KEY
+    redis-cli del "$PROJECT_PATH_KEY"
+    redis-cli del "$LAST_REF_KEY"
 }
 
 main
