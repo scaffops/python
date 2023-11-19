@@ -28,14 +28,12 @@ setup_task_stage() {
 }
 
 toggle_workflows() {
-    echo "Toggling workflows..."
-    {% if visibility == "public" %}
-    {% include "snippets/supply-smokeshow-key.sh" %}
+    echo "Toggling workflows..."{% if visibility == "public" %}
+    supply_smokeshow_key
     gh workflow enable smokeshow.yml || :
     {% else %}
     gh workflow disable smokeshow.yml || :
-    {% endif %}
-    {% if publish_on_pypi %}
+    {% endif %}{% if publish_on_pypi %}
     gh workflow enable release.yml || :
     {% else %}
     gh workflow disable release.yml || :
@@ -51,10 +49,46 @@ did_stash() {
     return $(redis-cli get $DID_STASH_KEY)
 }
 
+run_copier_hook() {
+    echo "Running copier hook..."
+    python copier_hook.py
+    echo "Copier hook exited with code $?."
+    echo "Removing copier hook..."
+    rm copier_hook.py || echo "Failed to remove copier hook." && exit 1
+}
+
+setup_poetry_virtualenv() {
+    echo "Running poetry installation routines..."
+    poetry lock
+    poetry install || echo "Failed to install dependencies." && exit 1
+    PYTHON_VERSION="$(cat .python-version)"
+    echo "Using Python version $PYTHON_VERSION"
+    poetry env use $PYTHON_VERSION
+    echo "Updating poetry lock..."
+    poetry run poe lock
+}
+
+supply_smokeshow_key() {
+    echo "Checking if smokeshow secret needs to be created..."
+    if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
+    then
+        echo "Smokeshow secret already exists, aborting." && exit 0
+    fi
+    echo "Smokeshow secret does not exist, creating..."
+    SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
+    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY"
+    if [$? -eq 0]
+    then
+        echo "Smokeshow secret created."
+    else
+        echo "Failed to create smokeshow secret."
+    fi
+}
+
 after_copy() {
     echo "Setting up the project..."
-    {% include "snippets/setup-poetry-virtualenv.sh" %}
-    {% include "snippets/run-copier-hook.sh" %}
+    setup_poetry_virtualenv
+    run_copier_hook
     echo
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
@@ -82,7 +116,7 @@ after_copy() {
 after_checkout_current_skeleton() {
     echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
     echo "-----------------------------------------------------------------------"
-    {% include "snippets/run-copier-hook.sh" %}
+    run_copier_hook
     echo "-----------------------------------------------------------------------"
     echo "STAGE 1 COMPLETE. ✅"
 }
@@ -101,8 +135,8 @@ after_update() {
     echo "TASK STAGE 2: Updating the project with the latest skeleton."
     echo "------------------------------------------------------------"
     echo "Re-setting up the project..."
-    {% include "snippets/setup-poetry-virtualenv.sh" %}
-    {% include "snippets/run-copier-hook.sh" %}
+    setup_poetry_virtualenv
+    run_copier_hook
     echo "------------------------------------------------------------"
 }
 
@@ -112,7 +146,7 @@ before_checkout_new_skeleton() {
 after_checkout_new_skeleton() {
     echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
     echo "----------------------------------------------------------------------"
-    {% include "snippets/run-copier-hook.sh" %}
+    run_copier_hook
     cd $(project_path)
     OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
