@@ -6,11 +6,11 @@
 # Usage:
 # $ poe sync
 
-# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
+# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 {% filter indent(width=0) %}
-{%- include "handle-task-stage.sh" -%}
+{%- include "handle-task-event.sh" -%}
 {% endfilter %}
-# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
+# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 
 before() {
     if test "$(git diff --name-only | grep ".*")"
@@ -18,16 +18,26 @@ before() {
         echo "There are uncommitted changes in the project."
         git stash push --message "Stash before syncing with {{_copier_answers['_src_path']}}"
         DID_STASH=1
+    else
+        echo "Working tree clean, no need to stash."
     fi
 }
 
 update() {
+    # TODO(bswck): what PID to use in order to get that from Redis?
+    export $PROJECT_PATH_DUMP_DEST=$(mktemp)
+    export $LAST_REF_DUMP_DEST=$(mktemp)
     copier update --trust --vcs-ref ${1:-"HEAD"}
-    COPIER_PPID=$!
-    LAST_REF_KEY=$COPIER_PPID"_skeleton_last_ref"
-    PROJECT_PATH_KEY=$COPIER_PPID"_skeleton_project_path"
-    determine_project_path
-    determine_last_ref
+    # # I tried this way:
+    # COPIER_PPID=$!
+    # LAST_REF_KEY=$COPIER_PPID"_skeleton_last_ref"
+    # PROJECT_PATH_KEY=$COPIER_PPID"_skeleton_project_path"
+    # determine_project_path
+    # determine_last_ref
+    # # But seems like $COPIER_PID here and in the Redis keys are different.
+    $PROJECT_PATH=$(cat $PROJECT_PATH_DUMP_DEST)
+    $LAST_REF=$(cat $LAST_REF_DUMP_DEST)
+    rm -f $PROJECT_PATH_DUMP_DEST $LAST_REF_DUMP_DEST
 }
 
 after() {
@@ -60,26 +70,26 @@ after() {
 main() {
     cd ${PROJECT_PATH:=$(git rev-parse --show-toplevel)}
     echo
-    echo "UPDATE TASK [1/3]: Running pre-update hooks."
-    echo "--------------------------------------------"
+    echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
+    echo "-----------------------------------------------"
     before
-    echo "--------------------------------------------"
-    echo "UPDATE TASK [1/3] COMPLETE. ✅"
+    echo "-----------------------------------------------"
+    echo "UPDATE ROUTINE [1/3] COMPLETE. ✅"
     echo
-    echo "UPDATE TASK [2/3]: Running the underlying update algorithm."
-    echo "-----------------------------------------------------------"
+    echo "UPDATE ROUTINE [2/3]: Running the underlying update algorithm."
+    echo "--------------------------------------------------------------"
     update
-    echo "-----------------------------------------------------------"
-    echo "UPDATE TASK [2/3] COMPLETE. ✅"
+    echo "--------------------------------------------------------------"
+    echo "UPDATE ROUTINE [2/3] COMPLETE. ✅"
     echo
     echo "--- Project path: $PROJECT_PATH"
     echo "--- Last skeleton revision: ${LAST_REF-"N/A"}"
     echo
-    echo "UPDATE TASK [3/3]: Running post-update hooks."
-    echo "---------------------------------------------"
+    echo "UPDATE ROUTINE [3/3]: Running post-update hooks."
+    echo "------------------------------------------------"
     after
-    echo "---------------------------------------------"
-    echo "UPDATE TASK [3/3] COMPLETE. ✅"
+    echo "------------------------------------------------"
+    echo "UPDATE ROUTINE [3/3] COMPLETE. ✅"
     echo
     echo "Done! 🎉"
     echo

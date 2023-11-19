@@ -1,4 +1,4 @@
-setup_task_stage() {
+setup_task_event() {
     LAST_REF_KEY=$PPID"_skeleton_last_ref"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
 
@@ -6,25 +6,29 @@ setup_task_stage() {
     then
         if test "$(pwd | grep "old_copy")"
         then
-            redis-cli set $LAST_REF_KEY "{{_copier_answers['_commit']}}"
-            export TASK_STAGE="CHECKOUT_LAST_SKELETON"
+            local LAST_REF="{{_copier_answers['_commit']}}"
+            redis-cli set $LAST_REF_KEY "$LAST_REF"
+            echo $LAST_REF > $LAST_REF_DUMP_DEST
+            export TASK_EVENT="CHECKOUT_LAST_SKELETON"
         else
-            export TASK_STAGE="CHECKOUT_PROJECT"
+            export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
-        redis-cli set $PROJECT_PATH_KEY $(pwd)
+        local PROJECT_PATH=$(pwd)
+        redis-cli set $PROJECT_PATH_KEY "$PROJECT_PATH"
+        echo $PROJECT_PATH > $PROJECT_PATH_DUMP_DEST
         git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
         if [ $? -eq 0 ]
         then
-            export TASK_STAGE="UPDATE"
+            export TASK_EVENT="UPDATE"
         else
-            export TASK_STAGE="COPY"
+            export TASK_EVENT="COPY"
         fi
     fi
 
     determine_project_path
     determine_last_ref
-    echo "--- Task stage: $TASK_STAGE"
+    echo "--- Task stage: $TASK_EVENT"
     echo "--- Last skeleton revision: ${LAST_REF:-"N/A"}"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
     echo "--- Runner ID: $PPID"
@@ -65,7 +69,7 @@ setup_poetry_virtualenv() {
     echo "Using Python version $PYTHON_VERSION"
     poetry env use $PYTHON_VERSION
     echo "Running poetry installation routines..."
-    if test "$TASK_STAGE" = "COPY"
+    if test "$TASK_EVENT" = "COPY"
     then
         poetry install || (echo "Failed to install dependencies." && exit 1)
     fi
@@ -134,15 +138,15 @@ after_checkout_project() {
     run_copier_hook
 }
 
-handle_task_stage() {
-    if test "$TASK_STAGE" = "COPY"
+handle_task_event() {
+    if test "$TASK_EVENT" = "COPY"
     then
-        echo "TASK COPY: Copying the skeleton."
-        echo "--------------------------------"
+        echo "COPY ROUTINE: Copying the skeleton."
+        echo "-----------------------------------"
         after_copy
         determine_project_path
-        echo "--------------------------------"
-        echo "TASK COPY COMPLETE. ✅"
+        echo "-----------------------------------"
+        echo "COPY ROUTINE COMPLETE. ✅"
         echo
         echo "Done! 🎉"
         echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
@@ -150,33 +154,33 @@ handle_task_stage() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
-    elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
+    elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "UPDATE STAGE [1/3]: Checked out the last used skeleton before update."
-        echo "---------------------------------------------------------------------"
+        echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."
+        echo "-------------------------------------------------------------------------"
         after_checkout_last_skeleton
         before_update
-        echo "---------------------------------------------------------------------"
-        echo "UPDATE STAGE [1/3] COMPLETE. ✅"
+        echo "-------------------------------------------------------------------------"
+        echo "UPDATE ALGORITHM [1/3] COMPLETE. ✅"
         echo
         echo "Answer the following questions to update your project with the new skeleton."
         echo
-    elif test "$TASK_STAGE" = "UPDATE"
+    elif test "$TASK_EVENT" = "UPDATE"
     then
-        echo "UPDATE STAGE [2/3]: Overwrote the old skeleton before checking out the project."
-        echo "-------------------------------------------------------------------------------"
+        echo "UPDATE ALGORITHM [2/3]: Overwrote the old skeleton before checking out the project."
+        echo "-----------------------------------------------------------------------------------"
         echo "Re-setting up the project..."
         after_update
         before_checkout_project
-        echo "-------------------------------------------------------------------------------"
-        echo "UPDATE STAGE [2/3] COMPLETE. ✅"
+        echo "-----------------------------------------------------------------------------------"
+        echo "UPDATE ALGORITHM [2/3] COMPLETE. ✅"
         echo
-    elif test "$TASK_STAGE" = "CHECKOUT_PROJECT"
+    elif test "$TASK_EVENT" = "CHECKOUT_PROJECT"
     then
-        echo "UPDATE STAGE [3/3]: Checked out the project."
-        echo "--------------------------------------------"
+        echo "UPDATE ALGORITHM [3/3]: Checked out the project."
+        echo "------------------------------------------------"
         after_checkout_project
-        echo "--------------------------------------------"
-        echo "UPDATE STAGE [3/3] COMPLETE. ✅"
+        echo "------------------------------------------------"
+        echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }

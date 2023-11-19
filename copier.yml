@@ -11,9 +11,9 @@ _exclude:
 _tasks:
   - |
     {% filter indent(width=0) %}
-    {% include "handle-task-stage.sh" %}
-    setup_task_stage
-    handle_task_stage
+    {% include "handle-task-event.sh" %}
+    setup_task_event
+    handle_task_event
     {% endfilter %}
 repo_name:
   type: str
