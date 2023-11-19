@@ -31,13 +31,13 @@ setup_task_stage() {
 toggle_workflows() {
     echo "Toggling workflows..."{% if visibility == "public" %}
     supply_smokeshow_key
-    gh workflow enable smokeshow.yml || :
+    gh workflow enable smokeshow.yml
     {% else %}
-    gh workflow disable smokeshow.yml || :
+    gh workflow disable smokeshow.yml
     {% endif %}{% if publish_on_pypi %}
-    gh workflow enable release.yml || :
+    gh workflow enable release.yml
     {% else %}
-    gh workflow disable release.yml || :
+    gh workflow disable release.yml
     {% endif %}
     echo "Done! 🎉"
 }
@@ -55,13 +55,13 @@ run_copier_hook() {
     python copier_hook.py
     echo "Copier hook exited with code $?."
     echo "Removing copier hook..."
-    rm copier_hook.py || echo "Failed to remove copier hook." && exit 1
+    rm copier_hook.py || (echo "Failed to remove copier hook." && exit 1)
 }
 
 setup_poetry_virtualenv() {
     echo "Running poetry installation routines..."
     poetry lock
-    poetry install || echo "Failed to install dependencies." && exit 1
+    poetry install || (echo "Failed to install dependencies." && exit 1)
     PYTHON_VERSION="$(cat .python-version)"
     echo "Using Python version $PYTHON_VERSION"
     poetry env use $PYTHON_VERSION
