@@ -1,3 +1,4 @@
+{% filter indent(width=4) %}
 setup_task_stage() {
     OLD_REF_KEY=$PPID"_skeleton_old_commit"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
@@ -29,17 +30,17 @@ setup_task_stage() {
 
 toggle_workflows() {
     echo "Toggling workflows..."
-    {% if visibility == "public" -%}
+    {% if visibility == "public" %}
     {% include "snippets/supply-smokeshow-key.sh" %}
     gh workflow enable smokeshow.yml || :
-    {% else -%}
+    {% else %}
     gh workflow disable smokeshow.yml || :
-    {% endif -%}
-    {% if publish_on_pypi -%}
+    {% endif %}
+    {% if publish_on_pypi %}
     gh workflow enable release.yml || :
-    {% else -%}
+    {% else %}
     gh workflow disable release.yml || :
-    {% endif -%}
+    {% endif %}
     echo "Done! 🎉"
 }
 
@@ -119,7 +120,8 @@ after_checkout_new_skeleton() {
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git add .
-    if test "$OLD_REF" = "{{_copier_answers['_commit']}}"; then
+    if test "$OLD_REF" = "{{_copier_answers['_commit']}}"
+    then
         echo "The version of the skeleton has not changed."
         git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$OLD_REF" -m $REVISION_PARAGRAPH
     else
@@ -163,3 +165,4 @@ handle_task_stage() {
 
 setup_task_stage
 handle_task_stage
+{% endfilter %}
