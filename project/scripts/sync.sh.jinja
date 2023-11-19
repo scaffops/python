@@ -68,7 +68,7 @@ after() {
 }
 
 main() {
-    cd ${PROJECT_PATH:=$(git rev-parse --show-toplevel)}
+    cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}"
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
     echo "-----------------------------------------------"
