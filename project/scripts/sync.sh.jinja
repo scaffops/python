@@ -6,13 +6,11 @@
 # Usage:
 # $ poe sync
 
-# Copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh #
 {% with sync_script=True %}
 {%- filter indent(width=0) -%}
 {%- include "handle-task-event.sh" -%}
 {%- endfilter -%}
 {% endwith %}
-# End of copied code
 
 determine_new_ref() {
     export NEW_REF=$(redis-cli get "$NEW_REF_KEY")

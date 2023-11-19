@@ -1,3 +1,4 @@
+{%- if not sync_script -%}
 #!/usr/bin/env bash
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
@@ -10,26 +11,6 @@
 
 # shellcheck disable=SC1054,SC1073,1083
 
-toggle_workflows() {
-    echo "Toggling workflows..."
-    {% if visibility == "public" -%}
-    supply_smokeshow_key
-    gh workflow enable smokeshow.yml
-    {%- else -%}
-    gh workflow disable smokeshow.yml
-    {%- endif %}
-    {% if publish_on_pypi -%}
-    gh workflow enable release.yml
-    {%- else -%}
-    gh workflow disable release.yml
-    {%- endif %}
-}
-
-determine_project_path() {
-    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
-}
-
-{% if not sync_script -%}
 setup_task_event() {
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
@@ -78,23 +59,6 @@ setup_poetry_virtualenv() {
         poetry install || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
     poetry run poe lock
-}
-
-supply_smokeshow_key() {
-    echo "Checking if smokeshow secret needs to be created..."
-    if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
-    then
-        echo "Smokeshow secret already exists, aborting." && return 0
-    fi
-    echo "Smokeshow secret does not exist, creating..."
-    SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" 2>/dev/null
-    if test $? = 0
-    then
-        echo "Smokeshow secret created."
-    else
-        echo "Failed to create smokeshow secret." 1>&2
-    fi
 }
 
 after_copy() {
@@ -194,4 +158,48 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
-{% endif %}
+{%- endif -%}
+
+{%- if sync_script -%}
+# Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
+{%- endif -%}
+
+toggle_workflows() {
+    echo "Toggling workflows..."
+    {% if visibility == "public" -%}
+    supply_smokeshow_key
+    gh workflow enable smokeshow.yml
+    {%- else -%}
+    gh workflow disable smokeshow.yml
+    {%- endif %}
+    {% if publish_on_pypi -%}
+    gh workflow enable release.yml
+    {%- else -%}
+    gh workflow disable release.yml
+    {%- endif %}
+}
+
+determine_project_path() {
+    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
+}
+
+supply_smokeshow_key() {
+    echo "Checking if smokeshow secret needs to be created..."
+    if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
+    then
+        echo "Smokeshow secret already exists, aborting." && return 0
+    fi
+    echo "Smokeshow secret does not exist, creating..."
+    SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
+    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" 2>/dev/null
+    if test $? = 0
+    then
+        echo "Smokeshow secret created."
+    else
+        echo "Failed to create smokeshow secret." 1>&2
+    fi
+}
+
+{%- if sync_script -%}
+# End of copied code
+{%- endif -%}
