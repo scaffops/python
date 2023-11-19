@@ -1,6 +1,6 @@
 setup_task_event() {
-    LAST_REF_KEY=$PPID"_skeleton_last_ref"
-    PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
+    ${LAST_REF_KEY:=$PPID"_skeleton_last_ref"}
+    ${PROJECT_PATH_KEY:=$PPID"_skeleton_project_path"}
 
     if test "$(pwd | grep "^/tmp/")"
     then
@@ -154,6 +154,7 @@ handle_task_event() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
+        redis-cli del $PROJECT_PATH_KEY
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."

@@ -24,20 +24,9 @@ before() {
 }
 
 update() {
-    # TODO(bswck): what PID to use in order to get that from Redis?
-    export $PROJECT_PATH_DUMP_DEST=$(mktemp)
-    export $LAST_REF_DUMP_DEST=$(mktemp)
     copier update --trust --vcs-ref ${1:-"HEAD"}
-    # # I tried this way:
-    # COPIER_PPID=$!
-    # LAST_REF_KEY=$COPIER_PPID"_skeleton_last_ref"
-    # PROJECT_PATH_KEY=$COPIER_PPID"_skeleton_project_path"
-    # determine_project_path
-    # determine_last_ref
-    # # But seems like $COPIER_PID here and in the Redis keys are different.
-    $PROJECT_PATH=$(cat $PROJECT_PATH_DUMP_DEST)
-    $LAST_REF=$(cat $LAST_REF_DUMP_DEST)
-    rm -f $PROJECT_PATH_DUMP_DEST $LAST_REF_DUMP_DEST
+    determine_last_ref
+    determine_project_path
 }
 
 after() {
@@ -68,6 +57,8 @@ after() {
 }
 
 main() {
+    export $PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
+    export $LAST_REF_KEY=$PPID"_skeleton_last_ref"
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}"
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
@@ -95,7 +86,8 @@ main() {
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
     echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    exit 0
+    redis-cli del $PROJECT_PATH_KEY
+    redis-cli del $LAST_REF_KEY
 }
 
 main
