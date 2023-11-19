@@ -59,7 +59,7 @@ else  # $OPERATION=update
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     if test "$OLD_REF" = "{{_copier_answers['_commit']}}"; then
         echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch copier answers and keep bswck/skeleton@$OLD_REF" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_REF"
+        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$OLD_REF" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_REF"
     else
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     fi
