@@ -1,4 +1,4 @@
-{%- if not sync_script -%}
+#%- if not sync_script -%#
 #!/usr/bin/env sh
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
@@ -158,24 +158,24 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
-{% endif -%}
-{%- if sync_script %}
+#% endif -%#
+#%- if sync_script %#
 # Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
-{%- endif %}
+#%- endif %#
 
 toggle_workflows() {
     echo "Toggling workflows..."
-    {% if visibility == "public" -%}
+    #% if visibility == "public" -%#
     supply_smokeshow_key
     gh workflow enable smokeshow.yml
-    {%- else -%}
+    #%- else -%#
     gh workflow disable smokeshow.yml
-    {%- endif %}
-    {% if publish_on_pypi -%}
+    #%- endif %#
+    #% if publish_on_pypi -%#
     gh workflow enable release.yml
-    {%- else -%}
+    #%- else -%#
     gh workflow disable release.yml
-    {%- endif %}
+    #%- endif %#
 }
 
 determine_project_path() {
@@ -199,6 +199,6 @@ supply_smokeshow_key() {
     fi
 }
 
-{% if sync_script -%}
+#% if sync_script -%#
 # End of copied code
-{%- endif -%}
+#%- endif -%#

@@ -1,4 +1,6 @@
-_subdirectory: project
+_envops:
+    block_end_string: "%#"
+    block_start_string: "#%"
 _exclude:
   - copier.yaml
   - copier.yml
@@ -8,13 +10,15 @@ _exclude:
   - .git
   - .DS_Store
   - .svn
+_subdirectory: project
 _tasks:
   - |
-    {% filter indent(width=0) %}
-    {% include "handle-task-event.sh" %}
+    #% filter indent(width=0) %#
+    #% include "handle-task-event.sh" %#
     setup_task_event
     handle_task_event
-    {% endfilter %}
+    #% endfilter %#
+
 repo_name:
   type: str
   help: Repository name
