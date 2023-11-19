@@ -6,13 +6,17 @@
 # Usage:
 # $ poe sync
 
-#############################################################################
-# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh #
-{% filter indent(width=0) %}
+# Copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh #
+{% with sync_script=True %}
+{%- filter indent(width=0) -%}
 {%- include "handle-task-event.sh" -%}
-{% endfilter %}
-#  END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh  #
-#############################################################################
+{%- endfilter -%}
+{% endwith %}
+# End of copied code
+
+determine_new_ref() {
+    export NEW_REF=$(redis-cli get "$NEW_REF_KEY")
+}
 
 before_update_algorithm() {
     if test "$(git diff --name-only | grep ".*")"
@@ -27,25 +31,30 @@ before_update_algorithm() {
 
 run_update_algorithm() {
     copier update --trust --vcs-ref "${1:-"HEAD"}"
-    determine_last_ref
+    determine_new_ref
     determine_project_path
 }
 
 after_update_algorithm() {
     cd "$PROJECT_PATH" || exit 1
 
-    echo "Previous skeleton revision: ${LAST_REF:-"N/A"}"
-    echo "Current skeleton revision: {{_copier_answers['_commit']}}"
+    echo "Previous skeleton revision: $LAST_REF"
+    echo "Current skeleton revision: ${NEW_REF:-"N/A"}"
 
-    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/${NEW_REF:-"HEAD"}"
 
     git add .
-    if test "$LAST_REF" = "{{_copier_answers['_commit']}}"
+    if test "$LAST_REF" = "$NEW_REF"
     then
         echo "The version of the skeleton has not changed."
-        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF"
+        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at bswck/skeleton@$NEW_REF"
     else
-        local COMMIT_MSG="Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}"
+        if test "$NEW_REF"
+        then
+            local COMMIT_MSG="Upgrade to bswck/skeleton@$NEW_REF"
+        else
+            local COMMIT_MSG="Upgrade to bswck/skeleton of unknown revision"
+        fi
     fi
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
@@ -60,9 +69,13 @@ after_update_algorithm() {
 }
 
 main() {
+    export LAST_REF="{{_copier_answers['_commit']}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
-    export LAST_REF_KEY="$$_skeleton_last_ref"
+    export NEW_REF_KEY="$$_skeleton_new_ref"
+
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
+    echo
+    echo "--- Last skeleton revision: $LAST_REF"
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
     echo "[---------------------------------------------]"
@@ -77,7 +90,6 @@ main() {
     echo "UPDATE ROUTINE [2/3] COMPLETE. ✅"
     echo
     echo "--- Project path: $PROJECT_PATH"
-    echo "--- Last skeleton revision: ${LAST_REF-"N/A"}"
     echo
     echo "UPDATE ROUTINE [3/3]: Running post-update hooks."
     echo "[----------------------------------------------]"
@@ -88,9 +100,10 @@ main() {
     echo "Done! 🎉"
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
-    echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    echo "https://github.com/bswck/skeleton/tree/${NEW_REF:-"HEAD"}"
+
     redis-cli del "$PROJECT_PATH_KEY" >/dev/null 2>&1
-    redis-cli del "$LAST_REF_KEY" >/dev/null 2>&1
+    redis-cli del "$NEW_REF_KEY" >/dev/null 2>&1
 }
 
 main "$@"

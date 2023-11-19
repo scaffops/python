@@ -10,15 +10,33 @@
 
 # shellcheck disable=SC1054,SC1073,1083
 
+toggle_workflows() {
+    echo "Toggling workflows..."
+    {% if visibility == "public" -%}
+    supply_smokeshow_key
+    gh workflow enable smokeshow.yml
+    {%- else -%}
+    gh workflow disable smokeshow.yml
+    {%- endif %}
+    {% if publish_on_pypi -%}
+    gh workflow enable release.yml
+    {%- else -%}
+    gh workflow disable release.yml
+    {%- endif %}
+}
+
+determine_project_path() {
+    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
+}
+
+{% if not sync_script -%}
 setup_task_event() {
-    echo "--- Last ref key: ${LAST_REF_KEY:="${PPID}_skeleton_last_ref"}"
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
     if test "$(pwd | grep "^/tmp/")"
     then
         if test "$(pwd | grep "old_copy")"
         then
-            redis-cli set "$LAST_REF_KEY" "{{_copier_answers['_commit']}}"
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
@@ -28,6 +46,7 @@ setup_task_event() {
         git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD >/dev/null 2>&1
         if test $? = 0
         then
+            redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
             export TASK_EVENT="UPDATE"
         else
             export TASK_EVENT="COPY"
@@ -35,33 +54,11 @@ setup_task_event() {
     fi
 
     determine_project_path
-    determine_last_ref
     echo "--- Task stage: $TASK_EVENT"
-    echo "--- Last skeleton revision: ${LAST_REF:-"N/A"}"
+    echo "--- Last skeleton revision: $LAST_REF"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
     echo "--- Runner ID: $PPID"
     echo
-}
-
-toggle_workflows() {
-    echo "Toggling workflows..."{% if visibility == "public" %}
-    supply_smokeshow_key
-    gh workflow enable smokeshow.yml
-    {% else %}
-    gh workflow disable smokeshow.yml
-    {% endif %}{% if publish_on_pypi %}
-    gh workflow enable release.yml
-    {% else %}
-    gh workflow disable release.yml
-    {% endif %}
-}
-
-determine_project_path() {
-    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
-}
-
-determine_last_ref() {
-    export LAST_REF=$(redis-cli get "$LAST_REF_KEY")
 }
 
 run_copier_hook() {
@@ -197,3 +194,4 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
+{% endif %}
