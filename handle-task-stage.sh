@@ -2,9 +2,9 @@ setup_task_stage() {
     LAST_REF_KEY=$PPID"_skeleton_last_ref"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
 
-    if test $(pwd | grep "^/tmp/")
+    if test "$(pwd | grep "^/tmp/")"
     then
-        if test $(pwd | grep "old_copy")
+        if test "$(pwd | grep "old_copy")"
         then
             redis-cli set $LAST_REF_KEY "{{_copier_answers['_commit']}}"
             export TASK_STAGE="CHECKOUT_LAST_SKELETON"
@@ -45,11 +45,11 @@ toggle_workflows() {
 }
 
 determine_project_path() {
-    export PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
+    export PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
 determine_last_ref() {
-    export LAST_REF=$(redis-cli get $LAST_REF_KEY)
+    export LAST_REF=$(redis-cli get "$LAST_REF_KEY")
 }
 
 run_copier_hook() {
