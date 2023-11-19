@@ -6,10 +6,10 @@
 # Usage:
 # $ poe sync
 
-export $__STDERR="1>&2"
-export $__SILENT_STDOUT=">/dev/null"
-export $__SILENT_STDERR="2>/dev/null"
-export $__SILENT=">/dev/null 2>&1"
+export __STDERR="1>&2"
+export __SILENT_STDOUT=">/dev/null"
+export __SILENT_STDERR="2>/dev/null"
+export __SILENT=">/dev/null 2>&1"
 
 # BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 {% filter indent(width=0) %}
@@ -63,8 +63,8 @@ after_update_algorithm() {
 }
 
 main() {
-    export $PROJECT_PATH_KEY="${PPID}_skeleton_project_path"
-    export $LAST_REF_KEY="${PPID}_skeleton_last_ref"
+    export PROJECT_PATH_KEY="${PPID}_skeleton_project_path"
+    export LAST_REF_KEY="${PPID}_skeleton_last_ref"
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}"
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
