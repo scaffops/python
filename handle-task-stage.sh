@@ -47,7 +47,7 @@ determine_project_path() {
 }
 
 did_stash() {
-    return $(redis-cli get $DID_STASH_KEY)
+    return 1-$(redis-cli get $DID_STASH_KEY)
 }
 
 run_copier_hook() {
@@ -151,7 +151,7 @@ after_checkout_new_skeleton() {
     git push --no-verify
     sleep 3
     toggle_workflows
-    if test did_stash = 1
+    if did_stash
     then
         echo "Unstashing local changes..."
         git stash pop
