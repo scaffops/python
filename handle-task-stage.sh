@@ -1,12 +1,13 @@
 setup_task_stage() {
-    OLD_REF_KEY=$PPID"_skeleton_old_commit"
+    LAST_REF_KEY=$PPID"_skeleton_last_ref"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
 
     if test $(pwd | grep "^/tmp/")
     then
         if test $(pwd | grep "old_copy")
         then
-            export TASK_STAGE="CHECKOUT_CURRENT_SKELETON"
+            redis-cli set $LAST_REF_KEY "{{_copier_answers['_commit']}}"
+            export TASK_STAGE="CHECKOUT_LAST_SKELETON"
         else
             export TASK_STAGE="CHECKOUT_NEW_SKELETON"
         fi
@@ -22,12 +23,12 @@ setup_task_stage() {
     fi
 
     determine_project_path
-    determine_old_ref
+    determine_last_ref
     echo
     echo "--- Task stage: $TASK_STAGE"
+    echo "--- Last skeleton revision: ${LAST_REF:-"N/A"}"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
-    echo "--- Last skeleton revision: ${OLD_REF:-"N/A"}"
-    echo "--- Parent process ID: $PPID"
+    echo "--- Runner ID: $PPID"
     echo
 }
 
@@ -48,8 +49,8 @@ determine_project_path() {
     PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
 }
 
-determine_old_ref() {
-    OLD_REF=$(redis-cli get $OLD_REF_KEY)
+determine_last_ref() {
+    LAST_REF=$(redis-cli get $LAST_REF_KEY)
 }
 
 run_copier_hook() {
@@ -113,7 +114,7 @@ after_copy() {
     toggle_workflows
 }
 
-after_checkout_current_skeleton() {
+after_checkout_last_skeleton() {
     run_copier_hook
 }
 
@@ -133,16 +134,16 @@ before_checkout_new_skeleton() {
 after_checkout_new_skeleton() {
     run_copier_hook
     determine_project_path
-    determine_old_ref
+    determine_last_ref
     cd $PROJECT_PATH
-    echo "Previous skeleton revision: $OLD_REF"
+    echo "Previous skeleton revision: $LAST_REF"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     git add .
-    if test "$OLD_REF" = "{{_copier_answers['_commit']}}"
+    if test "$LAST_REF" = "{{_copier_answers['_commit']}}"
     then
         echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$OLD_REF" -m "$REVISION_PARAGRAPH"
+        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF" -m "$REVISION_PARAGRAPH"
     else
         git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "$REVISION_PARAGRAPH"
     fi
@@ -168,13 +169,13 @@ handle_task_stage() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
-    elif test "$TASK_STAGE" = "CHECKOUT_CURRENT_SKELETON"
+    elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "TASK STAGE 1: Checking out the current skeleton and hiding local files."
-        echo "-----------------------------------------------------------------------"
-        after_checkout_current_skeleton
+        echo "TASK STAGE 1: Checking out last skeleton and hiding local files."
+        echo "----------------------------------------------------------------"
+        after_checkout_last_skeleton
         before_update
-        echo "-----------------------------------------------------------------------"
+        echo "----------------------------------------------------------------"
         echo "TASK STAGE 1 COMPLETE. ✅"
         echo
     elif test "$TASK_STAGE" = "UPDATE"
