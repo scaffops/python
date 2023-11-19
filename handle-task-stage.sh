@@ -170,12 +170,14 @@ handle_task_stage() {
         echo "-- bswck"
     elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "TASK STAGE 1: Checking out last skeleton and hiding local files."
-        echo "----------------------------------------------------------------"
+        echo "TASK STAGE 1: Checking out the last used skeleton and hiding local files."
+        echo "-------------------------------------------------------------------------"
         after_checkout_last_skeleton
         before_update
-        echo "----------------------------------------------------------------"
+        echo "-------------------------------------------------------------------------"
         echo "TASK STAGE 1 COMPLETE. ✅"
+        echo
+        echo "Answer the following questions to update your project with the latest skeleton."
         echo
     elif test "$TASK_STAGE" = "UPDATE"
     then
@@ -189,10 +191,10 @@ handle_task_stage() {
         echo
     elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
     then
-        echo "TASK STAGE 3: Incorporating the new skeleton into the current project."
-        echo "----------------------------------------------------------------------"
+        echo "TASK STAGE 3: Incorporating the latest skeleton into the current project."
+        echo "-------------------------------------------------------------------------"
         after_checkout_new_skeleton
-        echo "----------------------------------------------------------------------"
+        echo "-------------------------------------------------------------------------"
         echo "TASK STAGE 3 COMPLETE. ✅"
         echo
         echo "Done! 🎉"
