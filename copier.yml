@@ -12,9 +12,9 @@ _tasks:
   - |
     {% filter indent(width=0) %}
     {% include "handle-task-stage.sh" %}
-    {% endfilter %}
     setup_task_stage
     handle_task_stage
+    {% endfilter %}
 repo_name:
   type: str
   help: Repository name
