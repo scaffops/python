@@ -7,9 +7,9 @@
 # $ poe sync
 
 # BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
-
+{% filter indent(width=0) %}
 {% include "handle-task-stage.sh" %}
-
+{% endfilter %}
 # END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
 
 before_task() {
