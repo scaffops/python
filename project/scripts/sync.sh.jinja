@@ -6,16 +6,13 @@
 # Usage:
 # $ poe sync
 
-export __STDERR="1>&2"
-export __SILENT_STDOUT=">/dev/null"
-export __SILENT_STDERR="2>/dev/null"
-export __SILENT=">/dev/null 2>&1"
-
-# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
+####################################################################################################
+# BEGIN https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh #
 {% filter indent(width=0) %}
 {%- include "handle-task-event.sh" -%}
 {% endfilter %}
-# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
+# END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh   #
+####################################################################################################
 
 before_update_algorithm() {
     if test "$(git diff --name-only | grep ".*")"
@@ -92,8 +89,8 @@ main() {
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
     echo "https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    redis-cli del "$PROJECT_PATH_KEY" $__SILENT
-    redis-cli del "$LAST_REF_KEY" $__SILENT
+    redis-cli del "$PROJECT_PATH_KEY" >/dev/null 2>&1
+    redis-cli del "$LAST_REF_KEY" >/dev/null 2>&1
 }
 
 main

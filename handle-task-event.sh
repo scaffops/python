@@ -12,8 +12,8 @@ setup_task_event() {
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
-        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" $__SILENT
-        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD $__SILENT
+        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" >/dev/null 2>&1
+        git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD >/dev/null 2>&1
         if test $? = 0
         then
             export TASK_EVENT="UPDATE"
@@ -57,7 +57,7 @@ run_copier_hook() {
     python copier_hook.py
     echo "Copier hook exited with code $?."
     echo "Removing copier hook..."
-    rm copier_hook.py || (echo "Failed to remove copier hook." $__STDERR && exit 1)
+    rm copier_hook.py || (echo "Failed to remove copier hook." 1>&2 && exit 1)
 }
 
 setup_poetry_virtualenv() {
@@ -66,7 +66,7 @@ setup_poetry_virtualenv() {
     echo "Running poetry installation routines..."
     if test "$TASK_EVENT" = "COPY"
     then
-        poetry install || (echo "Failed to install dependencies." $__STDERR && exit 1)
+        poetry install || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
     poetry run poe lock
 }
@@ -79,12 +79,12 @@ supply_smokeshow_key() {
     fi
     echo "Smokeshow secret does not exist, creating..."
     SMOKESHOW_AUTH_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" $__SILENT_STDERR
+    gh secret set SMOKESHOW_AUTH_KEY --env Smokeshow --body "$SMOKESHOW_AUTH_KEY" 2>/dev/null
     if test $? = 0
     then
         echo "Smokeshow secret created."
     else
-        echo "Failed to create smokeshow secret." $__STDERR
+        echo "Failed to create smokeshow secret." 1>&2
     fi
 }
 
@@ -154,7 +154,7 @@ handle_task_event() {
         echo
         echo "Happy coding!"
         echo "-- bswck"
-        redis-cli del "$PROJECT_PATH_KEY" $__SILENT
+        redis-cli del "$PROJECT_PATH_KEY" >/dev/null 2>&1
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."
