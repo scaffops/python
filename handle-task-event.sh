@@ -1,5 +1,5 @@
 {%- if not sync_script -%}
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # Don't ask me why, I don't know either.
