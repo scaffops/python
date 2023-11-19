@@ -1,22 +1,18 @@
 setup_task_event() {
-    ${LAST_REF_KEY:=$PPID"_skeleton_last_ref"}
-    ${PROJECT_PATH_KEY:=$PPID"_skeleton_project_path"}
+    echo "--- Last ref key: ${LAST_REF_KEY:="${PPID}_skeleton_last_ref"}"
+    echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
     if test "$(pwd | grep "^/tmp/")"
     then
         if test "$(pwd | grep "old_copy")"
         then
-            local LAST_REF="{{_copier_answers['_commit']}}"
-            redis-cli set $LAST_REF_KEY "$LAST_REF"
-            echo $LAST_REF > $LAST_REF_DUMP_DEST
+            redis-cli set "$LAST_REF_KEY" "{{_copier_answers['_commit']}}"
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
-        local PROJECT_PATH=$(pwd)
-        redis-cli set $PROJECT_PATH_KEY "$PROJECT_PATH"
-        echo $PROJECT_PATH > $PROJECT_PATH_DUMP_DEST
+        redis-cli set "$PROJECT_PATH_KEY" "$(pwd)"
         git ls-remote https://github.com/{{github_username}}/{{repo_name}} HEAD
         if test $? = 0
         then
