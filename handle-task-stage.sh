@@ -39,7 +39,6 @@ toggle_workflows() {
     {% else %}
     gh workflow disable release.yml
     {% endif %}
-    echo "Done! 🎉"
 }
 
 determine_project_path() {
