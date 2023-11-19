@@ -12,7 +12,7 @@
 {% endfilter %}
 # END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 
-before() {
+before_update_algorithm() {
     if test "$(git diff --name-only | grep ".*")"
     then
         echo "There are uncommitted changes in the project."
@@ -23,13 +23,13 @@ before() {
     fi
 }
 
-update() {
+run_update_algorithm() {
     copier update --trust --vcs-ref ${1:-"HEAD"}
     determine_last_ref
     determine_project_path
 }
 
-after() {
+after_update_algorithm() {
     cd "$PROJECT_PATH"
 
     echo "Previous skeleton revision: $LAST_REF"
@@ -63,13 +63,13 @@ main() {
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
     echo "-----------------------------------------------"
-    before
+    before_update_algorithm
     echo "-----------------------------------------------"
     echo "UPDATE ROUTINE [1/3] COMPLETE. ✅"
     echo
     echo "UPDATE ROUTINE [2/3]: Running the underlying update algorithm."
     echo "--------------------------------------------------------------"
-    update
+    run_update_algorithm
     echo "--------------------------------------------------------------"
     echo "UPDATE ROUTINE [2/3] COMPLETE. ✅"
     echo
@@ -78,7 +78,7 @@ main() {
     echo
     echo "UPDATE ROUTINE [3/3]: Running post-update hooks."
     echo "------------------------------------------------"
-    after
+    after_update_algorithm
     echo "------------------------------------------------"
     echo "UPDATE ROUTINE [3/3] COMPLETE. ✅"
     echo
