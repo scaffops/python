@@ -1,12 +1,10 @@
 setup_task_stage() {
     OLD_REF_KEY=$PPID"_skeleton_old_commit"
     PROJECT_PATH_KEY=$PPID"_skeleton_project_path"
-    DID_STASH_KEY=$PPID"_skeleton_did_stash"
 
     if test $(pwd | grep "^/tmp/")
     then
         if test $(pwd | grep "old_copy")
-        redis-cli set $PROJECT_PATH_KEY $(cat /proc/$$/cmdline | awk 'NF{ print $NF }')
         then
             export TASK_STAGE="CHECKOUT_CURRENT_SKELETON"
         else
@@ -43,10 +41,6 @@ toggle_workflows() {
 
 determine_project_path() {
     PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
-}
-
-did_stash() {
-    return 1-$(redis-cli get $DID_STASH_KEY)
 }
 
 run_copier_hook() {
@@ -112,14 +106,7 @@ after_checkout_current_skeleton() {
 }
 
 before_update() {
-    determine_project_path
-    cd $PROJECT_PATH
-    if test $(git diff --name-only HEAD || grep '.*')
-    then
-        echo "Stashing local changes..."
-        git stash push -u -m "Stash local changes before updating skeleton."
-        redis-cli set $DID_STASH_KEY 1
-    fi
+    :
 }
 
 after_update() {
@@ -150,13 +137,6 @@ after_checkout_new_skeleton() {
     git push --no-verify
     sleep 3
     toggle_workflows
-    if did_stash
-    then
-        echo "Unstashing local changes..."
-        git stash pop
-        redis-cli del $DID_STASH_KEY
-    fi
-    cd --
 }
 
 handle_task_stage() {
