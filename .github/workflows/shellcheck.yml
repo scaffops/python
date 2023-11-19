@@ -15,4 +15,4 @@ jobs:
     - name: Run ShellCheck
       uses: ludeeus/action-shellcheck@master
       with:
-        additional_files: project/scripts/*.sh
+        additional_files: "*.sh.jinja"
