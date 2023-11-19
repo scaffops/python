@@ -24,6 +24,9 @@ before_task() {
 
 task() {
     copier update --trust --vcs-ref ${1:-"HEAD"}
+    COPIER_PPID=$!
+    LAST_REF_KEY=$COPIER_PPID"_skeleton_last_ref"
+    PROJECT_PATH_KEY=$COPIER_PPID"_skeleton_project_path"
 }
 
 after_task() {
