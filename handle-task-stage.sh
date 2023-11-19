@@ -22,9 +22,12 @@ setup_task_stage() {
     fi
 
     determine_project_path
+    determine_old_ref
     echo
     echo "--- Task stage: $TASK_STAGE"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
+    echo "--- Last skeleton revision: ${OLD_REF:-"N/A"}"
+    echo "--- Parent process ID: $PPID"
     echo
 }
 
@@ -43,6 +46,10 @@ toggle_workflows() {
 
 determine_project_path() {
     PROJECT_PATH=$(redis-cli get $PROJECT_PATH_KEY)
+}
+
+determine_old_ref() {
+    OLD_REF=$(redis-cli get $OLD_REF_KEY)
 }
 
 run_copier_hook() {
@@ -126,8 +133,8 @@ before_checkout_new_skeleton() {
 after_checkout_new_skeleton() {
     run_copier_hook
     determine_project_path
+    determine_old_ref
     cd $PROJECT_PATH
-    OLD_REF=$(redis-cli get $OLD_REF_KEY)
     echo "Previous skeleton revision: $OLD_REF"
     echo "Current skeleton revision: {{_copier_answers['_commit']}}"
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
