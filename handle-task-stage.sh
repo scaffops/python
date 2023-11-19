@@ -9,7 +9,7 @@ setup_task_stage() {
             redis-cli set $LAST_REF_KEY "{{_copier_answers['_commit']}}"
             export TASK_STAGE="CHECKOUT_LAST_SKELETON"
         else
-            export TASK_STAGE="CHECKOUT_NEW_SKELETON"
+            export TASK_STAGE="CHECKOUT_PROJECT"
         fi
     else
         redis-cli set $PROJECT_PATH_KEY $(pwd)
@@ -152,31 +152,31 @@ handle_task_stage() {
         echo "-- bswck"
     elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "UPDATE STAGE [1/3]: Checked out the last used skeleton."
-        echo "-------------------------------------------------------"
+        echo "UPDATE STAGE [1/3]: Checked out the last used skeleton before update."
+        echo "---------------------------------------------------------------------"
         after_checkout_last_skeleton
         before_update
-        echo "--------------------------------------------------"
+        echo "---------------------------------------------------------------------"
         echo "UPDATE STAGE [1/3] COMPLETE. ✅"
         echo
         echo "Answer the following questions to update your project with the latest skeleton."
         echo
     elif test "$TASK_STAGE" = "UPDATE"
     then
-        echo "UPDATE STAGE [2/3]: Overwrote the old skeleton."
-        echo "-----------------------------------------------"
+        echo "UPDATE STAGE [2/3]: Overwrote the old skeleton before checking out the project."
+        echo "-------------------------------------------------------------------------------"
         echo "Re-setting up the project..."
         after_update
         before_checkout_new_skeleton
-        echo "------------------------------------------------------------------"
+        echo "-------------------------------------------------------------------------------"
         echo "UPDATE STAGE [2/3] COMPLETE. ✅"
         echo
-    elif test "$TASK_STAGE" = "CHECKOUT_NEW_SKELETON"
+    elif test "$TASK_STAGE" = "CHECKOUT_PROJECT"
     then
-        echo "UPDATE STAGE [3/3]: Incorporated the new skeleton into the project."
-        echo "-------------------------------------------------------------------"
+        echo "UPDATE STAGE [3/3]: Checked out the project."
+        echo "--------------------------------------------"
         after_checkout_new_skeleton
-        echo "-------------------------------------------------------------------"
+        echo "--------------------------------------------"
         echo "UPDATE STAGE [3/3] COMPLETE. ✅"
     fi
 }
