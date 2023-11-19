@@ -13,11 +13,10 @@
 # END https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-stage.sh
 
 before_task() {
-    if test $(git diff --name-only | wc -l) > 0
+    if test $(git diff --name-only | grep ".*")
     then
         echo "There are uncommitted changes in the project."
-        echo "Stashing them..."
-        git stash push --include-untracked --message "Stash before syncing with {{_copier_answers['_src_path']}}"
+        git stash push --message "Stash before syncing with {{_copier_answers['_src_path']}}"
         DID_STASH=1
     fi
 }
@@ -49,6 +48,11 @@ after_task() {
     echo "Sleeping for 3 seconds..."
     sleep 3
     toggle_workflows
+    if test "$DID_STASH"
+    then
+        echo "Unstashing changes..."
+        git stash pop && echo "Done!"
+    fi
 }
 
 main() {
