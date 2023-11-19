@@ -12,7 +12,7 @@ if test $(pwd | grep "^/tmp/"); then
     if test $(pwd | grep "old_copy"); then
         OLD_REF="{{_copier_answers['_commit']}}"
         echo "Old skeleton revision: https://github.com/bswck/skeleton/tree/$OLD_REF"
-        redis-cli set OLD_REF_KEY $OLD_REF
+        redis-cli set $OLD_REF_KEY $OLD_REF
         echo ""
     fi
     exit 0
