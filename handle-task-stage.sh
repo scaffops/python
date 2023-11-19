@@ -132,24 +132,6 @@ before_checkout_new_skeleton() {
 
 after_checkout_new_skeleton() {
     run_copier_hook
-    determine_project_path
-    determine_last_ref
-    cd $PROJECT_PATH
-    echo "Previous skeleton revision: $LAST_REF"
-    echo "Current skeleton revision: {{_copier_answers['_commit']}}"
-    REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
-    git add .
-    if test "$LAST_REF" = "{{_copier_answers['_commit']}}"
-    then
-        echo "The version of the skeleton has not changed."
-        git commit --no-verify -m "Patch {{_copier_conf.answers_file}} at bswck/skeleton@$LAST_REF" -m "$REVISION_PARAGRAPH"
-    else
-        git commit --no-verify -m "Upgrade to bswck/skeleton@{{_copier_answers['_commit']}}" -m "$REVISION_PARAGRAPH"
-    fi
-    git push --no-verify
-    echo "Sleeping for 3 seconds..."
-    sleep 3
-    toggle_workflows
 }
 
 handle_task_stage() {
@@ -170,11 +152,11 @@ handle_task_stage() {
         echo "-- bswck"
     elif test "$TASK_STAGE" = "CHECKOUT_LAST_SKELETON"
     then
-        echo "TASK STAGE 1: Checking out the last used skeleton and overwriting local files."
-        echo "------------------------------------------------------------------------------"
+        echo "TASK STAGE 1: Checking out the last used skeleton."
+        echo "--------------------------------------------------"
         after_checkout_last_skeleton
         before_update
-        echo "------------------------------------------------------------------------------"
+        echo "--------------------------------------------------"
         echo "TASK STAGE 1 COMPLETE. ✅"
         echo
         echo "Answer the following questions to update your project with the latest skeleton."
