@@ -1,7 +1,9 @@
 #%- if not sync_script -%#
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
-# Don't ask me why, I don't know either.
+# This script is run on every copier task event.
+# Implemented as a workaround for copier-org/copier#240.
+# https://github.com/copier-org/copier/issues/240
 #
 # Usage:
 # $ copier copy --trust --vcs-ref HEAD gh:bswck/skeleton project
@@ -12,25 +14,36 @@
 # shellcheck disable=SC1054,SC1073,1083
 
 setup_task_event() {
+    # By default use PPID not to overlap with other running copier processes
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
+    # It is a temporary directory that copier uses before or after updating
     if test "$(pwd | grep "^/tmp/")"
     then
+        # Before update
         if test "$(pwd | grep "old_copy")"
         then
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
+        # After update
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
     else
+        # Export the project path to parent process
         redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" > /dev/null 2>&1
+
+        # Does this repository exist remotely?
         git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD > /dev/null 2>&1
-        if test $? = 0
+
+        if test $? = 0 && $LAST_REF  # Missing $LAST_REF means we are not updating.
         then
+            # Let the parent process know what is the new skeleton revision
             redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
             export TASK_EVENT="UPDATE"
         else
+            # Integrate the skeleton for the first time or even create a new repository
             export TASK_EVENT="COPY"
+            export INTEGRATE_TO_EXISTING_REPO=1
         fi
     fi
 
@@ -43,6 +56,7 @@ setup_task_event() {
 }
 
 run_copier_hook() {
+    # Run a temporary hook that might generate LICENSE file and other stuff
     echo "Running copier hook..."
     python copier_hook.py
     echo "Copier hook exited with code $?."
@@ -51,10 +65,11 @@ run_copier_hook() {
 }
 
 setup_poetry_virtualenv() {
+    # Set up poetry virtualenv. This is needed for copier to work flawlessly.
     echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
     poetry env use "$PYTHON_VERSION"
     echo "Running poetry installation routines..."
-    if test "$TASK_EVENT" = "COPY"
+    if test "$TASK_EVENT" = "COPY" || test "$INTEGRATE_TO_EXISTING_REPO"
     then
         poetry install || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
@@ -62,6 +77,7 @@ setup_poetry_virtualenv() {
 }
 
 after_copy() {
+    # This is the first time the skeleton is integrated into the project.
     echo "Setting up the project..."
     echo
     setup_poetry_virtualenv
@@ -164,6 +180,7 @@ handle_task_event() {
 #%- endif %#
 
 toggle_workflows() {
+    # Toggle workflows depending on the project's settings
     echo "Toggling workflows..."
     #% if visibility == "public" -%#
     supply_smokeshow_key
@@ -179,11 +196,15 @@ toggle_workflows() {
 }
 
 determine_project_path() {
+    # Determine the project path set by the preceding copier task process
     export PROJECT_PATH
     PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
 supply_smokeshow_key() {
+    # Supply smokeshow key to the repository
+    # This is not sufficient and will become a GitHub action:
+    # https://github.com/bswck/supply-smokeshow-key
     echo "Checking if smokeshow secret needs to be created..."
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then

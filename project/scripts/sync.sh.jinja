@@ -2,6 +2,7 @@
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # Sync with bswck/skeleton.
+# Script adopted from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/project/scripts/sync.sh.jinja
 #
 # Usage:
 # $ poe sync
@@ -13,11 +14,13 @@
 #% endwith %#
 
 determine_new_ref() {
+    # Determine the new skeleton revision set by the child process
     export NEW_REF
     NEW_REF=$(redis-cli get "$NEW_REF_KEY")
 }
 
 before_update_algorithm() {
+    # Stash changes if any
     if test "$(git diff --name-only | grep ".*")"
     then
         echo "There are uncommitted changes in the project."
@@ -29,12 +32,14 @@ before_update_algorithm() {
 }
 
 run_update_algorithm() {
+    # Run the underlying update algorithm
     copier update --trust --vcs-ref "${1:-"HEAD"}"
     determine_new_ref
     determine_project_path
 }
 
 after_update_algorithm() {
+    # Run post-update hooks, auto-commit and push changes
     cd "$PROJECT_PATH" || exit 1
 
     echo "Previous skeleton revision: $LAST_REF"
@@ -71,6 +76,7 @@ main() {
     export LAST_REF="{{_copier_answers['_commit']}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
     export NEW_REF_KEY="$$_skeleton_new_ref"
+    export LAST_LICENSE_NAME="{{_copier_answers['_license_name']}}"
 
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
     echo
