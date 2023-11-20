@@ -12,19 +12,33 @@ import urllib.request
 import json
 import pprint
 import sys
+from os import getenv
 from datetime import datetime
 from pathlib import Path
 
-
 LICENSE_NAME = "{{license_name}}"
+PREVIOUS_LICENSE_NAME = getenv("LAST_LICENSE_NAME") or "Custom"
 
 
 def generate_license_file(license_name: str | None = None) -> None:
     if license_name is None:
         license_name = LICENSE_NAME
 
-    if license_name == "Custom":
+    print("Previous license name:", PREVIOUS_LICENSE_NAME)
+    print("Set license name:", LICENSE_NAME)
+    if license_name in (PREVIOUS_LICENSE_NAME, "Custom"):
+        print(
+            "Not generating license file: "
+            "license name not changed or a custom license",
+        )
         return
+
+    if Path("LICENSE").exists():
+        do_overwrite = input(
+            f"Overwrite existing LICENSE file (new license: {license_name})? [y/N]"
+        ).strip()[0].lower() == "y"
+        if not do_overwrite:
+            return
 
     license_text: str | None
     try:
