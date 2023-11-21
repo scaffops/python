@@ -210,13 +210,13 @@ determine_project_path() {
 
 ensure_github_environment() {
     # Ensure that the GitHub environment exists
-    echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)"
+    jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -
 }
 
 supply_smokeshow_key() {
     # Supply smokeshow key to the repository
     echo "Checking if smokeshow secret needs to be created..."
-    ensure_github_environment "Smokeshow"
+    ensure_github_environment "Smokeshow" || echo "Failed to create smokeshow environment." 1>&2 && return 1
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then
         echo "Smokeshow secret already exists, aborting." && return 0
