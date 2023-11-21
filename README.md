@@ -24,12 +24,12 @@ pipx install copier
 1. Make sure that you trust me.
 2. Run the following command:
 ```bash
-copier copy --trust --vcs-ref HEAD gh:bswck/skeleton <project_name>
+copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
 ```
 3. Answer questions.
 4. Change directory to your project:
 ```bash
-cd <project_name>
+cd path/to/project
 ```
 5. Happy coding!
 Your repository is on GitHub and has:
@@ -41,20 +41,25 @@ Your repository is on GitHub and has:
 
 
 ## Incorporate to an existing project
-Same as when copying.
+Almost the same as above.
 
 1. Run the following command:
 ```bash
-copier copy --trust --vcs-ref HEAD gh:bswck/skeleton <project_name>
+copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
 ```
 2. Answer questions.
 3. Allow copier to overwrite all files.
-4. Patch your files (changes were locally reverted for your convenience).
-5. Run the following command:
+4. Change directory to your project:
+```bash
+cd path/to/project
+```
+5. Patch your files (changes were locally reverted for your convenience).
+Be sure that the codebase is not lost but files maintained by skeleton are updated.
+6. Run the following command:
 ```bash
 poe sync
 ```
-6. Happy coding!
+7. Happy coding!
 
 
 ## Update your project
