@@ -98,15 +98,16 @@ after_copy() {
     echo
     git add .
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
-    git push --no-verify -u origin "{{main_branch}}"
     echo
-    toggle_workflows
     if ! test "$LAST_REF"
     then
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
-        echo "You can now safely commit and push your changes and copier will not revert them."
+        echo "Not pushing the changes automatically."
+    else
+        git push --no-verify -u origin "{{main_branch}}"
     fi
+    toggle_workflows
 }
 
 after_checkout_last_skeleton() {
