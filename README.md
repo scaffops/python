@@ -85,9 +85,7 @@ For more verbosity:
 poe sync HEAD
 ```
 
-You might use some other ref than HEAD, up to you.
-
-More information about copier [here](https://copier.readthedocs.io/en/stable/).
+You might use a [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog) different than HEAD, up to you.
 
 # License
 This project is licensed under the terms of the [MIT License](/LICENSE).
