@@ -21,32 +21,28 @@ Because the project does not copy the whole history from skeleton, many of the p
 You might use this template or fork it and modify it to your needs.
 
 ## Configure [GitHub CLI](https://cli.github.com/)
-```bash
-gh auth login
-```
+    gh auth login
 Ensure the `workflows` scope is in your authorized scopes:
-```bash
-gh auth refresh -h github.com -s workflows
-```
+
+    gh auth refresh -h github.com -s workflows
 
 ## Install [Redis](https://github.com/redis/redis), [pipx](https://github.com/pypa/pipx) and [Copier](https://github.com/copier-org/copier)
-```bash
-sudo apt install redis
-python3 -m pip install --user pipx
-pipx install copier
-```
+
+    sudo apt install redis
+    python3 -m pip install --user pipx
+    pipx install copier
 
 ## Create a new project
 1. Make sure that you trust me.
 2. Run the following command:
-```bash
-copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
-```
+
+    copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
+
 3. Answer the questions.
 4. Change directory to your project:
-```bash
-cd path/to/project
-```
+
+    cd path/to/project
+
 5. Happy coding!
 Your repository is on GitHub and has:
 - a release drafter (`$ poe release`),
@@ -62,32 +58,31 @@ Your repository is on GitHub and has:
 Almost the same as above.
 
 1. Change directory to your project:
-```bash
-cd path/to/project
-```
+
+    cd path/to/project
+
 2. Run the following command:
-```bash
-copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
-```
+
+    copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
+
 3. Answer the questions.
 4. Allow copier to overwrite all files.
 5. Patch your files (changes were locally reverted for your convenience).
 Be sure that the codebase is not lost but files maintained by skeleton are updated.
 6. Run the following command:
-```bash
-poe sync
-```
+
+    poe sync
+
 7. Happy coding!
 
 
 ## Update your project
-```bash
-poe sync
-```
-For more verbosity:
-```bash
-poe sync HEAD
-```
+
+    poe sync
+
+Or, for more verbosity:
+
+    poe sync HEAD
 
 You might use a [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog) different than HEAD, up to you.
 

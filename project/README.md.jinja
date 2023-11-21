@@ -15,25 +15,24 @@ If you want to…
 ## …use this tool in your project 💻
 #% if is_cli_tool -%#
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
-```bash
-pipx install {{pypi_project_name}}
-```
+
+    pipx install {{pypi_project_name}}
+
 
 You might also simply install it with pip:
-```bash
-pip install {{pypi_project_name}}
-```
+
+    pip install {{pypi_project_name}}
+
 #% else -%#
 You might simply install it with pip:
-```bash
-pip install {{pypi_project_name}}
-```
+
+    pip install {{pypi_project_name}}
+
 #%- endif %#
 
 If you use [Poetry](https://python-poetry.org/), then run:
-```bash
-poetry add {{pypi_project_name}}
-```
+
+    poetry add {{pypi_project_name}}
 
 ## …contribute to [{{repo_name}}](https://github.com/{{github_username}}/{{repo_name}}) 🚀
 #% endif %#
@@ -45,25 +44,23 @@ Happy to accept contributions!
 First, [install Poetry](https://python-poetry.org/docs/#installation).<br/>
 Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
 
-```bash
-pipx install poetry
-```
+    pipx install poetry
+
 <sub>If you encounter any problems, refer to [the official documentation](https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
 
 Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
-```bash
-pyenv install {{python_version}}
-```
+
+    pyenv install {{python_version}}
 
 Then, run:
-```bash
-git clone https://github.com/{{github_username}}/{{repo_name}} path/to/{{repo_name}}
-cd path/to/{{repo_name}}
-poetry env use $(cat .python-version)
-poetry install
-poetry shell
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
+
+    git clone https://github.com/{{github_username}}/{{repo_name}} path/to/{{repo_name}}
+    cd path/to/{{repo_name}}
+    poetry env use $(cat .python-version)
+    poetry install
+    poetry shell
+    pre-commit install --hook-type pre-commit --hook-type pre-push
+
 
 # Legal info
 © Copyright by {{author_full_name}} ([@{{github_username}}](https://github.com/{{github_username}})).#% if license_name != "None" %#<br />This software is licensed under the [{{license_name}} License](https://github.com/{{github_username}}/{{repo_name}}/blob/main/LICENSE).
