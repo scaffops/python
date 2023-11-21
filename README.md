@@ -15,6 +15,8 @@ simultaneously trying to take on the following [jaraco/skeleton](https://github.
 - Solve the [Commit Integrations Mismatch](https://blog.jaraco.com/skeleton/#commit-integrations-mismatch) problem.
   - [x] Downstream projects and the skeleton itself can reference different issues and pull requests in their commit histories.
 
+Because the project does not copy the whole history from skeleton, many of the problems are solved by design.
+
 # How to use it
 You might use this template or fork it and modify it to your needs.
 
