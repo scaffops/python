@@ -60,6 +60,13 @@ after_update_algorithm() {
             local COMMIT_MSG="Upgrade to bswck/skeleton of unknown revision"
         fi
     fi
+    while test "$(git diff --check > /dev/null 2>&1)"
+    do
+        echo "Cannot commit with the following conflicts:"
+        git diff --check
+        echo "Please resolve the conflicts and press Enter to continue."
+        read -r
+    done
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
     toggle_workflows
