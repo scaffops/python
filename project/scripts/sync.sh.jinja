@@ -67,6 +67,8 @@ after_update_algorithm() {
         echo "Please resolve the conflicts and press Enter to continue."
         read -r
     done
+    redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
+    redis-cli del "$NEW_REF_KEY" > /dev/null 2>&1
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
     toggle_workflows
@@ -111,9 +113,6 @@ main() {
     echo
     echo "Your repository is now up to date with this bswck/skeleton revision:"
     echo "https://github.com/bswck/skeleton/tree/${NEW_REF:-"HEAD"}"
-
-    redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
-    redis-cli del "$NEW_REF_KEY" > /dev/null 2>&1
 }
 
 main "$@"
