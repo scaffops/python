@@ -215,8 +215,6 @@ ensure_github_environment() {
 
 supply_smokeshow_key() {
     # Supply smokeshow key to the repository
-    # This is not sufficient and will become a GitHub action:
-    # https://github.com/bswck/supply-smokeshow-key
     echo "Checking if smokeshow secret needs to be created..."
     ensure_github_environment "Smokeshow"
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
