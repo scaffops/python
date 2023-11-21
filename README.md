@@ -36,12 +36,12 @@ Ensure the `workflows` scope is in your authorized scopes:
 1. Make sure that you trust me.
 2. Run the following command:
 
-    copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
+       copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
 
 3. Answer the questions.
 4. Change directory to your project:
 
-    cd path/to/project
+       cd path/to/project
 
 5. Happy coding!
 Your repository is on GitHub and has:
