@@ -11,7 +11,7 @@
 # $ poe sync
 
 # shellcheck shell=sh
-# shellcheck disable=SC1054,SC1073,1083
+# shellcheck disable=SC1054,SC1073,SC2005,SC1083
 
 setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
@@ -210,7 +210,7 @@ determine_project_path() {
 
 ensure_github_environment() {
     # Ensure that the GitHub environment exists
-    jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input - | grep ''
+    echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)"
 }
 
 supply_smokeshow_key() {

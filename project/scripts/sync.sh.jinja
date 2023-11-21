@@ -7,6 +7,8 @@
 # Usage:
 # $ poe sync
 
+# shellcheck disable=SC2005
+
 #% with sync_script=True %#
 #%- filter indent(width=0) -%#
 #%- include "handle-task-event.sh" -%#
@@ -21,7 +23,7 @@ determine_new_ref() {
 
 before_update_algorithm() {
     # Stash changes if any
-    if test "$(git diff --name-only | grep "")"
+    if test "echo $(git diff --name-only)"
     then
         echo "There are uncommitted changes in the project."
         git stash push --message "Stash before syncing with {{_copier_answers['_src_path']}}"
@@ -60,10 +62,10 @@ after_update_algorithm() {
             local COMMIT_MSG="Upgrade to bswck/skeleton of unknown revision"
         fi
     fi
-    while test "$(git diff --check | grep "")"
+    while test echo "$(git diff --check)"
     do
         echo "Cannot commit with the following conflicts:"
-        git diff --check
+        echo "$(git diff --check)"
         echo "Please resolve the conflicts and press Enter to continue."
         read -r
     done
