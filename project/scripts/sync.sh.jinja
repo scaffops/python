@@ -60,7 +60,7 @@ after_update_algorithm() {
             local COMMIT_MSG="Upgrade to bswck/skeleton of unknown revision"
         fi
     fi
-    while test "$(git diff --check > /dev/null 2>&1)"
+    while test "$(git diff --check | grep "")"
     do
         echo "Cannot commit with the following conflicts:"
         git diff --check
