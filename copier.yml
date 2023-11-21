@@ -95,4 +95,4 @@ license_name:
 use_precommit:
   type: bool
   default: true
-  help: Use pre-commit hooks
+  help: Use pre-commit?
