@@ -35,7 +35,7 @@ def generate_license_file(license_name: str | None = None) -> None:
 
     if Path("LICENSE").exists():
         do_overwrite = input(
-            f"Overwrite existing LICENSE file (new license: {license_name})? [y/N]"
+            f"Overwrite existing LICENSE file (new license: {license_name})? [y/N] "
         ).strip()[0].lower() == "y"
         if not do_overwrite:
             return
