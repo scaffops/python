@@ -51,11 +51,12 @@ cd path/to/project
 Your repository is on GitHub and has:
 - a release drafter (`$ poe release`),
 - a skeleton synchronizer (`$ poe sync`),
-- a pre-configured CI suite (including coverage report) and pre-commit hooks,
 - aesthetic badges in README.md,
-- an auto-generated LICENSE file
+- an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
-- a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all dev dependencies installed.
+- a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all the necessary dev dependencies installed, including [poethepoet](https://github.com/nat-n/poethepoet/#readme), [pre-commit](https://pre-commit.com/),
+[mypy](https://github.com/python/mypy#readme), [Ruff](https://github.com/astral-sh/ruff#readme), etc.
+- a pre-configured CI suite for GitHub Actions (including coverage report) and pre-commit.
 
 ## Incorporate to an existing project
 Almost the same as above.
