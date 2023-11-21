@@ -33,7 +33,7 @@ before_update_algorithm() {
 
 run_update_algorithm() {
     # Run the underlying update algorithm
-    copier update --trust --vcs-ref "${1:-"HEAD"}"
+    copier update --trust --vcs-ref "${1:-"HEAD"}" "${@:2}" || return 1
     determine_new_ref
     determine_project_path
 }
@@ -91,13 +91,13 @@ main() {
     echo
     echo "UPDATE ROUTINE [1/3]: Running pre-update hooks."
     echo "[---------------------------------------------]"
-    before_update_algorithm
+    before_update_algorithm || exit 1
     echo "[---------------------------------------------]"
     echo "UPDATE ROUTINE [1/3] COMPLETE. ✅"
     echo
     echo "UPDATE ROUTINE [2/3]: Running the underlying update algorithm."
     echo "[------------------------------------------------------------]"
-    run_update_algorithm "$@"
+    run_update_algorithm "$@" || exit 1
     echo "[------------------------------------------------------------]"
     echo "UPDATE ROUTINE [2/3] COMPLETE. ✅"
     echo
