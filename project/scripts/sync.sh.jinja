@@ -62,8 +62,6 @@ after_update_algorithm() {
     fi
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
-    echo "Sleeping for 3 seconds..."
-    sleep 3
     toggle_workflows
     if test "$DID_STASH"
     then

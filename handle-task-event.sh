@@ -101,9 +101,13 @@ after_copy() {
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify -u origin "{{main_branch}}"
     echo
-    echo "Sleeping for 3 seconds..."
-    sleep 3
     toggle_workflows
+    if ! test "$LAST_REF"
+    then
+        git revert --no-commit HEAD
+        echo "Reverted the latest commit to complete the integration process."
+        echo "You can now safely commit and push your changes and copier will not revert them."
+    fi
 }
 
 after_checkout_last_skeleton() {
