@@ -101,7 +101,7 @@ license_name:
     "The Unlicense": Unlicense
     "Custom license/No license": Custom
   help: License name
-main_branch:
-  type: str
-  default: master
-  help: Main branch name
+use_precommit:
+  type: bool
+  default: true
+  help: Use pre-commit hooks

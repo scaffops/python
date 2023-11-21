@@ -15,11 +15,13 @@ mypy = "^1.7.0"
 ruff = "^0.1.2"
 pytest = "^7.4.3"
 coverage = "^7.3.2"
-pre-commit = "^3.5.0"
 poethepoet = "^0.24.3"
-#% if visibility == "public" %#
+#% if use_precommit -%#
+pre-commit = "^3.5.0"
+#%- endif %#
+#% if visibility == "public" -%#
 smokeshow = "^0.4.0"
-#% endif %#
+#%- endif %#
 
 [tool.poe.tasks]
 test = "pytest -v"
