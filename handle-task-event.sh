@@ -86,7 +86,6 @@ after_copy() {
     then
         echo "Initializing git repository..."
         git init .
-        git add .
         git branch -M "{{main_branch}}"
         echo "Main branch: {{main_branch}}"
         gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
@@ -97,6 +96,7 @@ after_copy() {
     COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     echo
+    git add .
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify -u origin "{{main_branch}}"
     echo
