@@ -59,21 +59,20 @@ Almost the same as above.
 
 1. Change directory to your project:
 
-    cd path/to/project
+       cd path/to/project
+3. Run the following command:
 
-2. Run the following command:
+       copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
 
-    copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
-
-3. Answer the questions.
-4. Allow copier to overwrite all files.
-5. Patch your files (changes were locally reverted for your convenience).
+4. Answer the questions.
+5. Allow copier to overwrite all files.
+6. Patch your files (changes were locally reverted for your convenience).
 Be sure that the codebase is not lost but files maintained by skeleton are updated.
-6. Run the following command:
+7. Run the following command:
 
-    poe sync
+       poe sync
 
-7. Happy coding!
+8. Happy coding!
 
 
 ## Update your project
