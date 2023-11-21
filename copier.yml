@@ -26,11 +26,6 @@ project_description:
   type: str
   default: ""
   help: Short project description
-add_description_to_readme:
-  type: bool
-  default: true
-  help: Add project description to README.md?
-  when: "{{project_description.strip()}}"
 visibility:
   type: str
   choices:
@@ -68,10 +63,6 @@ package_name:
   type: str
   default: "{{repo_name.replace('-', '_')}}"
   help: Package import name
-project_version:
-  type: str
-  default: "0.0.1"
-  help: Initial project version
 python_version:
   type: str
   default: "3.8"
