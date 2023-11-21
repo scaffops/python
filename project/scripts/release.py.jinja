@@ -33,6 +33,20 @@ def abort(msg: str, /) -> None:
     sys.exit(-1)
 
 
+def _ask_for_confirmation(msg: str, *, default: bool | None = None) -> bool:
+    """Ask for confirmation."""
+    if default is None:
+        msg += " (y/n): "
+        default_answer = None
+    elif default:
+        msg += " (Y/n): "
+        default_answer = "y"
+    else:
+        msg += " (y/N): "
+        default_answer = "n"
+    return input(msg).casefold().strip()[0] or default_answer == "y"
+
+
 def release(version: str, /) -> None:
     """Release a semver version."""
     cmd, shell = str.split, functools.partial(subprocess.run, check=True)
@@ -46,31 +60,27 @@ def release(version: str, /) -> None:
         msg = (
             "There are uncommitted changes in the working tree in these files:\n"
             f"{changed_files}\n"
-            "Continue? They will be included in the release commit. (y/n) [n]: "
+            "Continue? They will be included in the release commit."
         )
-        continue_confirm = (input(msg).casefold().strip() or "n")[0] == "y"
-        if not continue_confirm:
+        do_continue = _ask_for_confirmation(msg, default=False)
+        if not do_continue:
             abort("Uncommitted changes in the working tree.")
 
     # If we get here, we should be good to go
     # Let's do a final check for safety
-    msg = f"You are about to release {version!r} version. Are you sure? (y/n) [y]: "
+    msg = f"You are about to release {version!r} version. Are you sure?"
 
-    do_release = ((input(msg).casefold().strip()) or "y") == "y"
+    do_release = _ask_for_confirmation(msg, default=True)
 
     if do_release:
-        abort(f"You said no when prompted to bump the {version!r} version.")
+        abort(f"You said no when prompted to bump to the {version!r} version.")
 
-    shell(cmd("poetry self add poetry-bumpversion@latest"))
-
-    _LOGGER.info("Bumping the %r version", version)
+    _LOGGER.info("Bumping to the %r version", version)
 
     shell([*cmd("poetry version"), version])
 
     new_version = "v" + (
-        shell(cmd("poetry version --short"), capture_output=True)
-        .stdout
-        .strip()
+        shell(cmd("poetry version --short"), capture_output=True).stdout.strip()
     )
 
     changed_for_release = shell(
@@ -80,12 +90,12 @@ def release(version: str, /) -> None:
 
     if changed_for_release:
         shell(cmd("git diff"))
-        msg = (
+        do_commit = _ask_for_confirmation(
             "You are about to commit and push auto-changed files due "
             "to version upgrade, see the diff view above. "
-            "Are you sure? (y/n) [y]: "
+            "Are you sure?",
+            default=True,
         )
-        do_commit = ((input(msg).casefold().strip()) or "y")[0] == "y"
 
         if do_commit:
             shell([*cmd("git commit -am"), f"Release {new_version}"])
@@ -106,14 +116,15 @@ def release(version: str, /) -> None:
         _LOGGER.info("Pushing local tags...")
         shell(cmd("git push --tags"))
 
-    do_release = (
-        input("Create a GitHub release now? GitHub CLI required. (y/n) [y]: ").strip()
-        or "y"
-    ) == "y"
+    do_release = _ask_for_confirmation(
+        "Create a GitHub release now? GitHub CLI required.",
+        default=True,
+    )
 
     if do_release:
-        do_write_notes = (
-            input("Do you want to write release notes? (y/n) [y]").strip()[0] == "y"
+        do_write_notes = _ask_for_confirmation(
+            "Do you want to write release notes?",
+            default=True,
         )
 
         if do_write_notes:
@@ -125,10 +136,9 @@ def release(version: str, /) -> None:
                 print("Release notes:")
                 print(release_notes)
                 print()
-                notes_complete = (
-                    input(
-                        "Do you confirm the release notes? (y/n) [y]",
-                    ).strip()[0] == "y"
+                notes_complete = _ask_for_confirmation(
+                    "Do you confirm the release notes?",
+                    default=True,
                 )
 
             shell(
