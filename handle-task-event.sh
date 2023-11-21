@@ -68,7 +68,7 @@ setup_poetry_virtualenv() {
     echo "Running poetry installation for the $TASK_EVENT routine..."
     if test "$TASK_EVENT" = "COPY"
     then
-        poetry env delete python > /dev/null 2>&1
+        poetry env remove python > /dev/null 2>&1
         poetry install || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
     echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
