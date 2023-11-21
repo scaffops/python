@@ -49,12 +49,13 @@ cd path/to/project
 ```
 5. Happy coding!
 Your repository is on GitHub and has:
-- release drafter (`$ poe release`),
-- skeleton synchronizer (`$ poe sync`),
-- pre-configured CI suite (including coverage report) and pre-commit hooks,
-- badges in README.md,
-- auto-generated LICENSE file.
-
+- a release drafter (`$ poe release`),
+- a skeleton synchronizer (`$ poe sync`),
+- a pre-configured CI suite (including coverage report) and pre-commit hooks,
+- aesthetic badges in README.md,
+- an auto-generated LICENSE file
+- a pre-configured `pyproject.toml` file,
+- a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all dev dependencies installed.
 
 ## Incorporate to an existing project
 Almost the same as above.
