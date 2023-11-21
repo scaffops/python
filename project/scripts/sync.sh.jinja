@@ -21,7 +21,7 @@ determine_new_ref() {
 
 before_update_algorithm() {
     # Stash changes if any
-    if test "$(git diff --name-only | grep ".*")"
+    if test "$(git diff --name-only | grep "")"
     then
         echo "There are uncommitted changes in the project."
         git stash push --message "Stash before syncing with {{_copier_answers['_src_path']}}"
