@@ -59,16 +59,16 @@ Your repository is on GitHub and has:
 ## Incorporate to an existing project
 Almost the same as above.
 
-1. Run the following command:
-```bash
-copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
-```
-2. Answer questions.
-3. Allow copier to overwrite all files.
-4. Change directory to your project:
+1. Change directory to your project:
 ```bash
 cd path/to/project
 ```
+2. Run the following command:
+```bash
+copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
+```
+3. Answer questions.
+4. Allow copier to overwrite all files.
 5. Patch your files (changes were locally reverted for your convenience).
 Be sure that the codebase is not lost but files maintained by skeleton are updated.
 6. Run the following command:
