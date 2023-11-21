@@ -90,6 +90,7 @@ after_copy() {
         echo "Main branch: {{main_branch}}"
         gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
         git remote add origin "https://github.com/{{github_username}}/{{repo_name}}.git"
+        CREATED=1
     fi
     echo
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
@@ -99,13 +100,13 @@ after_copy() {
     git add .
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
-    if ! test "$LAST_REF"
+    if test "$CREATED"
     then
+        git push --no-verify -u origin "{{main_branch}}"
+    else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
         echo "Not pushing the changes automatically."
-    else
-        git push --no-verify -u origin "{{main_branch}}"
     fi
     toggle_workflows
 }
