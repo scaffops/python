@@ -44,7 +44,7 @@ def _ask_for_confirmation(msg: str, *, default: bool | None = None) -> bool:
     else:
         msg += " (y/N): "
         default_answer = "n"
-    return input(msg).casefold().strip()[0] or default_answer == "y"
+    return (input(msg).casefold().strip() or default_answer)[0] == "y"
 
 
 def release(version: str, /) -> None:
