@@ -24,7 +24,7 @@ setup_task_event() {
         if test "$(pwd | grep "old_copy")"
         then
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
-        # After update
+            # After update
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
@@ -103,12 +103,14 @@ after_copy() {
     if test "$CREATED"
     then
         git push --no-verify -u origin "{{main_branch}}"
+        toggle_workflows
     else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
-        echo "Not pushing the changes automatically."
+        echo "Patch your files to and commit your changes to inform copier what needs to be kept."
+        echo "Then run:"
+        echo "$ poe sync"
     fi
-    toggle_workflows
 }
 
 after_checkout_last_skeleton() {
