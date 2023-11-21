@@ -208,12 +208,17 @@ determine_project_path() {
     PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
+ensure_github_environment() {
+    # Ensure that the GitHub environment exists
+    jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input - | grep ''
+}
+
 supply_smokeshow_key() {
     # Supply smokeshow key to the repository
     # This is not sufficient and will become a GitHub action:
     # https://github.com/bswck/supply-smokeshow-key
     echo "Checking if smokeshow secret needs to be created..."
-    gh api --method POST -H "Accept: application/vnd.github+json" "/repos/{{github_username}}/{{repo_name}}/environments/Smokeshow"
+    ensure_github_environment "Smokeshow"
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then
         echo "Smokeshow secret already exists, aborting." && return 0
