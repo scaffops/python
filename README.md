@@ -1,5 +1,19 @@
 # skeleton
-My [copier](https://github.com/copier-org/copier) project template.
+My [copier](https://github.com/copier-org/copier) Python project template.
+
+# Motivation
+I was inspired by https://blog.jaraco.com/skeleton.
+
+The goal of this project is to provide a skeleton for my Python projects,
+simultaneously trying to take on the following [jaraco/skeleton](https://github.com/jaraco/skeleton) challenges:
+- Solve the [History is Forever](https://blog.jaraco.com/skeleton/#history-is-forever) problem.
+  - [x] The true history is not obscured.
+  - [ ] Existing histories are broken until the handoff commit is pulled.
+  - [ ] Attribution is not lost.
+- Solve the [Continuous Integration Mismatch](https://blog.jaraco.com/skeleton/#continuous-integration-mismatch) problem.
+  - [x] Downstream projects and the skeleton itself can have different CI configurations.
+- Solve the [Commit Integrations Mismatch](https://blog.jaraco.com/skeleton/#commit-integrations-mismatch) problem.
+  - [x] Downstream projects and the skeleton itself can reference different issues and pull requests in their commit histories.
 
 # How to use it
 You might use this template or fork it and modify it to your needs.
