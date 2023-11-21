@@ -213,6 +213,7 @@ supply_smokeshow_key() {
     # This is not sufficient and will become a GitHub action:
     # https://github.com/bswck/supply-smokeshow-key
     echo "Checking if smokeshow secret needs to be created..."
+    gh api --method POST -H "Accept: application/vnd.github+json" "/repos/{{github_username}}/{{repo_name}}/environments/Smokeshow"
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then
         echo "Smokeshow secret already exists, aborting." && return 0
