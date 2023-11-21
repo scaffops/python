@@ -25,7 +25,6 @@ smokeshow = "^0.4.0"
 test = "pytest -v"
 lock = "scripts/lock.sh"
 sync = "scripts/sync.sh"
-skeleton.script = "scripts.skeleton:main"
 release.script = "scripts.release:main"
 
 [tool.ruff]
@@ -63,9 +62,6 @@ strict = true
 
 [tool.isort]
 profile = "black"
-
-[[tool.poetry_bumpversion.replacements]]
-files = ["./README.md"]
 
 [tool.coverage.report]
 omit = ["tests/*"]
