@@ -35,7 +35,7 @@ setup_task_event() {
         # Does this repository exist remotely?
         git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD > /dev/null 2>&1
 
-        if test $? = 0 && $LAST_REF  # Missing $LAST_REF means we are not updating.
+        if test $? = 0 && test "$LAST_REF"  # Missing $LAST_REF means we are not updating.
         then
             # Let the parent process know what is the new skeleton revision
             redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
@@ -43,13 +43,12 @@ setup_task_event() {
         else
             # Integrate the skeleton for the first time or even create a new repository
             export TASK_EVENT="COPY"
-            export INTEGRATE_TO_EXISTING_REPO=1
         fi
     fi
 
     determine_project_path
     echo "--- Task stage: $TASK_EVENT"
-    echo "--- Last skeleton revision: $LAST_REF"
+    echo "--- Last skeleton revision: ${LAST_REF:-"N/A"}"
     echo "--- Project path: ${PROJECT_PATH:-"N/A"}"
     echo "--- Runner ID: $PPID"
     echo
@@ -66,13 +65,14 @@ run_copier_hook() {
 
 setup_poetry_virtualenv() {
     # Set up poetry virtualenv. This is needed for copier to work flawlessly.
-    echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
-    poetry env use "$PYTHON_VERSION"
-    echo "Running poetry installation routines..."
-    if test "$TASK_EVENT" = "COPY" || test "$INTEGRATE_TO_EXISTING_REPO"
+    echo "Running poetry installation for the $TASK_EVENT routine..."
+    if test "$TASK_EVENT" = "COPY"
     then
+        poetry env delete python > /dev/null 2>&1
         poetry install || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
+    echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
+    poetry env use "$PYTHON_VERSION"
     poetry run poe lock
 }
 
