@@ -57,12 +57,12 @@ pyenv install {{python_version}}
 
 Then, run:
 ```bash
-git clone https://github.com/{{github_username}}/{{repo_name}}
-cd {{repo_name}}
-poetry install
-pre-commit install --hook-type pre-commit --hook-type pre-push
+git clone https://github.com/{{github_username}}/{{repo_name}} path/to/{{repo_name}}
+cd path/to/{{repo_name}}
 poetry env use $(cat .python-version)
+poetry install
 poetry shell
+pre-commit install --hook-type pre-commit --hook-type pre-push
 ```
 
 # Legal info
