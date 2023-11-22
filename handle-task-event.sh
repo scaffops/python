@@ -24,7 +24,7 @@ setup_task_event() {
         if test "$(pwd | grep "old_copy")"
         then
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
-            # After update
+        # After update
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
