@@ -99,7 +99,7 @@ def release(version: str, /) -> None:
                 cmd("poetry version --short"),
                 capture_output=True,
             ).stdout,
-        ).strip(),
+        ).strip()
     )
 
     changed_for_release = _decode_if_bytes(
