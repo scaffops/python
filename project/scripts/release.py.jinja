@@ -61,22 +61,23 @@ def release(version: str, /) -> None:
     ).stdout
 
     if changed_files:
-        msg = (
+        do_continue = _ask_for_confirmation(
             "There are uncommitted changes in the working tree in these files:\n"
             f"{changed_files}\n"
-            "Continue? They will be included in the release commit."
+            "Continue? They will be included in the release commit.",
+            default=False,
         )
-        do_continue = _ask_for_confirmation(msg, default=False)
         if not do_continue:
             abort("Uncommitted changes in the working tree.")
 
     # If we get here, we should be good to go
     # Let's do a final check for safety
-    msg = f"You are about to release {version!r} version. Are you sure?"
+    do_release = _ask_for_confirmation(
+        f"You are about to release {version!r} version. Are you sure?",
+        default=True,
+    )
 
-    do_release = _ask_for_confirmation(msg, default=True)
-
-    if do_release:
+    if not do_release:
         abort(f"You said no when prompted to bump to the {version!r} version.")
 
     _LOGGER.info("Bumping to the %r version", version)
