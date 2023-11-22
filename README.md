@@ -89,7 +89,8 @@ You might use a [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflo
 This project is licensed under the terms of the [MIT License](/LICENSE).
 
 # Credits
-[@jpsca](https://github.com/jpsca), for creating Copier and [@pawamoy](https://github.com/pawamoy) a sample poetry project template.<br/>
+[@jpsca](https://github.com/jpsca), for creating Copier.</br>
+[@pawamoy](https://github.com/pawamoy), for creating a sample poetry project template.<br/>
 [@jaraco](https://github.com/jaraco), for inspiring me to create my own skeleton, like [the one he has](https://github.com/jaraco/skeleton).
 
 [Read more about copier.](https://copier.readthedocs.io/en/stable/)<br/>
