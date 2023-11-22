@@ -27,7 +27,7 @@ _LOGGER = logging.getLogger("release")
 _EDITOR = os.environ.get("EDITOR", "vim")
 
 
-def abort(msg: str, /) -> None:
+def _abort(msg: str, /) -> None:
     """Display an error message and exit the script process with status code -1."""
     _LOGGER.critical(msg)
     sys.exit(-1)
@@ -51,14 +51,23 @@ def _ask_for_confirmation(msg: str, *, default: bool | None = None) -> bool:
     return answer[0] == "y"
 
 
+def _decode_if_bytes(value: bytes | str, /) -> str:
+    """Decode bytes to str."""
+    if isinstance(value, bytes):
+        return value.decode()
+    return value
+
+
 def release(version: str, /) -> None:
     """Release a semver version."""
     cmd, shell = str.split, functools.partial(subprocess.run, check=True)
 
-    changed_files = shell(
-        cmd("git diff --name-only HEAD"),
-        capture_output=True,
-    ).stdout
+    changed_files = _decode_if_bytes(
+        shell(
+            cmd("git diff --name-only HEAD"),
+            capture_output=True,
+        ).stdout
+    )
 
     if changed_files:
         do_continue = _ask_for_confirmation(
@@ -68,7 +77,7 @@ def release(version: str, /) -> None:
             default=False,
         )
         if not do_continue:
-            abort("Uncommitted changes in the working tree.")
+            _abort("Uncommitted changes in the working tree.")
 
     # If we get here, we should be good to go
     # Let's do a final check for safety
@@ -78,20 +87,27 @@ def release(version: str, /) -> None:
     )
 
     if not do_release:
-        abort(f"You said no when prompted to bump to the {version!r} version.")
+        _abort(f"You said no when prompted to bump to the {version!r} version.")
 
     _LOGGER.info("Bumping to the %r version", version)
 
     shell([*cmd("poetry version"), version])
 
     new_version = "v" + (
-        shell(cmd("poetry version --short"), capture_output=True).stdout.strip()
+        _decode_if_bytes(
+            shell(
+                cmd("poetry version --short"),
+                capture_output=True,
+            ).stdout,
+        ).strip(),
     )
 
-    changed_for_release = shell(
-        cmd("git diff --name-only HEAD"),
-        capture_output=True,
-    ).stdout
+    changed_for_release = _decode_if_bytes(
+        shell(
+            cmd("git diff --name-only HEAD"),
+            capture_output=True,
+        ).stdout
+    )
 
     if changed_for_release:
         shell(cmd("git diff"))
@@ -106,7 +122,7 @@ def release(version: str, /) -> None:
             shell([*cmd("git commit -am"), f"Release {new_version}"])
             shell(cmd("git push"))
         else:
-            abort(
+            _abort(
                 "Changes made uncommitted. "
                 "Commit your unrelated changes and try again.",
             )
@@ -116,7 +132,7 @@ def release(version: str, /) -> None:
     try:
         shell([*cmd("git tag -a"), new_version, "-m", f"Release {new_version}"])
     except subprocess.CalledProcessError:
-        abort(f"Failed to create {new_version} tag, probably already exists.")
+        _abort(f"Failed to create {new_version} tag, probably already exists.")
     else:
         _LOGGER.info("Pushing local tags...")
         shell(cmd("git push --tags"))
