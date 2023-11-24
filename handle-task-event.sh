@@ -103,6 +103,8 @@ after_copy() {
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     echo
     git add .
+    echo "Press ENTER to commit the changes or CTRL+C to abort."
+    read -r || exit 1
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
     if test "$CREATED"
