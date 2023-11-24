@@ -2,9 +2,14 @@
 [![Tests](https://github.com/{{github_username}}/{{repo_name}}/actions/workflows/test.yml/badge.svg)](https://github.com/{{github_username}}/{{repo_name}}/actions/workflows/test.yml)#% if visibility == "public" %#
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/{{github_username}}/{{repo_name}})#% endif %#
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Code style](https://img.shields.io/badge/code%20style-black-000000.svg?label=Code%20style)](https://github.com/psf/black)#% if visibility == "public" %#
-[![License](https://img.shields.io/github/license/{{github_username}}/{{repo_name}}.svg?label=License)](https://github.com/{{github_username}}/{{repo_name}}/blob/HEAD/LICENSE)#% endif %#
-#% if project_description and add_description_to_readme %#
+[![Code style](https://img.shields.io/badge/code%20style-black-000000.svg?label=Code%20style)](https://github.com/psf/black)
+#% if visibility == "public" -%#
+[![License](https://img.shields.io/github/license/{{github_username}}/{{repo_name}}.svg?label=License)](https://github.com/{{github_username}}/{{repo_name}}/blob/HEAD/LICENSE)
+#%- endif %#
+#% if use_precommit -%#
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+#%- endif %#
+#% if project_description %#
 {{project_description}}
 #% endif %#
 
