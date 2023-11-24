@@ -11,7 +11,7 @@ The complete the release process, create a GitHub release.
 GitHub Actions workflow will publish the package to PyPI via Trusted Publisher.
 
 Usage:
-$ poe release [major|minor|patch|<major>.<minor>.<patch>]
+$ poe release [major|minor|patch|MAJOR.MINOR.PATCH]
 """
 from __future__ import annotations
 

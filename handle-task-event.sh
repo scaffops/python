@@ -40,6 +40,8 @@ setup_task_event() {
             # Let the parent process know what is the new skeleton revision
             redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
             export TASK_EVENT="UPDATE"
+            export BRANCH
+            BRANCH="$(git rev-parse --abbrev-ref HEAD)"
         else
             # Integrate the skeleton for the first time or even create a new repository
             export TASK_EVENT="COPY"
@@ -84,13 +86,16 @@ after_copy() {
     echo
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
+        BRANCH="master"
         echo "Initializing git repository..."
         git init .
-        git branch -M "{{main_branch}}"
-        echo "Main branch: {{main_branch}}"
+        git branch -M "$BRANCH"
+        echo "Main branch: $BRANCH"
         gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
         git remote add origin "https://github.com/{{github_username}}/{{repo_name}}.git"
         CREATED=1
+    else
+        BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     fi
     echo
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
@@ -102,7 +107,7 @@ after_copy() {
     echo
     if test "$CREATED"
     then
-        git push --no-verify -u origin "{{main_branch}}"
+        git push --no-verify -u origin "$BRANCH"
         toggle_workflows
     else
         git revert --no-commit HEAD
@@ -191,14 +196,6 @@ toggle_workflows() {
     echo "Toggling workflows..."
     #% if visibility == "public" -%#
     supply_smokeshow_key
-    gh workflow enable smokeshow.yml
-    #%- else -%#
-    gh workflow disable smokeshow.yml
-    #%- endif %#
-    #% if publish_on_pypi -%#
-    gh workflow enable release.yml
-    #%- else -%#
-    gh workflow disable release.yml
     #%- endif %#
 }
 
@@ -210,7 +207,7 @@ determine_project_path() {
 
 ensure_github_environment() {
     # Ensure that the GitHub environment exists
-    echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}'|gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)" > /dev/null 2>&1 || return 1
+    echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}' | gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)" > /dev/null 2>&1 || return 1
 }
 
 supply_smokeshow_key() {
