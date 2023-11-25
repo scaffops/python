@@ -164,7 +164,7 @@ def release(version: str, /) -> None:
 
             shell(
                 cmd(
-                    f"gh release create {new_version} --generate-notes"
+                    f"gh release create {new_version} --generate-notes "
                     f"--notes-file {tmp_file}",
                 )
             )
