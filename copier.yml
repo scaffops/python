@@ -1,102 +1,102 @@
 _envops:
-    block_end_string: "%#"
-    block_start_string: "#%"
+  block_end_string: "%#"
+  block_start_string: "#%"
 _exclude:
-  - copier.yaml
-  - copier.yml
-  - ~*
-  - "*.py[co]"
-  - __pycache__
-  - .git
-  - .DS_Store
-  - .svn
-_subdirectory: project
+- "copier.yaml"
+- "copier.yml"
+- "~*"
+- "*.py[co]"
+- "__pycache__"
+- ".git"
+- ".DS_Store"
+- ".svn"
+_subdirectory: "project"
 _tasks:
-  - |
-    #% filter indent(width=0) %#
-    #% include "handle-task-event.sh" %#
-    setup_task_event
-    handle_task_event
-    #% endfilter %#
+- |
+  #% filter indent(width=0) %#
+  #% include "handle-task-event.sh" %#
+  setup_task_event
+  handle_task_event
+  #% endfilter %#
 
 repo_name:
-  type: str
-  help: Repository name
+  type: "str"
+  help: "Repository name"
 project_description:
-  type: str
+  type: "str"
   default: ""
-  help: Short project description
+  help: "Short project description"
 visibility:
-  type: str
+  type: "str"
   choices:
-    - public
-    - private
-  default: private
-  help: Repository visibility
+  - "public"
+  - "private"
+  default: "private"
+  help: "Repository visibility"
 github_username:
-  type: str
-  default: bswck
-  help: Your GitHub username
+  type: "str"
+  default: "bswck"
+  help: "Your GitHub username"
 publish_on_pypi:
-  type: bool
+  type: "bool"
   default: true
-  help: Publish on PyPI
+  help: "Publish on PyPI"
 pypi_project_name:
-  type: str
+  type: "str"
   default: "{{repo_name.lower().replace('_', '-')}}"
-  help: PyPI project name
+  help: "PyPI project name"
   when: "{{publish_on_pypi}}"
 pypi_project_description:
-  type: str
+  type: "str"
   default: "{{project_description}}"
-  help: PyPI project description
+  help: "PyPI project description"
   when: "{{publish_on_pypi}}"
 test_suite:
-  type: bool
+  type: "bool"
   default: true
-  help: Include test suite?
+  help: "Include test suite?"
 author_full_name:
-  type: str
-  default: Bartosz Sławecki
-  help: Your full name
+  type: "str"
+  default: "Bartosz Sławecki"
+  help: "Your full name"
 email_address:
-  type: str
-  default: bswck.dev@gmail.com
-  help: Your e-mail address
+  type: "str"
+  default: "bswck.dev@gmail.com"
+  help: "Your e-mail address"
 package_name:
-  type: str
+  type: "str"
   default: "{{repo_name.replace('-', '_')}}"
-  help: Package import name
+  help: "Package import name"
 python_version:
-  type: str
+  type: "str"
   default: "3.8"
   choices:
-    - "3.8"
-    - "3.9"
-    - "3.10"
-    - "3.11"
-    - "3.12"
-  help: Minimal Python version
+  - "3.8"
+  - "3.9"
+  - "3.10"
+  - "3.11"
+  - "3.12"
+  help: "Minimal Python version"
 license_name:
-  type: str
-  default: MIT
+  type: "str"
+  default: "MIT"
   choices:
-    "MIT License": MIT
-    "GNU Affero General Public License v3.0": AGPL-3.0
-    "Apache License 2.0": Apache-2.0
-    'BSD 2-Clause "Simplified" License': BSD-2-Clause
-    'BSD 3-Clause "New" or "Revised" License': BSD-3-Clause
-    "Boost Software License 1.0": BSL-1.0
-    "Creative Commons Zero v1.0 Universal": CC0-1.0
-    "Eclipse Public License 2.0": EPL-2.0
-    "GNU General Public License v2.0": GPL-2.0
-    "GNU General Public License v3.0": GPL-3.0
-    "GNU Lesser General Public License v2.1": LGPL-2.1
-    "Mozilla Public License 2.0": MPL-2.0
-    "The Unlicense": Unlicense
-    "Custom license/No license": Custom
-  help: License name
+    "MIT License": "MIT"
+    "GNU Affero General Public License v3.0": "AGPL-3.0"
+    "Apache License 2.0": "Apache-2.0"
+    'BSD 2-Clause "Simplified" License': "BSD-2-Clause"
+    'BSD 3-Clause "New" or "Revised" License': "BSD-3-Clause"
+    "Boost Software License 1.0": "BSL-1.0"
+    "Creative Commons Zero v1.0 Universal": "CC0-1.0"
+    "Eclipse Public License 2.0": "EPL-2.0"
+    "GNU General Public License v2.0": "GPL-2.0"
+    "GNU General Public License v3.0": "GPL-3.0"
+    "GNU Lesser General Public License v2.1": "LGPL-2.1"
+    "Mozilla Public License 2.0": "MPL-2.0"
+    "The Unlicense": "Unlicense"
+    "Custom license/No license": "Custom"
+  help: "License name"
 use_precommit:
-  type: bool
+  type: "bool"
   default: true
-  help: Use pre-commit?
+  help: "Use pre-commit?"
