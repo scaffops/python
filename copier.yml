@@ -51,6 +51,10 @@ pypi_project_description:
   default: "{{project_description}}"
   help: PyPI project description
   when: "{{publish_on_pypi}}"
+test_suite:
+  type: bool
+  default: true
+  help: Include test suite?
 author_full_name:
   type: str
   default: Bartosz Sławecki
