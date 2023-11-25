@@ -36,8 +36,11 @@ visibility:
   help: "Repository visibility"
 github_username:
   type: "str"
-  default: "bswck"
-  help: "Your GitHub username"
+  help: "GitHub username of the owner of the repository, maybe organization"
+author_username:
+  type: "str"
+  default: "{{github_username}}"
+  help: "GitHub username of the author and copyright holder"
 publish_on_pypi:
   type: "bool"
   default: true
