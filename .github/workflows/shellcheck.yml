@@ -1,18 +1,18 @@
-name: Shellcheck
+name: "Shellcheck"
 permissions: {}
 
 on:
   push:
     branches:
-    - master
+    - "master"
 
 jobs:
   shellcheck:
-    name: Shellcheck
-    runs-on: ubuntu-latest
+    name: "Shellcheck"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v4
-    - name: Run ShellCheck
-      uses: ludeeus/action-shellcheck@master
+    - uses: "actions/checkout@v4"
+    - name: "Run ShellCheck"
+      uses: "ludeeus/action-shellcheck@master"
       with:
         additional_files: "*.sh.jinja"
