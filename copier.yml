@@ -2,6 +2,7 @@ _envops:
   block_end_string: "%#"
   block_start_string: "#%"
 _exclude:
+# TODO(bswck): feels redundant, do we need it?
 - "copier.yaml"
 - "copier.yml"
 - "~*"
