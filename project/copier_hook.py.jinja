@@ -92,7 +92,9 @@ def generate_doc_symlinks() -> None:
 
 def main() -> None:
     generate_license_file()
+    #%- if docs %#
     generate_doc_symlinks()
+    #%- endif %#
 
 
 if __name__ == "__main__":
