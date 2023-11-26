@@ -36,6 +36,13 @@ pre-commit = "^3.5.0"
 #%- if visibility == "public" and test_suite %#
 smokeshow = "^0.4.0"
 #%- endif %#
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+markdown-exec = ">=1.3.0"
+mkdocs-material = ">=8.2,<10.0.0"
+mkdocstrings = { version = ">=0.19.0", extras = ["python"] }
 
 [tool.poe.tasks]
 #%- if test_suite %#
