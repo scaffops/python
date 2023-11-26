@@ -18,6 +18,11 @@ from pathlib import Path
 
 LICENSE_NAME = "{{license_name}}"
 PREVIOUS_LICENSE_NAME = getenv("LAST_LICENSE_NAME") or "Custom"
+DOC_SYMLINKS = {
+    "docs/index.md": "../README.md",
+    "docs/changelog.md": "../CHANGELOG.md",
+    "docs/contributing.md": "../CONTRIBUTING.md",
+}
 
 
 def generate_license_file(license_name: str | None = None) -> None:
@@ -34,9 +39,14 @@ def generate_license_file(license_name: str | None = None) -> None:
         return
 
     if Path("LICENSE").exists():
-        do_overwrite = input(
-            f"Overwrite existing LICENSE file (new license: {license_name})? [y/N] "
-        ).strip()[0].lower() == "y"
+        do_overwrite = (
+            input(
+                f"Overwrite existing LICENSE file (new license: {license_name})? [y/N] "
+            )
+            .strip()[0]
+            .lower()
+            == "y"
+        )
         if not do_overwrite:
             return
 
@@ -69,8 +79,20 @@ def generate_license_file(license_name: str | None = None) -> None:
         Path("LICENSE").write_text(generated_license_text)
 
 
+def generate_doc_symlinks() -> None:
+    print("Generating documentation symlinks...")
+    count = 0
+    for dest, src in DOC_SYMLINKS.items():
+        if not Path(dest).exists():
+            Path(dest).symlink_to(src)
+            print(f"  {dest} -> {src}")
+            count += 1
+    print(f"Generated {count} documentation symlinks")
+
+
 def main() -> None:
     generate_license_file()
+    generate_doc_symlinks()
 
 
 if __name__ == "__main__":
