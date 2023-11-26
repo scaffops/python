@@ -37,7 +37,7 @@ smokeshow = "^0.4.0"
 [tool.poe.tasks]
 #%- if test_suite %#
 test = "pytest -v"
-#%- endif #%
+#%- endif %#
 lock = "scripts/lock.sh"
 bump = "scripts/bump.sh"
 check = [
