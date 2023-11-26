@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "skeleton"
 version = "0.1.0"
-description = "The cruft templates for bswck projects."
+description = "A copier template for bswck projects."
 authors = ["bswck <bswck.dev@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -10,6 +10,7 @@ readme = "README.md"
 python = "~3.8"
 copier = "^9.0.1"
 poethepoet = "^0.24.3"
+copier-templates-extensions = "^0.3.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -54,6 +54,20 @@ questionary = ">=1.8.1"
 typing-extensions = {version = ">=3.7.4,<5.0.0", markers = "python_version < \"3.9\""}
 
 [[package]]
+name = "copier-templates-extensions"
+version = "0.3.0"
+description = "Special Jinja2 extension for Copier that allows to load extensions using file paths relative to the template root instead of Python dotted paths."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "copier-templates-extensions-0.3.0.tar.gz", hash = "sha256:48b3f5213ee913b931df40e4e9325b58b9c9a741f1052a7da1b247ed991f5150"},
+    {file = "copier_templates_extensions-0.3.0-py3-none-any.whl", hash = "sha256:733e709536e03768b1201c79525534d7fd153932cf764492a0396692e513f244"},
+]
+
+[package.dependencies]
+copier = ">=6"
+
+[[package]]
 name = "decorator"
 version = "5.1.1"
 description = "Decorators for Humans"
@@ -556,4 +570,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "e6e0b6b932c858bd1850137f5944848bddf1299db7f8446d80c3e30085e327ad"
+content-hash = "8bac76ca0d7749778f7268749fe505470c185fe7787ba3ee209a1b690752250c"
