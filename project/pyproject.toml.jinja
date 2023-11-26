@@ -13,20 +13,20 @@ python = "^3.8"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.7.0"
 ruff = "^0.1.2"
-#% if test_suite -%#
+#%- if test_suite %#
 pytest = "^7.4.3"
 coverage = "^7.3.2"
 #%- endif #%
 poethepoet = "^0.24.3"
-#% if use_precommit -%#
+#%- if use_precommit %#
 pre-commit = "^3.5.0"
 #%- endif %#
-#% if visibility == "public" and test_suite -%#
+#%- if visibility == "public" and test_suite %#
 smokeshow = "^0.4.0"
 #%- endif %#
 
 [tool.poe.tasks]
-#% if test_suite -%#
+#%- if test_suite %#
 test = "pytest -v"
 #%- endif #%
 lock = "scripts/lock.sh"
