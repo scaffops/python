@@ -21,20 +21,24 @@ theme:
   - "navigation.top"
   - "navigation.tracking"
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: "default"
-      primary: "deep orange"
-      accent: "amber"
-      toggle:
-        icon: "material/weather-sunny"
-        name: "Switch to dark mode"
-    - media: "(prefers-color-scheme: dark)"
-      scheme: "slate"
-      primary: "amber"
-      accent: "orange"
-      toggle:
-        icon: "material/weather-night"
-        name: "Switch to light mode"
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: "material/brightness-auto"
+      name: "Switch to light mode"
+  - media: "(prefers-color-scheme: light)"
+    scheme: "default"
+    primary: "teal"
+    accent: "purple"
+    toggle:
+      icon: "material/weather-sunny"
+      name: "Switch to dark mode"
+  - media: "(prefers-color-scheme: dark)"
+    scheme: "slate"
+    primary: "black"
+    accent: "lime"
+    toggle:
+      icon: "material/weather-night"
+      name: "Switch to system preference"
 
 extra_css:
 - "css/mkdocstrings.css"
