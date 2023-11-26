@@ -1,3 +1,4 @@
+from __future__ import annotations
 from string import Template
 
 from copier_templates_extensions import ContextHook
