@@ -58,6 +58,10 @@ pypi_project_description:
   default: "{{project_description}}"
   help: "PyPI project description"
   when: "{{publish_on_pypi}}"
+docs:
+  type: "bool"
+  default: true
+  help: "Include documentation suite?"
 test_suite:
   type: "bool"
   default: true

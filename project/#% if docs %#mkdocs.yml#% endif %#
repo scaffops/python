@@ -1,0 +1,61 @@
+site_name: "{{repo_name}}"
+site_description: "{{project_description}}"
+site_url: "https://{{repo_name}}.readthedocs.io/"
+repo_url: "{{repo_url}}"
+repo_name: "{{github_username}}/{{repo_name}}"
+watch:
+- "{{package_name}}"
+
+nav:
+- "Overview": "index.md"
+- "Contributing": "contributing.md"
+# - "API Reference":
+#   - module.py: "reference/module.md"
+#   - etc.
+- "Changelog": "changelog.md"
+
+theme:
+  name: "material"
+  features:
+  - "content.code.annotate"
+  - "navigation.top"
+  - "navigation.tracking"
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: "default"
+      primary: "deep orange"
+      accent: "amber"
+      toggle:
+        icon: "material/weather-sunny"
+        name: "Switch to dark mode"
+    - media: "(prefers-color-scheme: dark)"
+      scheme: "slate"
+      primary: "amber"
+      accent: "orange"
+      toggle:
+        icon: "material/weather-night"
+        name: "Switch to light mode"
+
+extra_css:
+- "css/mkdocstrings.css"
+
+markdown_extensions:
+- "pymdownx.highlight":
+    use_pygments: true
+- "pymdownx.superfences":
+    custom_fences:
+      - name: "mermaid"
+        class: "mermaid"
+        format: !!python/name:pymdownx.superfences.fence_code_format
+- "toc":
+    permalink: true
+- "admonition"
+- "pymdownx.emoji"
+- "pymdownx.magiclink"
+- "footnotes"
+
+plugins:
+- "autorefs"
+- "search"
+- "markdown-exec"
+- "mkdocstrings"
