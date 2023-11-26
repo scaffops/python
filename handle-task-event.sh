@@ -74,7 +74,7 @@ setup_poetry_virtualenv() {
     then
         poetry update || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
-    poetry run poe lock
+    poetry lock --no-update
 }
 
 after_copy() {
