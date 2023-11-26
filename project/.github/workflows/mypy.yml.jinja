@@ -25,4 +25,4 @@ jobs:
         pipx install poetry
         poetry install
     - name: "Type-check with mypy"
-      run: "mypy . --strict || (echo yes | mypy --install-types && mypy . --strict)"
+      run: "poetry run mypy . --strict || (echo yes | poetry run mypy --install-types && poetry run mypy . --strict)"

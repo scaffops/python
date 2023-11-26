@@ -21,11 +21,11 @@ jobs:
         pipx install poetry
         poetry install
     - name: "Run tests"
-      run: "coverage run -m pytest -v ."
+      run: "poetry run coverage run -m pytest -v ."
     - name: "Report coverage"
       run: |
-        coverage report
-        coverage html --show-contexts --title "{{repo_name}} coverage for {{"${{github.sha}}"}}"
+        poetry run coverage report
+        poetry run coverage html --show-contexts --title "{{repo_name}} coverage for {{"${{github.sha}}"}}"
     - name: "Store coverage html"
       uses: "actions/upload-artifact@v3"
       with:
