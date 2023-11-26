@@ -11,6 +11,9 @@ _exclude:
 - ".git"
 - ".DS_Store"
 - ".svn"
+_jinja_extensions:
+- "copier_templates_extensions.TemplateExtensionLoader"
+- "extensions.py:URLTemplateExtension"
 _subdirectory: "project"
 _tasks:
 - |
