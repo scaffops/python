@@ -31,6 +31,13 @@ test = "pytest -v"
 #%- endif #%
 lock = "scripts/lock.sh"
 bump = "scripts/bump.sh"
+check = [
+    #%- if test_suite %#
+    { ref="test" },
+    #%- endif %#
+    { ref="lint" },
+    { ref="lock" }
+]
 release.script = "scripts.release:main"
 
 [tool.ruff]
