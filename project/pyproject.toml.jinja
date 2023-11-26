@@ -1,15 +1,17 @@
 [tool.poetry]
 name = "{{repo_name}}"
-version = "0.0.1"
+version = "0.0.0"
 description = "{{pypi_project_description}}"
-authors = ["{{github_username}} <{{email_address}}>"]
+authors = ["{{author_username}} <{{email_address}}>"]
 license = "{{license_name}}"
 readme = "README.md"
 packages = [{ include = "{{package_name}}/" }]
 homepage = "{{repo_url}}"
 
 [tool.poetry.urls]
+#%- if docs %#
 Documentation = "https://{{repo_name}}.readthedocs.io/"
+#%- endif %#
 Issues = "{{repo_url}}/issues"
 Coverage = "{{coverage_url}}"
 #%- if pypi_project_name %#
