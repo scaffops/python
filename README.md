@@ -45,8 +45,8 @@ Ensure the `workflows` scope is in your authorized scopes:
 
 5. Happy coding!
 Your repository is on GitHub and has:
-- a release drafter (`$ poe release`),
-- a skeleton synchronizer (`$ poe sync`),
+- a release maker (`$ poe release`),
+- a skeleton bump tool (`$ poe bump`),
 - aesthetic badges in README.md,
 - an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
@@ -60,28 +60,29 @@ Almost the same as above.
 1. Change directory to your project:
 
        cd path/to/project
-3. Run the following command:
+
+2. Run the following command:
 
        copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
 
-4. Answer the questions.
-5. Allow copier to overwrite all files.
-6. Patch your files (changes were locally reverted for your convenience).
-Be sure that the codebase is not lost but files maintained by skeleton are updated.
-7. Run the following command:
+3. Answer the questions.
+4. Allow copier to overwrite all files.
+5. Patch your files (changes were locally reverted for your convenience).
+   Be sure that the codebase is not lost but files maintained by skeleton are updated.
+6. Run the following command:
 
-       poe sync
+       poe bump
 
-8. Happy coding!
+7. Happy coding!
 
 
-## Update your project
+## Bump the version of skeleton in your project
 
-    poe sync
+    poe bump
 
 Or, for more verbosity:
 
-    poe sync HEAD
+    poe bump HEAD
 
 You might use a [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog) different than HEAD, up to you.
 

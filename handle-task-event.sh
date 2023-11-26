@@ -1,4 +1,4 @@
-#%- if not sync_script -%#
+#%- if not bump_script -%#
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # This script is run on every copier task event.
@@ -188,15 +188,15 @@ handle_task_event() {
         echo "UPDATE ALGORITHM [3/3] COMPLETE. ✅"
     fi
 }
-#% endif -%#
-#%- if sync_script %#
+#%- endif %#
+#%- if bump_script %#
 # Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 #%- endif %#
 
 toggle_workflows() {
     # Toggle workflows depending on the project's settings
     echo "Toggling workflows..."
-    #% if visibility == "public" -%#
+    #%- if visibility == "public" %#
     supply_smokeshow_key
     #%- endif %#
 }
@@ -231,6 +231,6 @@ supply_smokeshow_key() {
     fi
 }
 
-#% if sync_script -%#
+#%- if bump_script -%#
 # End of copied code
 #%- endif -%#

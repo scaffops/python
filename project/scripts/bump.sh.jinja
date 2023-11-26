@@ -5,15 +5,15 @@
 # This script was adopted from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/project/scripts/sync.sh.jinja
 #
 # Usage:
-# $ poe sync
+# $ poe bump
 
 # shellcheck disable=SC2005
 
-#% with sync_script=True %#
+#%- with bump_script=True %#
 #%- filter indent(width=0) -%#
 #%- include "handle-task-event.sh" -%#
-#%- endfilter -%#
-#% endwith %#
+#%- endfilter %#
+#%- endwith %#
 
 determine_new_ref() {
     # Determine the new skeleton revision set by the child process
