@@ -137,7 +137,7 @@ def release(version: str, /) -> None:
     _LOGGER.info("Creating %s tag...", new_version)
 
     try:
-        shell([*cmd("git tag -a"), new_version, "-m", f"Release {new_version}"])
+        shell([*cmd("git tag -sa"), new_version, "-m", f"Release {new_version}"])
     except subprocess.CalledProcessError:
         _abort(f"Failed to create {new_version} tag, probably already exists.")
     else:
