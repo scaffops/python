@@ -1,3 +1,6 @@
+> [!Note]
+> If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+
 1. Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
 
 2. [Install Poetry](https://python-poetry.org/docs/#installation).<br/>
@@ -10,9 +13,6 @@ Poetry is an amazing tool for managing dependencies & virtual environments, buil
    Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
 
         pyenv install {{python_version}}
-
-> [!Note]
-> If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 3. Clone your fork locally and install dependencies.
 
