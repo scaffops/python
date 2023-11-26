@@ -33,7 +33,7 @@ setup_task_event() {
         redis-cli set "$PROJECT_PATH_KEY" "$(pwd)" > /dev/null 2>&1
 
         # Does this repository exist remotely?
-        git ls-remote "https://github.com/{{github_username}}/{{repo_name}}" HEAD > /dev/null 2>&1
+        git ls-remote "{{repo_url}}" HEAD > /dev/null 2>&1
 
         if test $? = 0 && test "$LAST_REF"  # Missing $LAST_REF means we are not updating.
         then
@@ -92,7 +92,7 @@ after_copy() {
         git branch -M "$BRANCH"
         echo "Main branch: $BRANCH"
         gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
-        git remote add origin "https://github.com/{{github_username}}/{{repo_name}}.git"
+        git remote add origin "{{repo_url}}.git"
         CREATED=1
     else
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -152,7 +152,7 @@ handle_task_event() {
         echo "COPY ROUTINE COMPLETE. ✅"
         echo
         echo "Done! 🎉"
-        echo "Your repository is now set up at https://github.com/{{github_username}}/{{repo_name}}"
+        echo "Your repository is now set up at {{repo_url}}"
         echo "$ cd $PROJECT_PATH"
         echo
         echo "Happy coding!"
