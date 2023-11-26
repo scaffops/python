@@ -8,7 +8,7 @@ Poetry is an amazing tool for managing dependencies & virtual environments, buil
 
        pipx install poetry
 
-   <sub>If you encounter any problems, refer to [the official documentation (https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
+   <sub>If you encounter any problems, refer to [the official documentation](https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
 
    Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
 
