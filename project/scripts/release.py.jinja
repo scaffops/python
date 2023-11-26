@@ -58,6 +58,13 @@ def _decode_if_bytes(value: bytes | str, /) -> str:
     return value
 
 
+def _setup_logging() -> None:
+    _LOGGER.setLevel(logging.INFO)
+    _logger_handler = logging.StreamHandler()
+    _logger_handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+    _LOGGER.addHandler(_logger_handler)
+
+
 def release(version: str, /) -> None:
     """Release a semver version."""
     cmd, shell = str.split, functools.partial(subprocess.run, check=True)
@@ -174,11 +181,7 @@ def release(version: str, /) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     """Run the script."""
-    _LOGGER.setLevel(logging.INFO)
-    (_logger_handler := logging.StreamHandler()).setFormatter(
-        logging.Formatter("%(levelname)s: %(message)s"),
-    )
-    _LOGGER.addHandler(_logger_handler)
+    _setup_logging()
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
     parser.add_argument(

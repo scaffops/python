@@ -10,5 +10,6 @@
 # Usage:
 # $ poe lock
 
-poetry lock
-poetry export --with=dev -f requirements.txt -o requirements-dev.txt
+poetry lock --no-update
+echo "Auto-commit package lock"
+git add "poetry.lock" && git commit -m "Update package lock"
