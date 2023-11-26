@@ -98,7 +98,9 @@ after_copy() {
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     fi
     echo
+    #% if use_pre_commit %#
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    #% endif %#
     COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
     REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
     echo
