@@ -13,7 +13,11 @@
 {{project_description}}
 #% endif %#
 
-# Installation#%- if not publish_on_pypi -%# for developers#%- endif %#
+#%- if publish_on_pypi %#
+# Installation
+#% else %#
+# Installation for contributors
+#%- endif %#
 If you want to…
 
 #% if publish_on_pypi %#
@@ -21,23 +25,30 @@ If you want to…
 #% if is_cli_tool -%#
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
 
-    pipx install {{pypi_project_name}}
-
+```shell
+pipx install {{pypi_project_name}}
+```
 
 You might also simply install it with pip:
 
-    pip install {{pypi_project_name}}
+```shell
+pip install {{pypi_project_name}}
+```
 
 #% else -%#
 You might simply install it with pip:
 
-    pip install {{pypi_project_name}}
+```shell
+pip install {{pypi_project_name}}
+```
 
 #%- endif %#
 
 If you use [Poetry](https://python-poetry.org/), then run:
 
-    poetry add {{pypi_project_name}}
+```shell
+poetry add {{pypi_project_name}}
+```
 
 ## …contribute to [{{repo_name}}]({{repo_url}}) 🚀
 #% endif %#
