@@ -11,10 +11,10 @@ Poetry is an amazing tool for managing dependencies & virtual environments, buil
 
         pyenv install {{python_version}}
 
-3. Clone your fork locally and install dependencies.
+> [!Note]
+> If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-   > [!Note]
-   > If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+3. Clone your fork locally and install dependencies.
 
         git clone https://github.com/your-username/{{repo_name}} path/to/{{repo_name}}
         cd path/to/{{repo_name}}
