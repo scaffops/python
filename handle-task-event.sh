@@ -233,6 +233,6 @@ supply_smokeshow_key() {
     fi
 }
 
-#%- if bump_script -%#
+#%- if bump_script %#
 # End of copied code
 #%- endif -%#
