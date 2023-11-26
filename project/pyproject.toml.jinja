@@ -38,6 +38,7 @@ smokeshow = "^0.4.0"
 #%- if test_suite %#
 test = "pytest -v"
 #%- endif %#
+lint = "ruff check ."
 lock = "scripts/lock.sh"
 bump = "scripts/bump.sh"
 check = [
