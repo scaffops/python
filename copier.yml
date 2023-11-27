@@ -14,6 +14,7 @@ _exclude:
 _jinja_extensions:
 - "copier_templates_extensions.TemplateExtensionLoader"
 - "extensions/context.py:ProjectURLContextHook"
+- "extensions/kebabify.py:KebabifyExtension"
 _subdirectory: "project"
 _tasks:
 - |
@@ -50,7 +51,7 @@ publish_on_pypi:
   help: "Publish on PyPI"
 pypi_project_name:
   type: "str"
-  default: "{{repo_name.lower().replace('_', '-')}}"
+  default: "{{repo_name|kebabify}}"
   help: "PyPI project name"
   when: "{{publish_on_pypi}}"
 pypi_project_description:

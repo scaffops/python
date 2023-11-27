@@ -10,12 +10,12 @@ homepage = "{{repo_url}}"
 
 [tool.poetry.urls]
 #%- if docs %#
-Documentation = "https://{{repo_name}}.readthedocs.io/"
+Documentation = "{{docs_url}}"
 #%- endif %#
 Issues = "{{repo_url}}/issues"
 Coverage = "{{coverage_url}}"
 #%- if pypi_project_name %#
-Distribution = "https://pypi.org/project/{{pypi_project_name}}"
+Distribution = "{{pypi_url}}"
 #%- endif %#
 
 [tool.poetry.dependencies]
