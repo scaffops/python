@@ -66,7 +66,7 @@ after_update_algorithm() {
     redis-cli del "$NEW_REF_KEY" > /dev/null 2>&1
     echo "Press ENTER to commit the changes or CTRL+C to abort."
     read -r || exit 1
-    #% if use_pre_commit %#
+    #% if use_precommit %#
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     #% else %#
     poetry run pre-commit uninstall
