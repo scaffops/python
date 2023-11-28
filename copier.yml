@@ -14,6 +14,7 @@ _exclude:
 _jinja_extensions:
 - "copier_templates_extensions.TemplateExtensionLoader"
 - "extensions/context.py:ProjectURLContextHook"
+- "extensions/context.py:PythonVersionsContextHook"
 - "extensions/kebabify.py:KebabifyExtension"
 _subdirectory: "project"
 _tasks:
