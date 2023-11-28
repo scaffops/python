@@ -91,7 +91,7 @@ after_copy() {
         git init .
         git branch -M "$BRANCH"
         echo "Main branch: $BRANCH"
-        gh repo create "{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
+        gh repo create "{{github_username}}/{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
         git remote add origin "{{repo_url}}.git"
         CREATED=1
     else
