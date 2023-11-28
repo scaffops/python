@@ -26,8 +26,7 @@ before_update_algorithm() {
     if test "$(echo "$(git diff --name-only)")"
     then
         echo "There are uncommitted changes in the project."
-        git stash push --message "Stash before syncing with {{_copier_answers['_src_path']}}"
-        DID_STASH=1
+        stash
     else
         echo "Working tree clean, no need to stash."
     fi
@@ -74,10 +73,10 @@ after_update_algorithm() {
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     git push --no-verify
     toggle_workflows
-    if test "$DID_STASH"
+    if test "$STASH_TOKEN"
     then
         echo "Unstashing changes..."
-        git stash pop && echo "Done!"
+        unstash && echo "Done!"
     fi
 }
 

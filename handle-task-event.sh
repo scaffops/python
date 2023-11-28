@@ -194,6 +194,21 @@ handle_task_event() {
 #%- if bump_script %#
 # Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 #%- endif %#
+make_token() {
+    export TOKEN
+    TOKEN="$(echo "$(date +%s%N)" | sha256sum | head -c "${1:-10}")"
+}
+
+stash() {
+    make_token 32
+    export STASH_TOKEN="$TOKEN"
+    git stash push -m "$STASH_TOKEN"
+}
+
+unstash() {
+    STASH_ID="$("$(git stash list)" | grep "${1:-STASH_TOKEN}" | grep -oP "^stash@{\K(\d)+")"
+    git stash pop "stash@{$STASH_ID}"
+}
 
 toggle_workflows() {
     # Toggle workflows depending on the project's settings
