@@ -12,7 +12,6 @@
 #% if project_description %#
 {{project_description}}
 #% endif %#
-
 #%- if publish_on_pypi %#
 # Installation
 If you want to…
@@ -54,8 +53,10 @@ poetry add {{pypi_project_name}}
 #% endif %#
 #%+ include "fragments/contributor_setup.md" +%#
 
+#%- if visibility == "public" %#
 For more information on how to contribute, check out [CONTRIBUTING.md]({{repo_url}}/blob/HEAD/CONTRIBUTING.md).<br/>
 Always happy to accept contributions! ❤️
+#% endif %#
 
 # Legal info
 © Copyright by {{author_full_name}} ([@{{author_username}}](https://github.com/{{author_username}})).#% if license_name != "None" %#<br />This software is licensed under the [{{license_name}} License]({{repo_url}}/blob/HEAD/LICENSE).
