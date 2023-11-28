@@ -3,7 +3,7 @@ from jinja2.ext import Extension
 
 
 def kebabify(value: str) -> str:
-    return value.lower().replace('_', '-')
+    return value.lower().replace("_", "-")
 
 
 class KebabifyExtension(Extension):
