@@ -18,11 +18,14 @@ from pathlib import Path
 
 LICENSE_NAME = "{{license_name}}"
 PREVIOUS_LICENSE_NAME = getenv("LAST_LICENSE_NAME") or "Custom"
+VISIBILITY = "{{visibility}}"
 DOC_SYMLINKS = {
     "docs/index.md": "../README.md",
     "docs/changelog.md": "../CHANGELOG.md",
-    "docs/contributing.md": "../CONTRIBUTING.md",
 }
+
+if VISIBILITY == "public":
+    DOC_SYMLINKS["docs/contributing.md"] = "../CONTRIBUTING.md"
 
 
 def generate_license_file(license_name: str | None = None) -> None:
