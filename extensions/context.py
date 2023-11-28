@@ -1,9 +1,13 @@
 from __future__ import annotations
 from string import Template
+from sys import path
+from pathlib import Path
 
 from copier_templates_extensions import ContextHook
 
-from extensions.kebabify import kebabify
+path.insert(0, Path(__file__).parent.parent.resolve().as_posix())
+
+from extensions.kebabify import kebabify  # noqa: E402
 
 
 COVERAGE_URL: Template = Template(
