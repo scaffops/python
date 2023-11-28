@@ -77,7 +77,7 @@ def generate_license_file(license_name: str | None = None) -> None:
             f"{datetime.now().year}–present",
         ).replace(
             "[fullname]",
-            "{{author_full_name}} ({{github_username}})",
+            "{{org_full_name}} ({{github_username}})",
         )
         Path("LICENSE").write_text(generated_license_text)
 
