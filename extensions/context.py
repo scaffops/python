@@ -5,7 +5,7 @@ from pathlib import Path
 
 from copier_templates_extensions import ContextHook
 
-path.insert(0, Path(__file__).parent.parent.resolve().as_posix())
+path.insert(0, str(Path(__file__).parent.parent))
 
 from extensions.kebabify import kebabify  # noqa: E402
 
