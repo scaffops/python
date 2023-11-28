@@ -9,4 +9,4 @@ def kebabify(value: str) -> str:
 class KebabifyExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
-        environment.filters["kebabify"] = self.kebabify
+        environment.filters["kebabify"] = kebabify
