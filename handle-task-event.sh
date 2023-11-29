@@ -112,7 +112,7 @@ after_copy() {
     if test "$CREATED"
     then
         git push --no-verify -u origin "$BRANCH"
-        toggle_workflows
+        patch
     else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
@@ -133,6 +133,11 @@ before_update() {
 after_update() {
     setup_poetry_virtualenv
     run_copier_hook
+    #% if use_precommit %#
+    poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    #% else %#
+    poetry run pre-commit uninstall
+    #% endif %#
 }
 
 before_checkout_project() {
@@ -210,9 +215,8 @@ unstash() {
     git stash pop "stash@{$STASH_ID}"
 }
 
-toggle_workflows() {
-    # Toggle workflows depending on the project's settings
-    echo "Toggling workflows..."
+setup_gh() {
+    echo "Calling GitHub setup hooks..."
     #%- if visibility == "public" %#
     supply_smokeshow_key
     #%- endif %#
@@ -224,7 +228,7 @@ determine_project_path() {
     PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
-ensure_github_environment() {
+ensure_gh_environment() {
     # Ensure that the GitHub environment exists
     echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}' | gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)" > /dev/null 2>&1 || return 1
 }
@@ -232,7 +236,7 @@ ensure_github_environment() {
 supply_smokeshow_key() {
     # Supply smokeshow key to the repository
     echo "Checking if smokeshow secret needs to be created..."
-    ensure_github_environment "Smokeshow" || echo "Failed to create smokeshow environment." 1>&2 && return 1
+    ensure_gh_environment "Smokeshow" || echo "Failed to create smokeshow environment." 1>&2 && return 1
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then
         echo "Smokeshow secret already exists, aborting." && return 0
