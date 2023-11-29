@@ -47,9 +47,8 @@ class ProjectURLContextHook(ContextHook):
 
 
 def _generate_python_versions(python_version: str) -> Iterable[tuple[int, int]]:
-    python_version = tuple(map(int, python_version.split(".")))
+    python_version = (major, minor) = tuple(map(int, python_version.split(".")))
     yield python_version
-    (major, minor) = python_version
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
         yield (major, minor)
