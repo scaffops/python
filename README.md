@@ -8,7 +8,7 @@ The goal of this project is to provide a skeleton for my Python projects,
 simultaneously trying to take on the following [jaraco/skeleton](https://github.com/jaraco/skeleton) challenges:
 - Solve the [History is Forever](https://blog.jaraco.com/skeleton/#history-is-forever) problem.
   - [x] The true history is not obscured.
-  - [ ] Existing histories are broken until the handoff commit is pulled.
+  - [ ] Existing histories are not broken until the handoff commit is pulled.
   - [ ] Attribution is not lost.
 - Solve the [Continuous Integration Mismatch](https://blog.jaraco.com/skeleton/#continuous-integration-mismatch) problem.
   - [x] Downstream projects and the skeleton itself can have different CI configurations.
