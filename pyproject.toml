@@ -8,9 +8,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.8"
-copier = "^9.0.1"
 poethepoet = "^0.24.3"
-copier-templates-extensions = "^0.3.0"
+# Install those with pipx
+# copier = "^9.0.1"
+# copier-templates-extensions = "^0.3.0"
 
 [build-system]
 requires = ["poetry-core"]
