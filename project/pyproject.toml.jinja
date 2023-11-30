@@ -13,9 +13,11 @@ homepage = "{{repo_url}}"
 Documentation = "{{docs_url}}"
 #%- endif %#
 Issues = "{{repo_url}}/issues"
-Coverage = "{{coverage_url}}"
 #%- if pypi_project_name %#
 Distribution = "{{pypi_url}}"
+#%- endif %#
+#%- if visibility == "public" %#
+Coverage = "{{coverage_url}}"
 #%- endif %#
 
 [tool.poetry.dependencies]
@@ -24,7 +26,6 @@ python = "^3.8"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.7.0"
 ruff = "^0.1.2"
-copier-templates-extensions = "^0.3.0"
 #%- if test_suite %#
 pytest = "^7.4.3"
 coverage = "^7.3.2"
@@ -37,7 +38,7 @@ pre-commit = "^3.5.0"
 smokeshow = "^0.4.0"
 #%- endif %#
 
-#%- if docs %#
+#% if docs %#
 [tool.poetry.group.docs]
 optional = true
 
