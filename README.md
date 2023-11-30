@@ -31,7 +31,7 @@ Ensure the `workflows` scope is in your authorized scopes:
     sudo apt install redis
     python3 -m pip install --user pipx
     pipx install copier
-    python3 -m pip install copier-templates-extensions
+    pipx inject copier copier-templates-extensions
 
 ## Create a new project
 1. Make sure that you trust me.
