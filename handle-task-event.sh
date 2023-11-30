@@ -112,7 +112,7 @@ after_copy() {
     if test "$CREATED"
     then
         git push --no-verify -u origin "$BRANCH"
-        patch
+        setup_gh
     else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
