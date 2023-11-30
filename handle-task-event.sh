@@ -8,7 +8,7 @@
 # Usage:
 # $ copier copy --trust --vcs-ref HEAD gh:bswck/skeleton project
 # Later on, this script will be included in your project and run automatically within:
-# $ poe sync
+# $ poe bump
 
 # shellcheck shell=sh
 # shellcheck disable=SC1054,SC1073,SC2005,SC1083
@@ -116,9 +116,9 @@ after_copy() {
     else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
-        echo "Patch your files to and commit your changes to inform copier what needs to be kept."
+        echo "Patch your files and commit your changes to inform copier what needs to be kept."
         echo "Then run:"
-        echo "$ poe sync"
+        echo "$ poe bump"
     fi
 }
 
