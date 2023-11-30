@@ -211,7 +211,7 @@ stash() {
 }
 
 unstash() {
-    STASH_ID="$("$(git stash list)" | grep "${1:-STASH_TOKEN}" | grep -oP "^stash@{\K(\d)+")"
+    STASH_ID="$(echo "$("$(git stash list)" | grep "${1:-STASH_TOKEN}" | grep -oP "^stash@{\K(\d)+")")"
     git stash pop "stash@{$STASH_ID}"
 }
 
