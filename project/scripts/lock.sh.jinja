@@ -3,9 +3,7 @@
 #
 # A manual alias for long poetry commands ✨
 #
-# Run this before pushing to ensure that package locks are up-to-date.
-# We update requirements-dev.txt in order to make sure that the CI environment
-# can install the dev dependencies without Poetry.
+# Run this before pushing to ensure that the package lock is up-to-date.
 #
 # Usage:
 # $ poe lock
