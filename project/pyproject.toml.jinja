@@ -13,12 +13,12 @@ homepage = "{{repo_url}}"
 Documentation = "{{docs_url}}"
 #%- endif %#
 Issues = "{{repo_url}}/issues"
-#%- if pypi_project_name %#
+#%- if publish_on_pypi %#
 Distribution = "{{pypi_url}}"
 #%- endif %#
 #%- if visibility == "public" %#
 Coverage = "{{coverage_url}}"
-#%- endif %#
+#% endif %#
 
 [tool.poetry.dependencies]
 python = "^3.8"
