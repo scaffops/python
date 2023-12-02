@@ -22,10 +22,10 @@ VISIBILITY = "{{visibility}}"
 DOC_SYMLINKS = {
     "docs/index.md": "../README.md",
     "docs/changelog.md": "../CHANGELOG.md",
+    #%- if visibility == "public" %#
+    "docs/contributing.md": "../CONTRIBUTING.md",
+    #%- endif %#
 }
-
-if VISIBILITY == "public":
-    DOC_SYMLINKS["docs/contributing.md"] = "../CONTRIBUTING.md"
 
 
 def generate_license_file(license_name: str | None = None) -> None:
