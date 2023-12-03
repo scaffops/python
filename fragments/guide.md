@@ -20,6 +20,11 @@
 
     <sub>If you encounter any problems, refer to [the official documentation](https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
 
+    If you want to use pipx to install dev dependencies as well, install the [export plugin](https://github.com/python-poetry/poetry-plugin-export#readme):
+    ```shell
+    pipx inject poetry poetry-plugin-export
+    ```
+
     Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
 
     ```shell
@@ -53,7 +58,6 @@
     ```
 
     ```shell
-    poetry install
     poetry shell
     pre-commit install --hook-type pre-commit --hook-type pre-push
     ```
