@@ -40,9 +40,8 @@ class ProjectURLContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["repo_url"] = REPO_URL.substitute(context)
         context["coverage_url"] = COVERAGE_URL.substitute(context)
-        context["docs_url"] = DOCS_URL.substitute(
-            project_name=kebabify(context["repo_name"])
-        )
+        context["docs_slug"] = kebabify(context["repo_name"])
+        context["docs_url"] = DOCS_URL.substitute(project_name=context["docs_slug"])
         context["pypi_url"] = PYPI_URL.substitute(context)
 
 
