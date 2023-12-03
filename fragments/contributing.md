@@ -35,6 +35,9 @@ Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and mak
 
 ## Pull Request guidelines 📝
 1. Initially mark the PR as a draft, so that the maintainers know that you are making final touches.
-2. Ensure that the [test coverage]({{coverage_url}}) is not decreased. If you add a new feature, please add tests for it. [Read more about coverage](https://coverage.readthedocs.io/en/latest/index.html).
-3. Ensure that all GitHub checks pass. If they are disabled in your PR, ping the maintainers to request enabling them.
-4. Don't forget to link the relevant issue(s) in the PR description and describe the changes you made.
+
+1. Ensure that the [test coverage]({{coverage_url}}) is not decreased. If you add a new feature, please add tests for it. [Read more about coverage](https://coverage.readthedocs.io/en/latest/index.html).
+
+1. Ensure that all GitHub checks pass. If they are disabled in your PR, ping the maintainers to request enabling them.
+
+1. Don't forget to link the relevant issue(s) in the PR description and describe the changes you made.

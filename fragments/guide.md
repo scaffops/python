@@ -12,6 +12,7 @@
 
 1.  [Install Poetry](https://python-poetry.org/docs/#installation).<br/>
     Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
+    You might use [pipx](https://github.com/pypa/pipx#readme) to install it globally (recommended):
 
     ```shell
     pipx install poetry
@@ -39,6 +40,19 @@
 #%- endif %#
     cd path/to/{{repo_name}}
     poetry env use $(cat .python-version)
+    ```
+
+    Now, if you use pipx and are greedy for disk space:
+    ```shell
+    poetry install --without=dev && pipx install $(poetry export --only=dev)
+    ```
+
+    Otherwise:
+    ```shell
+    poetry install
+    ```
+
+    ```shell
     poetry install
     poetry shell
     pre-commit install --hook-type pre-commit --hook-type pre-push

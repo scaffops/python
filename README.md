@@ -26,7 +26,7 @@ Ensure the `workflows` scope is in your authorized scopes:
 
     gh auth refresh -h github.com -s workflows
 
-## Install [Redis](https://github.com/redis/redis), [pipx](https://github.com/pypa/pipx) and [Copier](https://github.com/copier-org/copier)
+## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme) and [Copier](https://github.com/copier-org/copier#readme)
 
     sudo apt install redis
     python3 -m pip install --user pipx
