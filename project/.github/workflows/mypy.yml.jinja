@@ -21,7 +21,4 @@ jobs:
     - name: "Type-check with mypy"
       run: >
         poetry run mypy . --strict
-        || (
-          echo yes | poetry run mypy --install-types
-          && poetry run mypy . --strict
-        )
+        || (echo yes | poetry run mypy --install-types && poetry run mypy . --strict)
