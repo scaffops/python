@@ -1,7 +1,7 @@
 # Contributing to [{{repo_name}}]({{repo_url}}) 🎉
 Contributions are very welcome. 🚀
 
-There are many ways to contribute, ranging from **writing tutorials and improving the documentation**, to **submitting bug reports and feature requests or writing code** which can be **incorporated into {{repo_name}}**.
+There are many ways to contribute, ranging from **writing tutorials and improving the documentation**, to **submitting bug reports and feature requests** or **writing code** which can be incorporated into {{repo_name}}.
 
 ## Report bugs and request features 🐛
 Report these in the [issue tracker]({{repo_url}}/issues).
