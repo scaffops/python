@@ -15,6 +15,7 @@ _jinja_extensions:
 - "copier_templates_extensions.TemplateExtensionLoader"
 - "extensions/context.py:ProjectURLContextHook"
 - "extensions/context.py:PythonVersionsContextHook"
+- "extensions/context.py:VisibilityContextHook"
 - "extensions/kebabify.py:KebabifyExtension"
 _subdirectory: "project"
 _tasks:

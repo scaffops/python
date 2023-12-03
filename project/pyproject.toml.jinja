@@ -16,7 +16,7 @@ Issues = "{{repo_url}}/issues"
 #%- if publish_on_pypi %#
 Distribution = "{{pypi_url}}"
 #%- endif %#
-#%- if visibility == "public" %#
+#%- if public %#
 Coverage = "{{coverage_url}}"
 #% endif %#
 
@@ -34,7 +34,7 @@ poethepoet = "^0.24.3"
 #%- if use_precommit %#
 pre-commit = "^3.5.0"
 #%- endif %#
-#%- if visibility == "public" and test_suite %#
+#%- if public and test_suite %#
 smokeshow = "^0.4.0"
 #%- endif %#
 

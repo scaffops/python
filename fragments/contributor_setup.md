@@ -1,7 +1,12 @@
+#% if doc_mode %#
+!!! Note
+    If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+#% else %#
 > [!Note]
 > If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+#% endif %#
 
-#%- if visibility == "public" %#
+#% if public %#
 1.  Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
 #%- endif %#
 
@@ -20,7 +25,7 @@
     pyenv install {{python_version}}
     ```
 
-#%- if visibility == "public" %#
+#%- if public %#
 1.  Clone your fork locally and install dependencies.
 
     ```shell

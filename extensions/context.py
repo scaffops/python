@@ -62,3 +62,11 @@ class PythonVersionsContextHook(ContextHook):
             f"{major}.{minor}".join('""')
             for major, minor in _generate_python_versions(context["python_version"])
         ).join("[]")
+
+
+class VisibilityContextHook(ContextHook):
+    update = False
+
+    def hook(self, context: dict[str, object]) -> None:
+        context["public"] = context["visibility"] == "public"
+        context["private"] = not context["public"]

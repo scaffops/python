@@ -217,7 +217,7 @@ unstash() {
 
 setup_gh() {
     echo "Calling GitHub setup hooks..."
-    #%- if visibility == "public" %#
+    #%- if public %#
     supply_smokeshow_key
     #%- endif %#
 }
