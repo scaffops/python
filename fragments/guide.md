@@ -9,6 +9,7 @@
 #% if public %#
 1.  Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
 #%- endif %#
+
 1.  [Install Poetry](https://python-poetry.org/docs/#installation).<br/>
     Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
 
@@ -31,6 +32,7 @@
     git clone https://github.com/your-username/{{repo_name}} path/to/{{repo_name}}
 #%- else %#
 1.  Make sure you have the contributor access.
+
 1.  Clone this repository locally and install dependencies.
 
     ```shell
@@ -44,6 +46,7 @@
     ```
 
 #%- if development_guide %#
+
 1.  Create a branch for local development:
 
     ```shell
