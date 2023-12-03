@@ -20,6 +20,8 @@ jobs:
         poetry install
     - name: "Type-check with mypy"
       run: >
-        alias run="poetry run"
-        && run mypy . --strict
-        || (echo yes | run mypy --install-types && run mypy . --strict)
+        poetry run mypy . --strict
+        || (
+          echo yes | poetry run mypy --install-types
+          && poetry run mypy . --strict
+        )
