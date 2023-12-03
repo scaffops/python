@@ -40,7 +40,7 @@ run_update_algorithm() {
 }
 
 after_update_algorithm() {
-    # Run post-update hooks, auto-commit and push changes
+    # Run post-update hooks, auto-commit changes
     cd "$PROJECT_PATH" || exit 1
 
     echo "Previous skeleton revision: $LAST_REF"
