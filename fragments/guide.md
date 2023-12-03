@@ -24,8 +24,7 @@
     ```shell
     pyenv install {{python_version}}
     ```
-
-#%- if public %#
+#% if public %#
 1.  Clone your fork locally and install dependencies.
 
     ```shell
@@ -44,8 +43,7 @@
     poetry shell
     pre-commit install --hook-type pre-commit --hook-type pre-push
     ```
-
-#%- if development_guide %#
+#% if development_guide %#
 
 1.  Create a branch for local development:
 
