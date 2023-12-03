@@ -51,9 +51,7 @@ poetry add {{pypi_project_name}}
 
 ## …contribute to [{{repo_name}}]({{repo_url}}) 🚀
 #% endif %#
-#% with doc_mode=False %#
 #% include "fragments/guide.md" %#
-#% endwith %#
 
 #%- if public %#
 For more information on how to contribute, check out [CONTRIBUTING.md]({{repo_url}}/blob/HEAD/CONTRIBUTING.md).<br/>
