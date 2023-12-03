@@ -19,7 +19,7 @@ jobs:
         pipx install poetry
         poetry install
     - name: "Type-check with mypy"
-      run: |
-        alias run="poetry run" \
-        && run mypy . --strict \
+      run: >
+        alias run="poetry run"
+        && run mypy . --strict
         || (echo yes | run mypy --install-types && run mypy . --strict)
