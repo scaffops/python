@@ -1,14 +1,8 @@
 from __future__ import annotations
 from string import Template
-from sys import path
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 from copier_templates_extensions import ContextHook
-
-path.insert(0, str(Path(__file__).parent.parent))
-
-from extensions.kebabify import kebabify  # noqa: E402
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
