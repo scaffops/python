@@ -29,7 +29,7 @@ If you are proposing a feature:
 Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and make a change.
 
 #% with development_guide=True %#
-#% include "fragments/contributor_setup.md" %#
+#% include "fragments/guide.md" %#
 #% endwith %#
 
 ## Pull Request guidelines 📝

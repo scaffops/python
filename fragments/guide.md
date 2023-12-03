@@ -9,7 +9,6 @@
 #% if public %#
 1.  Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
 #%- endif %#
-
 1.  [Install Poetry](https://python-poetry.org/docs/#installation).<br/>
     Poetry is an amazing tool for managing dependencies & virtual environments, building packages and publishing them.
 
