@@ -19,6 +19,7 @@ docs. If you're interested in helping out, check the [docs/]({{repo_url}}/tree/H
 The best way to send feedback is to file an issue in the [issue tracker]({{repo_url}}).
 
 If you are proposing a feature:
+
 -   Explain in detail how it would work.
 -   Keep the scope as narrow as possible, to make it easier to implement.
 -   Remember that this is a volunteer-driven project, and that contributions are
