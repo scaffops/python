@@ -1,6 +1,10 @@
-# {{repo_name}} #% if publish_on_pypi %#[![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}})#% endif %#
-[![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)#% if public %#
-[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})#% endif %#
+# {{repo_name}}#% if publish_on_pypi %# [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}})#% endif %#
+#%- if test_suite %#
+[![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
+#%- endif %#
+#%- if public %#
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})
+#%- endif %#
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg?label=Code%20style)](https://github.com/psf/black)
 #%- if public %#
