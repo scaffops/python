@@ -65,6 +65,11 @@ docs:
   type: "bool"
   default: true
   help: "Include documentation suite?"
+docs_slug:
+  type: "str"
+  default: "{{repo_name|kebabify}}"
+  help: "Documentation project slug (XXXXX.readthedocs.io)"
+  when: "{{docs}}"
 test_suite:
   type: "bool"
   default: true

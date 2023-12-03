@@ -26,7 +26,7 @@ REPO_URL: Template = Template(
 )
 
 DOCS_URL: Template = Template(
-    "https://${project_name}.readthedocs.io/en/latest/",
+    "https://${docs_slug}.readthedocs.io/en/latest/",
 )
 
 PYPI_URL: Template = Template(
@@ -40,8 +40,7 @@ class ProjectURLContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["repo_url"] = REPO_URL.substitute(context)
         context["coverage_url"] = COVERAGE_URL.substitute(context)
-        context["docs_slug"] = kebabify(context["repo_name"])
-        context["docs_url"] = DOCS_URL.substitute(project_name=context["docs_slug"])
+        context["docs_url"] = DOCS_URL.substitute(context)
         context["pypi_url"] = PYPI_URL.substitute(context)
 
 
