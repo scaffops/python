@@ -62,31 +62,31 @@ check = [
     { ref="lint" },
     { ref="lock" },
 ]
-added = {
-    shell="towncrier create $TICKET.added.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
-changed = {
-    shell="towncrier create $TICKET.changed.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
-fixed = {
-    shell="towncrier create $TICKET.fixed.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
-deprecated = {
-    shell="towncrier create $TICKET.deprecated.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
-removed = {
-    shell="towncrier create $TICKET.removed.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
-security = {
-    shell="towncrier create $TICKET.security.md --edit"
-    args=[{name = "TICKET", positional = true}]
-}
 release.script = "scripts.release:main"
+
+[tool.poe.tasks.added]
+shell = "towncrier create $TICKET.added.md --edit"
+args = [{name = "TICKET", positional = true}]
+
+[tool.poe.tasks.changed]
+shell = "towncrier create $TICKET.changed.md --edit"
+args = [{name = "TICKET", positional = true}]
+
+[tool.poe.tasks.fixed]
+shell = "towncrier create $TICKET.fixed.md --edit"
+args = [{name = "TICKET", positional = true}]
+
+[tool.poe.tasks.deprecated]
+shell = "towncrier create $TICKET.deprecated.md --edit"
+args = [{name = "TICKET", positional = true}]
+
+[tool.poe.tasks.removed]
+shell = "towncrier create $TICKET.removed.md --edit"
+args = [{name = "TICKET", positional = true}]
+
+[tool.poe.tasks.security]
+shell = "towncrier create $TICKET.security.md --edit"
+args = [{name = "TICKET", positional = true}]
 
 [tool.ruff]
 exclude = ["tests/", "scripts/"]
