@@ -120,11 +120,11 @@ def release(version: str, /) -> None:
 
     default_release_notes = _decode_if_bytes(
         shell(
-            cmd("towncrier build --draft --yes --version={new_version}"),
+            cmd(f"towncrier build --draft --yes --version={new_version}"),
             capture_output=True,
         ).stdout
     )
-    shell(cmd("towncrier build --yes --version={new_version}"))
+    shell(cmd(f"towncrier build --yes --version={new_version}"))
 
     if changed_for_release:
         shell(cmd("git diff"))
