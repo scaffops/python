@@ -62,12 +62,12 @@ check = [
     { ref="lint" },
     { ref="lock" },
 ]
-added = "create() { towncrier create $1.added.md --edit } && create"
-changed = "create() { towncrier create $1.changed.md --edit } && create"
-fixed = "create() { towncrier create $1.fixed.md --edit } && create"
-deprecated = "create() { towncrier create $1.deprecated.md --edit } && create"
-removed = "create() { towncrier create $1.removed.md --edit } && create"
-security = "create() { towncrier create $1.security.md --edit } && create"
+added = { shell="create() { towncrier create $1.added.md --edit } && create" }
+changed = { shell="create() { towncrier create $1.changed.md --edit } && create" }
+fixed = { shell="create() { towncrier create $1.fixed.md --edit } && create" }
+deprecated = { shell="create() { towncrier create $1.deprecated.md --edit } && create" }
+removed = { shell="create() { towncrier create $1.removed.md --edit } && create" }
+security = { shell="create() { towncrier create $1.security.md --edit } && create" }
 release.script = "scripts.release:main"
 
 [tool.ruff]
