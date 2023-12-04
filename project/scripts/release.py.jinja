@@ -22,6 +22,8 @@ import os
 import subprocess
 import sys
 import tempfile
+from pathlib import Path
+
 
 _LOGGER = logging.getLogger("release")
 _EDITOR = os.environ.get("EDITOR", "vim")
@@ -166,13 +168,13 @@ def release(version: str, /) -> None:
         if do_write_notes:
             notes_complete = False
             release_notes = default_release_notes
+            temp_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
+            temp_file.write(release_notes)
+            temp_file.close()
 
             while not notes_complete:
-                temp_file = tempfile.NamedTemporaryFile(delete=False)
-                temp_file.write(release_notes)
-
-                shell(cmd(f"{_EDITOR} {temp_file}"))
-                release_notes = temp_file.read_text()
+                shell(cmd(f"{_EDITOR} {temp_file.name}"))
+                release_notes = Path(temp_file.name).read_text()
                 print("Release notes:")
                 print(release_notes)
                 print()
@@ -180,7 +182,6 @@ def release(version: str, /) -> None:
                     "Do you confirm the release notes?",
                     default=True,
                 )
-                temp_file.close()
 
             shell(
                 cmd(
