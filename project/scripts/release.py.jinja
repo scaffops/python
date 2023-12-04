@@ -19,9 +19,9 @@ import argparse
 import functools
 import logging
 import os
-import pathlib
 import subprocess
 import sys
+import tempfile
 
 _LOGGER = logging.getLogger("release")
 _EDITOR = os.environ.get("EDITOR", "vim")
@@ -116,6 +116,14 @@ def release(version: str, /) -> None:
         ).stdout
     )
 
+    default_release_notes = _decode_if_bytes(
+        shell(
+            cmd("towncrier build --draft --yes --version={new_version}"),
+            capture_output=True,
+        ).stdout
+    )
+    shell(cmd("towncrier build --yes --version={new_version}"))
+
     if changed_for_release:
         shell(cmd("git diff"))
         do_commit = _ask_for_confirmation(
@@ -157,10 +165,14 @@ def release(version: str, /) -> None:
 
         if do_write_notes:
             notes_complete = False
+            release_notes = default_release_notes
+
             while not notes_complete:
-                tmp_file = pathlib.Path(f".release-notes-{new_version}.txt")
-                shell(cmd(f"{_EDITOR} {tmp_file}"))
-                release_notes = tmp_file.read_text()
+                temp_file = tempfile.NamedTemporaryFile(delete=False)
+                temp_file.write(release_notes)
+
+                shell(cmd(f"{_EDITOR} {temp_file}"))
+                release_notes = temp_file.read_text()
                 print("Release notes:")
                 print(release_notes)
                 print()
@@ -168,13 +180,15 @@ def release(version: str, /) -> None:
                     "Do you confirm the release notes?",
                     default=True,
                 )
+                temp_file.close()
 
             shell(
                 cmd(
                     f"gh release create {new_version} --generate-notes "
-                    f"--notes-file {tmp_file}",
+                    f"--notes-file {temp_file.name}",
                 )
             )
+            os.unlink(temp_file.name)
         else:
             shell(cmd(f"gh release create {new_version} --generate-notes"))
 
