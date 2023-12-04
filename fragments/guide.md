@@ -22,7 +22,7 @@
 
     If you want to use pipx to install dev dependencies as well, install the [export plugin](https://github.com/python-poetry/poetry-plugin-export#readme):
     ```shell
-    pipx inject poetry poetry-plugin-export poetry-pyproject
+    pipx inject poetry poetry-plugin-export poetry-pipx
     ```
 
     Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
@@ -50,7 +50,7 @@
     If you use pipx, run the following command to install dev dependencies globally:
     ```shell
     poetry install --without=dev
-    poetry pyproject group dev | xargs -n1 pipx install
+    poetry pipx install dev
     ```
     Otherwise, run:
 
