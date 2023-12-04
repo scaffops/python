@@ -31,8 +31,7 @@ Ensure the `workflows` scope is in your authorized scopes:
 
 ## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme) and [Copier](https://github.com/copier-org/copier#readme)
 
-    sudo apt install redis
-    python3 -m pip install --user pipx
+    sudo apt install pipx redis
     pipx install copier
     pipx inject copier copier-templates-extensions
 
