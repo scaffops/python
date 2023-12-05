@@ -20,7 +20,7 @@
 
     <sub>If you encounter any problems, refer to [the official documentation](https://python-poetry.org/docs/#installation) for the most up-to-date installation instructions.</sub>
 
-    If you want to use pipx to install dev dependencies as well, install the [`poetry pipx`](https://github.com/bswck/poetry-apps#readme) plugin:
+    If you want to use pipx to install dev dependencies as well, install the [poetry apps](https://github.com/bswck/poetry-apps#readme) plugin:
     ```shell
     pipx inject poetry poetry-apps
     ```
