@@ -236,7 +236,7 @@ ensure_gh_environment() {
 supply_smokeshow_key() {
     # Supply smokeshow key to the repository
     echo "Checking if smokeshow secret needs to be created..."
-    ensure_gh_environment "Smokeshow" || echo "Failed to create smokeshow environment." 1>&2 && return 1
+    ensure_gh_environment "Smokeshow"
     if test "$(gh secret list -e Smokeshow | grep -o SMOKESHOW_AUTH_KEY)"
     then
         echo "Smokeshow secret already exists, aborting." && return 0
