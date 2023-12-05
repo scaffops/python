@@ -45,18 +45,9 @@
 #%- endif %#
     cd path/to/{{repo_name}}
     poetry env use $(cat .python-version)
-    ```
-
-    If you use pipx, run the following command to install dev dependencies globally:
-    ```shell
-    poetry install --without=dev
-    poetry pipx install dev
-    ```
-    Otherwise, run:
-
-    ```shell
     poetry install
     ```
+
     Next up, simply activate the virtual environment and install pre-commit hooks:
 
     ```shell
