@@ -111,13 +111,6 @@ def release(version: str, /) -> None:
         ).strip()
     )
 
-    changed_for_release = _decode_if_bytes(
-        shell(
-            cmd("git diff --name-only HEAD"),
-            capture_output=True,
-        ).stdout
-    )
-
     default_release_notes = _decode_if_bytes(
         shell(
             cmd(f"towncrier build --draft --yes --version={new_version}"),
@@ -125,6 +118,13 @@ def release(version: str, /) -> None:
         ).stdout
     )
     shell(cmd(f"towncrier build --yes --version={new_version}"))
+
+    changed_for_release = _decode_if_bytes(
+        shell(
+            cmd("git diff --name-only HEAD"),
+            capture_output=True,
+        ).stdout
+    )
 
     if changed_for_release:
         shell(cmd("git diff"))
