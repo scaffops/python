@@ -53,7 +53,8 @@ Your repository is on GitHub and has:
 - aesthetic badges in README.md,
 - an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
-- a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all the necessary dev dependencies installed, including [poethepoet](https://github.com/nat-n/poethepoet/#readme), [pre-commit](https://pre-commit.com/),
+- pre-configured [towncrier](https://github.com/twisted/towncrier#readme) tasks for changelog generation (`$ poe [added|changed|deprecated|removed|fixed|security]`),
+- a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all the necessary dev dependencies installed, including [poethepoet](https://github.com/nat-n/poethepoet#readme), [pre-commit](https://pre-commit.com/),
 [mypy](https://github.com/python/mypy#readme), [Ruff](https://github.com/astral-sh/ruff#readme), etc.
 - a pre-configured CI suite for GitHub Actions (including coverage report) and pre-commit.
 
