@@ -5,15 +5,12 @@ on: ["push"]
 jobs:
   typecheck:
     runs-on: "ubuntu-latest"
-    strategy:
-      matrix:
-        python-version: {{python_version}}
     steps:
     - uses: "actions/checkout@v4"
-    - name: "Set up Python {{"${{matrix.python-version}}"}}"
-      uses: "actions/setup-python@v3"
+    - name: "Set up Python {{python_version}}"
+      uses: "actions/setup-python@v4"
       with:
-        python-version: "{{"${{matrix.python-version}}"}}"
+        python-version: "{{python_version}}"
     - name: "Install the project"
       run: |
         pipx install poetry
