@@ -6,7 +6,7 @@ from typing import SimpleNamespace
 from copier_templates_extensions import ContextHook
 
 
-class CommandsHook(ContextHook):
+class CommandsContextHook(ContextHook):
     update = False
 
     def hook(self, context: dict[str, object]) -> None:
