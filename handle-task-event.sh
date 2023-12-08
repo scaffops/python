@@ -216,7 +216,7 @@ determine_project_path() {
 
 ensure_gh_environment() {
     # Ensure that the GitHub environment exists
-    echo "{{ensure_gh_environment}}" > /dev/null 2>&1 || return 1
+    echo "{{gh.ensure_env}}" > /dev/null 2>&1 || return 1
 }
 
 supply_smokeshow_key() {
