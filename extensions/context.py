@@ -1,7 +1,7 @@
 from __future__ import annotations
 from string import Template
 from typing import TYPE_CHECKING
-from urllib.urlparse import urlencode
+from urllib.parse import urlencode
 
 from jinja2.environment import Environment
 from jinja2.ext import Extension
