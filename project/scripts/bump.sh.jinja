@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
-# Sync with bswck/skeleton.
-# This script was adopted from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/project/scripts/bump.sh.jinja
+# Sync with {{skeleton}}.
+# {{"project/scripts/bump.sh.jinja"|skeleton_notice(sr=sr)|line_prefix("# ")}}
 #
 # Usage:
 # $ poe bump
@@ -23,7 +23,7 @@ determine_new_ref() {
 
 before_update_algorithm() {
     # Stash changes if any
-    if test "$(echo "$(git diff --name-only)")"
+    if test "{{git.dirty_echo}}"
     then
         echo "There are uncommitted changes in the project."
         stash
@@ -46,19 +46,19 @@ after_update_algorithm() {
     echo "Previous skeleton revision: $LAST_REF"
     echo "Current skeleton revision: ${NEW_REF:-"N/A"}"
 
-    local REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/${NEW_REF:-"HEAD"}"
+    local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
 
     git add .
     if test "$LAST_REF" = "$NEW_REF"
     then
         echo "The version of the skeleton has not changed."
-        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at bswck/skeleton@$NEW_REF"
+        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at {{skeleton}}@$NEW_REF"
     else
         if test "$NEW_REF"
         then
-            local COMMIT_MSG="Upgrade to bswck/skeleton@$NEW_REF"
+            local COMMIT_MSG="Upgrade to {{skeleton}}@$NEW_REF"
         else
-            local COMMIT_MSG="Upgrade to bswck/skeleton of unknown revision"
+            local COMMIT_MSG="Upgrade to {{skeleton}} of unknown revision"
         fi
     fi
     redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
@@ -106,8 +106,8 @@ main() {
     echo
     echo "Done! 🎉"
     echo
-    echo "Your repository is now up to date with this bswck/skeleton revision:"
-    echo "https://github.com/bswck/skeleton/tree/${NEW_REF:-"HEAD"}"
+    echo "Your repository is now up to date with this {{skeleton}} revision:"
+    echo "{{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
 }
 
 main "$@"

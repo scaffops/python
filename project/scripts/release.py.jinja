@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
-# Note:
-# If you want to change this file, you might want to do it at the infrastructure
-# level. See https://github.com/bswck/skeleton.
+# {{"project/scripts/release.sh.jinja"|skeleton_notice(sr=sr)|line_prefix("# ")}}
 """
 Automate the release process by updating local files, creating and pushing a new tag.
 
@@ -73,7 +71,7 @@ def release(version: str, /) -> None:
 
     changed_files = _decode_if_bytes(
         shell(
-            cmd("git diff --name-only HEAD"),
+            cmd("{{git.dirty}}"),
             capture_output=True,
         ).stdout
     )
@@ -121,7 +119,7 @@ def release(version: str, /) -> None:
 
     changed_for_release = _decode_if_bytes(
         shell(
-            cmd("git diff --name-only HEAD"),
+            cmd("{{git.dirty}}"),
             capture_output=True,
         ).stdout
     )
@@ -199,13 +197,8 @@ def main(argv: list[str] | None = None) -> None:
     _setup_logging()
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
-    parser.add_argument(
-        "version",
-        type=str,
-        nargs=1,
-    )
-    args: argparse.Namespace = parser.parse_args(argv)
-    release(args.version.pop())
+    parser.add_argument("version", type=str, required=True)
+    release(**vars(parser.parse_args(argv)))
 
 
 if __name__ == "__main__":

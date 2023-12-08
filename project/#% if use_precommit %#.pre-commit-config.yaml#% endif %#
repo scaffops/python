@@ -1,3 +1,5 @@
+# {{"project/#% if use_precommit %#.pre-commit-config.yaml#% endif %#"|skeleton_notice(sr=sr)|line_prefix("# ")}}
+
 repos:
 - repo: "https://github.com/pre-commit/pre-commit-hooks"
   rev: "v4.5.0"

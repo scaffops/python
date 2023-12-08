@@ -6,7 +6,7 @@
 # https://github.com/copier-org/copier/issues/240
 #
 # Usage:
-# $ copier copy --trust --vcs-ref HEAD gh:bswck/skeleton project
+# $ copier copy --trust --vcs-ref HEAD gh:{{skeleton}} project
 # Later on, this script will be included in your project and run automatically within:
 # $ poe bump
 
@@ -91,7 +91,7 @@ after_copy() {
         git init .
         git branch -M "$BRANCH"
         echo "Main branch: $BRANCH"
-        gh repo create "{{github_username}}/{{repo_name}}" --{{visibility}} --source=./ --remote=upstream --description="{{project_description}}"
+        gh repo create {{gh.repo_args}}
         git remote add origin "{{repo_url}}.git"
         CREATED=1
     else
@@ -101,8 +101,8 @@ after_copy() {
     #%- if use_precommit %#
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     #%- endif %#
-    COMMIT_MSG="Copy bswck/skeleton@{{_copier_answers['_commit']}}"
-    REVISION_PARAGRAPH="Skeleton revision: https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}"
+    COMMIT_MSG="Copy {{sr}}"
+    REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
     echo
     git add .
     echo "Press ENTER to commit the changes or CTRL+C to abort."
@@ -197,7 +197,7 @@ handle_task_event() {
 }
 #%- endif %#
 #%- if bump_script %#
-# Automatically copied from https://github.com/bswck/skeleton/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
+# Automatically copied from {{skeleton_url}}/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
 #%- endif %#
 make_token() {
     export TOKEN
@@ -230,7 +230,7 @@ determine_project_path() {
 
 ensure_gh_environment() {
     # Ensure that the GitHub environment exists
-    echo "$(jq -n '{"deployment_branch_policy": {"protected_branches": false, "custom_branch_policies": true}}' | gh api -H "Accept: application/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/environments/$1" --input -)" > /dev/null 2>&1 || return 1
+    echo "{{ensure_gh_environment}}" > /dev/null 2>&1 || return 1
 }
 
 supply_smokeshow_key() {

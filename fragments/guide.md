@@ -1,3 +1,6 @@
+<!--
+{{"fragments/guide.md"|skeleton_notice(sr=sr, scope="section")}}
+-->
 #% if doc_mode %#
 !!! Note
     If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).

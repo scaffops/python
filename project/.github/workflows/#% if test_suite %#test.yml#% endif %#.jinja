@@ -1,3 +1,5 @@
+# {{"project/.github/workflows/#% if test_suite %#test.yml#% endif %#.jinja"|skeleton_notice(sr=sr)|line_prefix("# ")}}
+
 name: "Tests"
 
 on: ["push"]
@@ -8,7 +10,7 @@ jobs:
     environment: "Test"
     strategy:
       matrix:
-        python-version: {{python_versions}}
+        python-version: [{{python_versions}}]
     steps:
     - uses: "actions/checkout@v4"
     - name: "Set up Python {{"${{matrix.python-version}}"}}"

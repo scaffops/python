@@ -1,3 +1,6 @@
+<!--
+{{"fragments/contributing.md"|skeleton_notice(sr=sr)}}
+-->
 # Contributing to [{{repo_name}}]({{repo_url}}) 🎉
 Contributions are very welcome. 🚀
 
@@ -25,14 +28,6 @@ If you are proposing a feature:
 -   Remember that this is a volunteer-driven project, and that contributions are
     welcome! ✨
 
-## Get started! 🕹️
-
-Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and make a change.
-
-#% with development_guide=True %#
-#% include "fragments/guide.md" %#
-#% endwith %#
-
 ## Pull Request guidelines 📝
 1. Initially mark the PR as a draft, so that the maintainers know that you are making final touches.
 
@@ -41,3 +36,11 @@ Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and mak
 1. Ensure that all GitHub checks pass. If they are disabled in your PR, ping the maintainers to request enabling them.
 
 1. Don't forget to link the relevant issue(s) in the PR description and describe the changes you made.
+
+# Get started! 🕹️
+
+Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and make a change.
+
+#% with development_guide=True %#
+#% include "fragments/guide.md" %#
+#% endwith %#

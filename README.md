@@ -34,12 +34,13 @@ Ensure the `workflows` scope is in your authorized scopes:
     sudo apt install pipx redis
     pipx install copier
     pipx inject copier copier-templates-extensions
+    SKELETON=gh:bswck/skeleton
 
 ## Create a new project
 1. Make sure that you trust me.
 2. Run the following command:
 
-       copier copy --trust --vcs-ref HEAD gh:bswck/skeleton path/to/project
+       copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
 
 3. Answer the questions.
 4. Change directory to your project:
@@ -67,7 +68,7 @@ Almost the same as above.
 
 2. Run the following command:
 
-       copier copy --trust --vcs-ref HEAD gh:bswck/skeleton .
+       copier copy --trust --vcs-ref HEAD "$SKELETON" .
 
 3. Answer the questions.
 4. Allow copier to overwrite all files.

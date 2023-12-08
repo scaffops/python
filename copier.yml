@@ -2,21 +2,17 @@ _envops:
   block_end_string: "%#"
   block_start_string: "#%"
 _exclude:
-# TODO(bswck): feels redundant, do we need it?
 - "copier.yaml"
 - "copier.yml"
-- "~*"
-- "*.py[co]"
-- "__pycache__"
 - ".git"
-- ".DS_Store"
-- ".svn"
 _jinja_extensions:
 - "copier_templates_extensions.TemplateExtensionLoader"
+- "extensions/context.py:SkeletonContextHook"
+- "extensions/context.py:SkeletonExtension"
 - "extensions/context.py:ProjectURLContextHook"
 - "extensions/context.py:PythonVersionsContextHook"
 - "extensions/context.py:VisibilityContextHook"
-- "extensions/kebabify.py:KebabifyExtension"
+- "extensions/stringops.py:StringOpsExtension"
 _subdirectory: "project"
 _tasks:
 - |

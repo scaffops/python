@@ -1,7 +1,10 @@
 from __future__ import annotations
 from string import Template
 from typing import TYPE_CHECKING
+from urllib.urlparse import urlencode
 
+from jinja2.environment import Environment
+from jinja2.ext import Extension
 from copier_templates_extensions import ContextHook
 
 if TYPE_CHECKING:
@@ -26,6 +29,44 @@ DOCS_URL: Template = Template(
 PYPI_URL: Template = Template(
     "https://pypi.org/project/${pypi_project_name}/",
 )
+
+SKELETON_URL: Template = Template(
+    "https://github.com/${skeleton}",
+)
+
+SKELETON_REV: Template = Template(
+    "https://github.com/${skeleton}/tree/${skeleton_ref}",
+)
+
+SKELETON_NOTICE: Template = Template(
+    "This ${scope} was generated from ${sr}.\n"
+    "Prior to changing this particular file, you might want to consider patching\n"
+    "${sr}/${path}."
+)
+
+
+def skeleton_notice(path: str, sr: str, scope: str = "file") -> str:
+    return SKELETON_NOTICE.substitute(scope=scope, sr=sr, path=urlencode(path))
+
+
+class SkeletonContextHook(ContextHook):
+    update = False
+
+    def hook(self, context: dict[str, object]) -> None:
+        context["skeleton"] = context["_src_path"].lstrip("gh:")
+        context["skeleton_url"] = SKELETON_URL.substitute(context)
+        context["skeleton_ref"] = context["_copier_answers"]["_commit"]
+        context["skeleton_rev"] = SKELETON_REV.substitute(context)
+        context["skeleton_and_ref"] = context["sr"] = "@".join(
+            (context["skeleton"], context["skeleton_ref"])
+        )
+
+
+class SkeletonExtension(Extension):
+    def __init__(self, environment: Environment) -> None:
+        super().__init__(environment)
+        # Usage: {{path...|skeleton_notice(sr=sr)}}
+        environment.filters["skeleton_notice"] = skeleton_notice
 
 
 class ProjectURLContextHook(ContextHook):
@@ -54,7 +95,7 @@ class PythonVersionsContextHook(ContextHook):
         context["python_versions"] = ", ".join(
             f"{major}.{minor}".join('""')
             for major, minor in _generate_python_versions(context["python_version"])
-        ).join("[]")
+        )
 
 
 class VisibilityContextHook(ContextHook):
