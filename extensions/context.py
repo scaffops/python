@@ -41,7 +41,7 @@ SKELETON_REV: Template = Template(
 SKELETON_NOTICE: Template = Template(
     "This ${scope} was generated from ${snref}.\n"
     "Instead of changing this particular file, you might want to alter the template:\n"
-    "${srev}/${path}."
+    "${srev}/${path}"
 )
 
 
