@@ -198,7 +198,7 @@ def main(argv: list[str] | None = None) -> None:
     _setup_logging()
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
-    parser.add_argument("version", type=str, required=True)
+    parser.add_argument("--version", type=str, required=True)
     release(**vars(parser.parse_args(argv)))
 
 
