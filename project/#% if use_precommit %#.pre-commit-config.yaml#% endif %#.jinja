@@ -1,13 +1,6 @@
 # {{"project/#% if use_precommit %#.pre-commit-config.yaml#% endif %#.jinja"|skeleton_notice(snref=snref, srev=srev)|line_prefix("# ")}}
 
 repos:
-- repo: "https://github.com/pre-commit/pre-commit-hooks"
-  rev: "v4.5.0"
-  hooks:
-  - id: "check-yaml"
-    name: "Check YAML files"
-  - id: "trailing-whitespace"
-    name: "Trim trailing whitespaces"
 - repo: "https://github.com/astral-sh/ruff-pre-commit"
   rev: "v0.1.5"
   hooks:
