@@ -10,7 +10,7 @@ class CommandsContextHook(ContextHook):
     update = False
 
     def hook(self, context: dict[str, object]) -> None:
-        dirty = "(git diff --name-only | head -c -1) & git diff --name-only --cached"
+        dirty = "git status --porcelain"
         context["git"] = SimpleNamespace(
             dirty=dirty,
             dirty_echo=f'echo "$({dirty})"',
