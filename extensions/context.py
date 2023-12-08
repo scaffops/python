@@ -1,7 +1,7 @@
 from __future__ import annotations
 from string import Template
 from typing import TYPE_CHECKING
-from urllib.parse import urlencode
+from urllib.parse import quote
 
 from jinja2.environment import Environment
 from jinja2.ext import Extension
@@ -46,7 +46,7 @@ SKELETON_NOTICE: Template = Template(
 
 
 def skeleton_notice(path: str, sr: str, scope: str = "file") -> str:
-    return SKELETON_NOTICE.substitute(scope=scope, sr=sr, path=urlencode(path))
+    return SKELETON_NOTICE.substitute(scope=scope, sr=sr, path=quote(path))
 
 
 class SkeletonContextHook(ContextHook):
