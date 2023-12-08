@@ -14,7 +14,6 @@ from __future__ import annotations
 import urllib.request
 import json
 import pprint
-import re
 import sys
 from os import getenv
 from datetime import datetime
@@ -72,20 +71,12 @@ def generate_license_file(license_name: str | None = None) -> None:
             license_text = None
 
     if license_text:
-        generated_license_text = re.sub(
-            "[\[<]]year[\]>]]"
+        generated_license_text = license_text.replace(
+            "[year]",
             f"{datetime.now().year}–present",
-            license_text,
-        )
-        generated_license_text = re.sub(
-            "(\[fullname\]|<name of author>)",
+        ).replace(
+            "[fullname]",
             "{{org_full_name}} ({{github_username}})",
-            generated_license_text,
-        )
-        generated_license_text = re.sub(
-            "<program>",
-            "{{repo_name}}",
-            generated_license_text,
         )
         Path("LICENSE").write_text(generated_license_text)
 
