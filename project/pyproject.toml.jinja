@@ -57,7 +57,8 @@ test = "pytest -v"
 #%- endif %#
 lint = "ruff check ."
 lock = "scripts/lock.sh"
-bump = "scripts/bump.sh"
+autopatch = "scripts/skeleton.sh autopatch"
+bump = "scripts/skeleton.sh bump"
 check = [
     #%- if test_suite %#
     { ref="test" },
@@ -137,7 +138,7 @@ package = "{{package_name}}"
 filename = "CHANGELOG.md"
 start_string = "<!-- insertion marker -->\n"
 underlines = ["", "", ""]  # We use Markdown
-title_format = "## [{version}]({{repo_url}}/tree/{version}) – {project_date}"
+title_format = "## [{version}]({{repo_url}}/tree/{version}) ({project_date})"
 issue_format = "[#{issue}]({{repo_url}}/issues/{issue})"
 
 [[tool.towncrier.type]]

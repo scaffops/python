@@ -15,6 +15,8 @@
 
 setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
+    echo "[Setting up task event]"
+    echo "--- Skeleton command: ${SKELETON_COMMAND:="copy"}"
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
     # It is a temporary directory that copier uses before or after updating
@@ -38,7 +40,7 @@ setup_task_event() {
         if test $? = 0 && test "$LAST_REF"  # Missing $LAST_REF means we are not updating.
         then
             # Let the parent process know what is the new skeleton revision
-            redis-cli set "$NEW_REF_KEY" "{{_copier_answers['_commit']}}"
+            redis-cli set "$NEW_REF_KEY" "{{sref}}"
             export TASK_EVENT="UPDATE"
             export BRANCH
             BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -197,24 +199,8 @@ handle_task_event() {
 }
 #%- endif %#
 #%- if bump_script %#
-# Automatically copied from {{skeleton_url}}/tree/{{_copier_answers['_commit']}}/handle-task-event.sh
+# Automatically copied from {{skeleton_url}}/tree/{{sref}}/handle-task-event.sh
 #%- endif %#
-make_token() {
-    export TOKEN
-    TOKEN="$(echo "$(date +%s%N)" | sha256sum | head -c "${1:-10}")"
-}
-
-stash() {
-    make_token 32
-    export STASH_TOKEN="$TOKEN"
-    git stash push -m "$STASH_TOKEN"
-}
-
-unstash() {
-    STASH_ID="$(echo "$("$(git stash list)" | grep "${1:-STASH_TOKEN}" | grep -oP "^stash@{\K(\d)+")")"
-    git stash pop "stash@{$STASH_ID}"
-}
-
 setup_gh() {
     echo "Calling GitHub setup hooks..."
     #%- if public %#
@@ -251,7 +237,6 @@ supply_smokeshow_key() {
         echo "Failed to create smokeshow secret." 1>&2
     fi
 }
-
 #%- if bump_script %#
 # End of copied code
 #%- endif -%#

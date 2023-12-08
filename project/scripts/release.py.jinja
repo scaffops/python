@@ -2,6 +2,7 @@
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # {{"project/scripts/release.py.jinja"|skeleton_notice(snref=snref, srev=srev)|line_prefix("# ")}}
+#
 """
 Automate the release process by updating local files, creating and pushing a new tag.
 
@@ -71,7 +72,7 @@ def release(*, version: str) -> None:
 
     changed_files = _decode_if_bytes(
         shell(
-            cmd("{{git.dirty}}"),
+            cmd("git status --porcelain"),
             capture_output=True,
         ).stdout
     )
@@ -119,7 +120,7 @@ def release(*, version: str) -> None:
 
     changed_for_release = _decode_if_bytes(
         shell(
-            cmd("{{git.dirty}}"),
+            cmd("git status --porcelain"),
             capture_output=True,
         ).stdout
     )

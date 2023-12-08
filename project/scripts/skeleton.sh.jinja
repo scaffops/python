@@ -1,19 +1,31 @@
 #!/usr/bin/env bash
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
-# Sync with {{skeleton}}.
-# {{"project/scripts/bump.sh.jinja"|skeleton_notice(snref=snref, srev=srev)|line_prefix("# ")}}
+# Interact with {{skeleton}} (current version: {{skeleton_rev}}).
+#
+# {{"project/scripts/skeleton.sh.jinja"|skeleton_notice(snref=snref, srev=srev)|line_prefix("# ")}}
 #
 # Usage:
+#
+# To update to the latest version:
 # $ poe bump
+#
+# To update to version 1.2.3:
+# $ poe bump 1.2.3
+#
+# To make a mechanized repo patch, but keep the current skeleton version:
+# $ poe autopatch
+#
+# It's intended to be impossible to make a mechanized repo patch and update the skeleton
+# at the same time.
 
 # shellcheck disable=SC2005
 
-#% with bump_script=True %#
+#%- with bump_script=True %#
 #%- filter indent(width=0) -%#
 #%- include "handle-task-event.sh" -%#
 #%- endfilter %#
-#% endwith %#
+#%- endwith %#
 
 determine_new_ref() {
     # Determine the new skeleton revision set by the child process
@@ -23,7 +35,7 @@ determine_new_ref() {
 
 before_update_algorithm() {
     # Stash changes if any
-    if test "{{git.dirty_echo}}"
+    if test "$(git status --porcelain)"
     then
         echo "There are uncommitted changes in the project."
         stash
@@ -34,7 +46,19 @@ before_update_algorithm() {
 
 run_update_algorithm() {
     # Run the underlying update algorithm
-    copier update --trust --vcs-ref "${1:-"HEAD"}" "${@:2}" || return 1
+    export MODE
+    SKELETON_COMMAND=${1:-"bump"}
+    if test "$SKELETON_COMMAND" = "bump"
+    then
+        copier update --trust --vcs-ref --defaults "${2:-"HEAD"}" || return 1
+    elif test "$SKELETON_COMMAND" = "autopatch"
+    then
+        # shellcheck disable=SC2068
+        copier update --trust --vcs-ref "$LAST_REF" ${@:3} || return 1
+    else
+        echo "Unknown update algorithm: '$1'"
+        return 1
+    fi
     determine_new_ref
     determine_project_path
 }
@@ -42,17 +66,14 @@ run_update_algorithm() {
 after_update_algorithm() {
     # Run post-update hooks, auto-commit changes
     cd "$PROJECT_PATH" || exit 1
-
     echo "Previous skeleton revision: $LAST_REF"
     echo "Current skeleton revision: ${NEW_REF:-"N/A"}"
-
     local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
-
     git add .
     if test "$LAST_REF" = "$NEW_REF"
     then
         echo "The version of the skeleton has not changed."
-        local COMMIT_MSG="Patch {{_copier_conf.answers_file}} at {{skeleton}}@$NEW_REF"
+        local COMMIT_MSG="Mechanized patch at {{skeleton}}@$NEW_REF"
     else
         if test "$NEW_REF"
         then
@@ -67,19 +88,13 @@ after_update_algorithm() {
     read -r || exit 1
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     setup_gh
-    if test "$STASH_TOKEN"
-    then
-        echo "Unstashing changes..."
-        unstash && echo "Done!"
-    fi
 }
 
 main() {
-    export LAST_REF="{{_copier_answers['_commit']}}"
+    export LAST_REF="{{sref}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
     export NEW_REF_KEY="$$_skeleton_new_ref"
     export LAST_LICENSE_NAME="{{_copier_answers['license_name']}}"
-
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
     echo
     echo "--- Last skeleton revision: $LAST_REF"
