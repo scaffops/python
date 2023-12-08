@@ -60,10 +60,10 @@ class SkeletonContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
-        context["skeleton_rev"] = context["srev"] = SKELETON_REV.substitute(context)
         context["skeleton_ref"] = context["sref"] = (
             context["_copier_answers"]["_commit"]
         )
+        context["skeleton_rev"] = context["srev"] = SKELETON_REV.substitute(context)
         context["skeleton_and_ref"] = context["snref"] = "@".join(
             (context["skeleton"], context["skeleton_ref"])
         )
