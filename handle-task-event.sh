@@ -104,7 +104,7 @@ after_copy() {
     #%- if use_precommit %#
     poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     #%- endif %#
-    COMMIT_MSG="Copy {{sr}}"
+    COMMIT_MSG="Copy {{snref}}"
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
     echo
     git add .
