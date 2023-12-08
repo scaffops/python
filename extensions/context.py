@@ -39,16 +39,16 @@ SKELETON_REV: Template = Template(
 )
 
 SKELETON_NOTICE: Template = Template(
-    "This ${scope} was generated from ${sref}.\n"
+    "This ${scope} was generated from ${snref}.\n"
     "Instead of changing this particular file, you might want to alter the template:\n"
     "${srev}/${path}."
 )
 
 
-def skeleton_notice(path: str, sref: str, srev: str, scope: str = "file") -> str:
+def skeleton_notice(path: str, snref: str, srev: str, scope: str = "file") -> str:
     return SKELETON_NOTICE.substitute(
         scope=scope,
-        sref=sref,
+        snref=snref,
         srev=srev,
         path=quote(path),
     )
@@ -60,9 +60,11 @@ class SkeletonContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
-        context["skeleton_ref"] = context["_copier_answers"]["_commit"]
         context["skeleton_rev"] = context["srev"] = SKELETON_REV.substitute(context)
-        context["skeleton_and_ref"] = context["sref"] = "@".join(
+        context["skeleton_ref"] = context["sref"] = (
+            context["_copier_answers"]["_commit"]
+        )
+        context["skeleton_and_ref"] = context["snref"] = "@".join(
             (context["skeleton"], context["skeleton_ref"])
         )
 
@@ -70,7 +72,7 @@ class SkeletonContextHook(ContextHook):
 class SkeletonExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
-        # Usage: {{path...|skeleton_notice(sref=sref, srev=srev)}}
+        # Usage: {{path...|skeleton_notice(snref=snref, srev=srev)}}
         environment.filters["skeleton_notice"] = skeleton_notice
 
 

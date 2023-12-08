@@ -1,5 +1,5 @@
 <!--
-{{"fragments/contributing.md"|skeleton_notice(sref=sref, srev=srev)}}
+{{"fragments/contributing.md"|skeleton_notice(snref=snref, srev=srev)}}
 -->
 # Contributing to [{{repo_name}}]({{repo_url}}) 🎉
 Contributions are very welcome. 🚀
