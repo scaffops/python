@@ -17,9 +17,9 @@ class CommandsContextHook(ContextHook):
                 ' --description="{{project_description}}"'
             ),
             ensure_env=(
-                """$(jq -n '{"deployment_branch_policy": {"protected_branches": false,"""
-                """"custom_branch_policies": true}}' | gh api -H "Accept: application"""
-                """/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/"""
-                """environments/$1" --input -)"""
+                """$(jq -n '{{"deployment_branch_policy": {{"protected_branches": false,"""
+                """"custom_branch_policies": true}}}}' | gh api -H "Accept: application"""
+                """/vnd.github+json" -X PUT "/repos/{github_username}/{repo_name}/"""
+                """environments/$1" --input -)""".format(**context)
             ),
         )
