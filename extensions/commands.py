@@ -23,8 +23,8 @@ class CommandsContextHook(ContextHook):
             )
         )
         context["ensure_gh_environment"] = (
-            """jq -n '{"deployment_branch_policy": {"protected_branches": false,"""
+            """$(jq -n '{"deployment_branch_policy": {"protected_branches": false,"""
             """"custom_branch_policies": true}}' | gh api -H "Accept: application"""
             """/vnd.github+json" -X PUT "/repos/{{github_username}}/{{repo_name}}/"""
-            """environments/$1" --input -"""
+            """environments/$1" --input -)"""
         )
