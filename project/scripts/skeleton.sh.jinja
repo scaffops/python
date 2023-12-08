@@ -37,8 +37,9 @@ before_update_algorithm() {
     # Stash changes if any
     if test "$(git status --porcelain)"
     then
-        echo "There are uncommitted changes in the project."
-        stash
+        echo "There are uncommitted changes in the project." 1>&2
+        echo "Stash them and continue." 1>&2
+        return 1
     else
         echo "Working tree clean, no need to stash."
     fi
@@ -47,7 +48,7 @@ before_update_algorithm() {
 run_update_algorithm() {
     # Run the underlying update algorithm
     export MODE
-    SKELETON_COMMAND=${1:-"bump"}
+    SKELETON_COMMAND="${1:-"bump"}"
     if test "$SKELETON_COMMAND" = "bump"
     then
         copier update --trust --vcs-ref "${2:-"HEAD"}" --defaults || return 1
