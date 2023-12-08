@@ -74,34 +74,48 @@ Your repository is on GitHub and has:
 ## Incorporate to an existing project
 Almost the same as above.
 
-1. Change directory to your project:
+1.  Change directory to your project:
 
-       cd path/to/project
+    ```shell
+    cd path/to/project
+    ```
 
-2. Run the following command:
+1.  Run the following command:
 
-       copier copy --trust --vcs-ref HEAD "$SKELETON" .
+    ```shell
+    copier copy --trust --vcs-ref HEAD "$SKELETON" .
+    ```
 
-3. Answer the questions.
-4. Allow copier to overwrite all files.
-5. Patch your files (changes were locally reverted for your convenience).
-   Be sure that the codebase is not lost but files maintained by skeleton are updated.
-6. Run the following command:
+1.  Answer the questions.
+1.  Allow copier to overwrite all files.
+1.  Patch your files (changes were locally reverted for your convenience).
+    Be sure that the codebase is not lost but files maintained by skeleton are updated.
+1.  Run the following command:
 
-       poe bump
+    ```shell
+    poe bump
+    ```
 
-7. Happy coding!
+1.  Happy coding!
 
 
 ## Bump the version of skeleton in your project
 
-    poe bump
+```shell
+poe bump
+```
 
-Or, for more verbosity:
+Or, for a specific [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog):
 
-    poe bump HEAD
+```
+poe bump 1.0.0  # bump to 1.0.0
+poe bump dev  # bump to the latest commit on the dev branch
+```
 
-You might use a [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog) different than HEAD, up to you.
+## Reconfigure the skeleton
+```shell
+poe reanswer
+```
 
 # License
 This project is licensed under the terms of the [MIT License](/LICENSE).
