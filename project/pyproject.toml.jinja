@@ -20,7 +20,7 @@ Distribution = "{{pypi_url}}"
 #%- endif %#
 #%- if public %#
 Coverage = "{{coverage_url}}"
-#% endif %#
+#%- endif %#
 
 [tool.poetry.dependencies]
 python = ">={{python_version}},<={{latest_python_version}}"
@@ -28,6 +28,7 @@ python = ">={{python_version}},<={{latest_python_version}}"
 [tool.poetry.group.dev.dependencies]
 
 [tool.poetry.group.dev-skeleton.dependencies]
+# {{"project/pyproject.toml.jinja"|skeleton_notice(snref=snref, srev=srev, scope="dependency group")|line_prefix("# ")}}
 mypy = "^1.7.0"
 ruff = "^0.1.2"
 towncrier = "^23.11.0"
