@@ -39,14 +39,14 @@ SKELETON_REV: Template = Template(
 )
 
 SKELETON_NOTICE: Template = Template(
-    "This ${scope} was generated from ${sr}.\n"
-    "Prior to changing this particular file, you might want to consider patching\n"
-    "${sr}/${path}."
+    "This ${scope} was generated from ${sref}.\n"
+    "Instead of changing this particular file, you might want to alter the template:\n"
+    "${srev}/${path}."
 )
 
 
-def skeleton_notice(path: str, sr: str, scope: str = "file") -> str:
-    return SKELETON_NOTICE.substitute(scope=scope, sr=sr, path=quote(path))
+def skeleton_notice(path: str, sref: str, srev: str, scope: str = "file") -> str:
+    return SKELETON_NOTICE.substitute(scope=scope, sref=sref, path=quote(path))
 
 
 class SkeletonContextHook(ContextHook):
@@ -65,7 +65,7 @@ class SkeletonContextHook(ContextHook):
 class SkeletonExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
-        # Usage: {{path...|skeleton_notice(sr=sr)}}
+        # Usage: {{path...|skeleton_notice(sref=sref, srev=srev)}}
         environment.filters["skeleton_notice"] = skeleton_notice
 
 
