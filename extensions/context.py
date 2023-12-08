@@ -46,7 +46,12 @@ SKELETON_NOTICE: Template = Template(
 
 
 def skeleton_notice(path: str, sref: str, srev: str, scope: str = "file") -> str:
-    return SKELETON_NOTICE.substitute(scope=scope, sref=sref, path=quote(path))
+    return SKELETON_NOTICE.substitute(
+        scope=scope,
+        sref=sref,
+        srev=srev,
+        path=quote(path),
+    )
 
 
 class SkeletonContextHook(ContextHook):
@@ -56,8 +61,8 @@ class SkeletonContextHook(ContextHook):
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
         context["skeleton_ref"] = context["_copier_answers"]["_commit"]
-        context["skeleton_rev"] = SKELETON_REV.substitute(context)
-        context["skeleton_and_ref"] = context["sr"] = "@".join(
+        context["skeleton_rev"] = context["srev"] = SKELETON_REV.substitute(context)
+        context["skeleton_and_ref"] = context["sref"] = "@".join(
             (context["skeleton"], context["skeleton_ref"])
         )
 
