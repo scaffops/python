@@ -21,7 +21,7 @@ Coverage = "{{coverage_url}}"
 #% endif %#
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">={{python_version}},<={{latest_python_version}}"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.7.0"

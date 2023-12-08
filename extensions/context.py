@@ -50,6 +50,7 @@ class PythonVersionsContextHook(ContextHook):
     update = False
 
     def hook(self, context: dict[str, object]) -> None:
+        context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context["python_versions"] = ", ".join(
             f"{major}.{minor}".join('""')
             for major, minor in _generate_python_versions(context["python_version"])
