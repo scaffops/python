@@ -177,11 +177,6 @@ handle_task_event() {
         echo "-------------------------------------------------------------------------"
         echo "UPDATE ALGORITHM [1/3] COMPLETE. ✅"
         echo
-        if test "$SKELETON_COMMAND" = "autopatch"
-        then
-            echo "Answer the following questions to update your project with the new skeleton."
-            echo
-        fi
     elif test "$TASK_EVENT" = "UPDATE"
     then
         echo "UPDATE ALGORITHM [2/3]: Overwrote the old skeleton before checking out the project."
