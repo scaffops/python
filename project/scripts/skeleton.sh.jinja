@@ -14,7 +14,7 @@
 # $ poe bump 1.2.3
 #
 # To make a mechanized repo patch, but keep the current skeleton version:
-# $ poe autopatch
+# $ poe reanswer
 #
 # It's intended to be impossible to make a mechanized repo patch and update the skeleton
 # at the same time.
@@ -52,7 +52,7 @@ run_update_algorithm() {
     if test "$SKELETON_COMMAND" = "bump"
     then
         copier update --trust --vcs-ref "${2:-"HEAD"}" --defaults || return 1
-    elif test "$SKELETON_COMMAND" = "autopatch"
+    elif test "$SKELETON_COMMAND" = "reanswer"
     then
         # shellcheck disable=SC2068
         copier update --trust --vcs-ref "$LAST_REF" ${@:3} || return 1

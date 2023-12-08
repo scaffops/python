@@ -24,33 +24,45 @@ Because the project does not copy the whole history from skeleton, many of the p
 You might use this template or fork it and modify it to your needs.
 
 ## Configure [GitHub CLI](https://cli.github.com/)
-    gh auth login
+
+```shell
+gh auth login
+```
+
 Ensure the `workflows` scope is in your authorized scopes:
 
-    gh auth refresh -h github.com -s workflows
+```shell
+gh auth refresh -h github.com -s workflows
+```
 
 ## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme) and [Copier](https://github.com/copier-org/copier#readme)
 
-    sudo apt install pipx redis
-    pipx install copier
-    pipx inject copier copier-templates-extensions
-    SKELETON=gh:bswck/skeleton
+```shell
+sudo apt install pipx redis
+pipx install copier
+pipx inject copier copier-templates-extensions
+SKELETON=gh:bswck/skeleton
+```
 
 ## Create a new project
-1. Make sure that you trust me.
-2. Run the following command:
+1.  Make sure that you trust me.
+1.  Run the following command:
 
-       copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
+    ```shell
+    copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
+    ```
 
-3. Answer the questions.
-4. Change directory to your project:
+1.  Answer the questions.
+1.  Change directory to your project:
 
-       cd path/to/project
+    ```shell
+    cd path/to/project
+    ```
 
-5. Happy coding!
+1. Happy coding!
 Your repository is on GitHub and has:
 - a release maker (`$ poe release`),
-- a skeleton bump tool (`$ poe bump`),
+- skeleton tool (`$ poe [bump|reanswer]`),
 - aesthetic badges in README.md,
 - an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
