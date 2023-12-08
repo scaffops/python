@@ -12,9 +12,9 @@ class CommandsContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["gh"] = SimpleNamespace(
             repo_args=(
-                '"{{github_username}}/{{repo_name}}" '
-                "--{{visibility}} --source=./ --remote=upstream"
-                ' --description="{{project_description}}"'
+                '"{github_username}/{repo_name}" '
+                "--{visibility} --source=./ --remote=upstream"
+                ' --description="{project_description}"'.format(**context)
             ),
             ensure_env=(
                 """$(jq -n '{{"deployment_branch_policy": {{"protected_branches": false,"""
