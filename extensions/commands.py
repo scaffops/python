@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import SimpleNamespace
+from types import SimpleNamespace
 
 # from jinja2.environment import Environment
 # from jinja2.ext import Extension
