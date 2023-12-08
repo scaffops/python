@@ -15,6 +15,7 @@
 
 setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
+    export SKELETON_COMMAND
     echo "[Setting up task event]"
     echo "--- Skeleton command: ${SKELETON_COMMAND:="copy"}"
     echo "--- Project path key: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
