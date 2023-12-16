@@ -29,10 +29,10 @@ You might use this template or fork it and modify it to your needs.
 gh auth login
 ```
 
-Ensure the `workflows` scope is in your authorized scopes:
+Ensure the `workflow` scope is in your authorized scopes:
 
 ```shell
-gh auth refresh -h github.com -s workflows
+gh auth refresh -h github.com -s workflow
 ```
 
 ## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme) and [Copier](https://github.com/copier-org/copier#readme)
