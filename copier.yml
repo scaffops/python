@@ -2,7 +2,6 @@ _envops:
   block_end_string: "%#"
   block_start_string: "#%"
 _exclude:
-- "copier.yaml"
 - "copier.yml"
 - ".git"
 _jinja_extensions:
