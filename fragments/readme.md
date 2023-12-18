@@ -19,14 +19,12 @@
 #% endif %#
 #%- if publish_on_pypi %#
 # Installation
-If you want to…
 #% else %#
 # Installation for contributors
 #%- endif %#
 
 #% if publish_on_pypi %#
-## …use this tool in your project 💻
-#% if is_cli_tool -%#
+#%- if is_cli_tool %#
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
 
 ```shell
@@ -39,7 +37,7 @@ You might also simply install it with pip:
 pip install {{pypi_project_name}}
 ```
 
-#% else -%#
+#%- else %#
 You might simply install it with pip:
 
 ```shell
@@ -54,7 +52,7 @@ If you use [Poetry](https://python-poetry.org/), then run:
 poetry add {{pypi_project_name}}
 ```
 
-## …contribute to [{{repo_name}}]({{repo_url}}) 🚀
+## For contributors
 #% endif %#
 #% include "fragments/guide.md" %#
 
