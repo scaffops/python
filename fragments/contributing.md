@@ -1,5 +1,5 @@
 <!--
-{{"fragments/contributing.md"|skeleton_notice(snref=snref, srev=srev)}}
+{{_origin|skeleton_notice(snref=snref, srev=srev)}}
 -->
 # Contributing to [{{repo_name}}]({{repo_url}}) 🎉
 Contributions are very welcome. 🚀
@@ -16,7 +16,8 @@ Anything tagged with "enhancement" is open to whoever wants to implement it.
 
 ## Write documentation 📖
 The project could always use more documentation, whether as part of the official project
-docs. If you're interested in helping out, check the [docs/]({{repo_url}}/tree/HEAD/docs) folder in the repository.
+docs. If you're interested in helping out, check the #% if docs %#[docs/]({{repo_url}}/tree/HEAD/docs)
+folder#% else %#[README file]({{repo_url}}/tree/HEAD/README.md)#% endif %# in the repository.
 
 ## Share your feedback 🌍
 The best way to send feedback is to file an issue in the [issue tracker]({{repo_url}}).

@@ -1,5 +1,5 @@
 <!--
-{{"fragments/guide.md"|skeleton_notice(snref=snref, srev=srev, scope="section")}}
+{{_origin|skeleton_notice(snref=snref, srev=srev, scope="section")}}
 -->
 #% if doc_mode %#
 !!! Note
