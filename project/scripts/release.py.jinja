@@ -62,7 +62,7 @@ def release(version: str, /) -> None:
     """Release a semver version."""
     command, run = (
         subprocess.getoutput,
-        lambda prompt: subprocess.run(*prompt, check=True),
+        lambda *prompt: subprocess.run([*prompt], check=True),
     )
 
     changed_files = command("git status --porcelain")
