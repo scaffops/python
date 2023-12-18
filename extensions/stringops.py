@@ -14,4 +14,4 @@ class StringOpsExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
         environment.filters["kebabify"] = kebabify
-        environment.filters["indent"] = indent
+        environment.filters["custom_indent"] = indent
