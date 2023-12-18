@@ -1,9 +1,10 @@
 from __future__ import annotations
+from abc import ABCMeta, abstractmethod
 from string import Template
 from typing import TYPE_CHECKING
 from urllib.parse import quote
 
-from jinja2.environment import Environment
+from jinja2.environment import Environment, Template
 from jinja2.ext import Extension
 from copier_templates_extensions import ContextHook
 
@@ -54,9 +55,15 @@ def skeleton_notice(path: str, snref: str, srev: str, scope: str = "file") -> st
     )
 
 
-class SkeletonContextHook(ContextHook):
+class InplaceContextHook(ContextHook, metaclass=ABCMeta):
     update = False
 
+    @abstractmethod
+    def hook(self, context: dict[str, object]) -> None:
+        ...
+
+
+class SkeletonContextHook(InplaceContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
@@ -76,9 +83,7 @@ class SkeletonExtension(Extension):
         environment.filters["skeleton_notice"] = skeleton_notice
 
 
-class ProjectURLContextHook(ContextHook):
-    update = False
-
+class ProjectURLContextHook(InplaceContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["repo_url"] = REPO_URL.substitute(context)
         context["coverage_url"] = COVERAGE_URL.substitute(context)
@@ -94,9 +99,7 @@ def _generate_python_versions(python_version: str) -> Iterable[tuple[int, int]]:
         yield (major, minor)
 
 
-class PythonVersionsContextHook(ContextHook):
-    update = False
-
+class PythonVersionsContextHook(InplaceContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context["python_versions"] = ", ".join(
@@ -105,9 +108,13 @@ class PythonVersionsContextHook(ContextHook):
         )
 
 
-class VisibilityContextHook(ContextHook):
-    update = False
-
+class VisibilityContextHook(InplaceContextHook):
     def hook(self, context: dict[str, object]) -> None:
         context["public"] = context["visibility"] == "public"
         context["private"] = not context["public"]
+
+
+class TemplateContextHook(InplaceContextHook):
+    def hook(self, context: dict[str, object]) -> None:
+        template: Template = context["self"]
+        context["_origin"] = template.filename

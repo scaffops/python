@@ -1,3 +1,3 @@
-# {{'project/.github/#% if author_username == "bswck" %#FUNDING.yml#% endif %#'|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
 github: "bswck"
