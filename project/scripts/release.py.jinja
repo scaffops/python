@@ -58,13 +58,18 @@ def _setup_logging() -> None:
     _LOGGER.addHandler(_logger_handler)
 
 
+def _command(prompt: str, /) -> str:
+    """Run a command and return its output."""
+    return subprocess.getoutput(prompt)
+
+
+def _run(*prompt: str) -> None:
+    """Run a command, allowing it to take over the terminal."""
+    subprocess.run([*prompt], check=True)
+
+
 def release(version: str, /) -> None:
     """Release a semver version."""
-    _command, _run = (
-        subprocess.getoutput,
-        lambda *prompt: subprocess.run([*prompt], check=True),
-    )
-
     changed_files = _command("git status --porcelain")
 
     if changed_files:
@@ -146,7 +151,7 @@ def release(version: str, /) -> None:
 
             while not notes_complete:
                 _run(_EDITOR, temp_file.name)
-                release_notes = Path(temp_file.name).read_text()
+                release_notes = Path(temp_file.name).read_text().strip()
                 print("Release notes:")
                 print(release_notes)
                 print()
