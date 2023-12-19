@@ -127,8 +127,9 @@ class VisibilityContextHook(InplaceContextHook):
 
 
 class TemplateContextHook(InplaceContextHook):
-    def preprocess(self, source: str, name: str, filename: str | None = None) -> None:
+    def preprocess(self, source: str, name: str, filename: str | None = None) -> str:
         self.filename = filename
+        return source
 
     def hook(self, context: dict[str, object]) -> None:
         context["_origin"] = self.filename
