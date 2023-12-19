@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABCMeta, abstractmethod
+from pathlib import Path
 from string import Template
 from typing import TYPE_CHECKING
 from urllib.parse import quote
@@ -128,7 +129,7 @@ class VisibilityContextHook(InplaceContextHook):
 
 class TemplateContextHook(InplaceContextHook):
     def preprocess(self, source: str, name: str, filename: str | None = None) -> str:
-        self.filename = filename
+        self.filename = Path(filename).relative_to(Path.cwd()).as_posix()
         return source
 
     def hook(self, context: dict[str, object]) -> None:
