@@ -4,7 +4,7 @@ from string import Template
 from typing import TYPE_CHECKING
 from urllib.parse import quote
 
-from jinja2.environment import Environment, Template
+from jinja2.environment import Environment
 from jinja2.ext import Extension
 from copier_templates_extensions import ContextHook
 
