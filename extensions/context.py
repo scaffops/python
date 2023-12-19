@@ -45,8 +45,20 @@ SKELETON_NOTICE: Template = Template(
     "${srev}/${path}"
 )
 
+SKELETON_NOTICE_PATHLESS: Template = Template(
+    "This ${scope} was generated from a template file.\n"
+    "Instead of changing this particular file, you might want to alter the template "
+    "somewhere in:\n"
+    "${srev}"
+)
 
-def skeleton_notice(path: str, snref: str, srev: str, scope: str = "file") -> str:
+
+def skeleton_notice(path: str | None, snref: str, srev: str, scope: str = "file") -> str:
+    if path is None:
+        return SKELETON_NOTICE_PATHLESS.substitute(
+            scope=scope,
+            srev=srev,
+        )
     return SKELETON_NOTICE.substitute(
         scope=scope,
         snref=snref,
@@ -115,6 +127,8 @@ class VisibilityContextHook(InplaceContextHook):
 
 
 class TemplateContextHook(InplaceContextHook):
+    def preprocess(self, source: str, name: str, filename: str | None = None) -> None:
+        self.filename = filename
+
     def hook(self, context: dict[str, object]) -> None:
-        template: Template = context["self"]
-        context["_origin"] = template.filename
+        context["_origin"] = self.filename
