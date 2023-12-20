@@ -41,14 +41,18 @@ def generate_license_file(license_name: str | None = None) -> None:
         return
 
     if Path("LICENSE").exists():
+        #% if ctt_mode %#
+        do_overwrite = True
+        #% else %#
         do_overwrite = (
             input(
                 f"Overwrite existing LICENSE file (new license: {license_name})? [y/N] "
             )
-            .strip()[0]
+            .strip() or "n" [0]
             .lower()
             == "y"
         )
+        #% endif %#
         if not do_overwrite:
             return
 
