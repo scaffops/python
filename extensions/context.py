@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from string import Template
+from subprocess import getoutput
 from typing import TYPE_CHECKING
 from urllib.parse import quote
 
@@ -134,3 +135,9 @@ class TemplateContextHook(InplaceContextHook):
 
     def hook(self, context: dict[str, object]) -> None:
         context["_origin"] = self.filename
+
+
+class GitContextHook(InplaceContextHook):
+    def hook(self, context: dict[str, object]) -> None:
+        context["git_username"] = getoutput("git config user.name")
+        context["git_email"] = getoutput("git config user.email")

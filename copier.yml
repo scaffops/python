@@ -13,6 +13,7 @@ _jinja_extensions:
 - "extensions/context.py:PythonVersionsContextHook"
 - "extensions/context.py:VisibilityContextHook"
 - "extensions/context.py:TemplateContextHook"
+- "extensions/context.py:GitContextHook"
 - "extensions/stringops.py:StringOpsExtension"
 _subdirectory: "project"
 _tasks:
@@ -40,10 +41,19 @@ visibility:
 github_username:
   type: "str"
   help: "GitHub username of the owner of the repository, maybe organization"
+  default: "{{git_username}}"
 author_username:
   type: "str"
   default: "{{github_username}}"
   help: "GitHub username of the author and copyright holder"
+org_full_name:
+  type: "str"
+  default: "#% if github_username == 'bswck' %#Bartosz Sławecki#% endif %#"
+  help: "Full name of the copyright holder"
+email_address:
+  type: "str"
+  default: "{{git_email}}"
+  help: "Your e-mail address"
 publish_on_pypi:
   type: "bool"
   default: true
@@ -71,14 +81,6 @@ test_suite:
   type: "bool"
   default: true
   help: "Include test suite?"
-org_full_name:
-  type: "str"
-  default: "Bartosz Sławecki"
-  help: "Full name of the copyright holder"
-email_address:
-  type: "str"
-  default: "bswck.dev@gmail.com"
-  help: "Your e-mail address"
 package_name:
   type: "str"
   default: "{{repo_name.replace('-', '_')}}"
