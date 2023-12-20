@@ -1,5 +1,5 @@
 # {{repo_name}}#% if publish_on_pypi %# [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}}) [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}})#% endif %#
-#%- if test_suite %#
+#%- if tests %#
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
 #%- endif %#
 #%- if public %#

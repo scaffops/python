@@ -77,7 +77,7 @@ docs_slug:
   default: "{{repo_name|kebabify}}"
   help: "Documentation project slug (XXXXX.readthedocs.io)"
   when: "{{docs}}"
-test_suite:
+tests:
   type: "bool"
   default: true
   help: "Include test suite?"
