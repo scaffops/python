@@ -22,3 +22,4 @@ repos:
   - id: "copier-template-tester"
     stages: ["push"]
     name: "Run Copier template tester"
+    additional_dependencies: ["copier-templates-extensions"]
