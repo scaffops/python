@@ -108,8 +108,11 @@ after_copy() {
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
     echo
     git add .
-    echo "Press ENTER to commit the changes or CTRL+C to abort."
-    read -r _ || exit 1
+    if ! test "$CREATED"
+    then
+        echo "Press ENTER to commit the changes or CTRL+C to abort."
+        read -r _ || exit 1
+    fi
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
     if test "$CREATED"
