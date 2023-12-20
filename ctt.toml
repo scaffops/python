@@ -1,24 +1,20 @@
 # Specify shared data across all 'output' destinations
 # Note that the copier.yml defaults are used whenever the key is not set in this file
 [defaults]
-repo_name = "snapshot"
-project_description = "Snapshot of the skeleton template"
-visibility = "private"
+repo_name = "skeleton-ctt"
+project_description = "Test snapshot of the skeleton template"
+visibility = "public"
 github_username = "bswck"
 author_username = "bswck"
 org_full_name = "bswck"
 email_address = "bswck.dev@gmail.com"
 publish_on_pypi = false
 docs = true
-docs_slug = "skeleton-snapshot"
+docs_slug = "skeleton-ctt"
 tests = true
-package_name = "skeleton_snapshot"
+package_name = "skeleton_ctt"
 python_version = "3.8"
 license_name = "MIT"
 use_precommit = true
 
 [output.".ctt/defaults"]
-
-[output.".ctt/no_all"]
-package_name = "testing-no-all"
-include_all = false
