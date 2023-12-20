@@ -16,3 +16,9 @@ repos:
   - id: "poetry-check"
     stages: ["push"]
     name: "Run Poetry check hook"
+- repo: "https://github.com/KyleKing/copier-template-tester"
+  rev: "main"
+  hooks:
+  - id: "copier-template-tester"
+    stages: ["push"]
+    name: "Run Copier template tester"
