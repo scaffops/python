@@ -118,3 +118,8 @@ use_precommit:
   type: "bool"
   default: true
   help: "Use pre-commit?"
+ctt_mode:
+  type: "bool"
+  default: false
+  help: "Copier Template Tester mode?"
+  when: "{{False}}"

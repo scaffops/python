@@ -70,6 +70,7 @@ run_copier_hook() {
 
 setup_poetry_virtualenv() {
     # Set up poetry virtualenv. This is needed for copier to work flawlessly.
+    #% if not ctt_mode %#
     echo "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
     poetry env use "$PYTHON_VERSION"
     echo "Running poetry installation for the $TASK_EVENT routine..."
@@ -78,6 +79,7 @@ setup_poetry_virtualenv() {
         poetry update || (echo "Failed to install dependencies." 1>&2 && exit 1)
     fi
     poetry lock --no-update
+    #% endif %#
 }
 
 after_copy() {
@@ -87,6 +89,7 @@ after_copy() {
     setup_poetry_virtualenv
     run_copier_hook
     echo
+    #% if not ctt_mode %#
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
         BRANCH="master"
@@ -126,6 +129,7 @@ after_copy() {
         echo "Then run:"
         echo "$ poe bump"
     fi
+    #% endif %#
 }
 
 after_checkout_last_skeleton() {
@@ -164,6 +168,7 @@ handle_task_event() {
         echo "-----------------------------------"
         echo "COPY ROUTINE COMPLETE. ✅"
         echo
+        #% if not ctt_mode %#
         echo "Done! 🎉"
         echo "Your repository is now set up at {{repo_url}}"
         echo "$ cd $PROJECT_PATH"
@@ -171,6 +176,7 @@ handle_task_event() {
         echo "Happy coding!"
         echo "-- bswck"
         redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
+        #% endif %#
     elif test "$TASK_EVENT" = "CHECKOUT_LAST_SKELETON"
     then
         echo "UPDATE ALGORITHM [1/3]: Checked out the last used skeleton before update."

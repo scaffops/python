@@ -16,5 +16,6 @@ package_name = "skeleton_ctt"
 python_version = "3.8"
 license_name = "MIT"
 use_precommit = true
+ctt_mode = true
 
 [output.".ctt/defaults"]
