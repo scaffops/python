@@ -12,6 +12,7 @@ poethepoet = "^0.24.3"
 copier = "^9.1.0"
 copier-template-tester = "^2.1.1"
 copier-templates-extensions = "^0.3.0"
+pre-commit = "^3.6.0"
 
 [build-system]
 requires = ["poetry-core"]
