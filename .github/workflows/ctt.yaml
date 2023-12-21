@@ -11,9 +11,12 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v4"
+    - uses: "actions/setup-python@v5"
+      with:
+        python-version: "3.8"
     - name: "Install CTT"
       run: |
         pipx install copier-template-tester
-        pipx inject copier-template-tester copier-templates-extensions"
+        pipx inject copier-template-tester copier-templates-extensions
     - name: "Run CTT"
       run: "ctt"
