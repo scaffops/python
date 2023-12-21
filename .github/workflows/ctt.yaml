@@ -1,5 +1,4 @@
 name: "CTT"
-permissions: {}
 
 on:
   push:
@@ -13,6 +12,8 @@ jobs:
     steps:
     - uses: "actions/checkout@v4"
     - name: "Install CTT"
-      run: "pip install copier-template-tester copier-templates-extensions"
-    - name: "Test the template"
-      run: "python -m ctt"
+      run: |
+        pipx install copier-template-tester
+        pipx inject copier-template-tester copier-templates-extensions"
+    - name: "Run CTT"
+      run: "ctt"

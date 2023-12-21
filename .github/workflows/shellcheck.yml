@@ -1,5 +1,4 @@
 name: "Shellcheck"
-permissions: {}
 
 on:
   push:
