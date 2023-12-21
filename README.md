@@ -128,8 +128,5 @@ This project is licensed under the terms of the [MIT License](/LICENSE).
 [Read more about copier.](https://copier.readthedocs.io/en/stable/)<br/>
 [Read more about jaraco/skeleton.](https://blog.jaraco.com/skeleton)
 
-# Documentation
-Coming soon.
-
 
 (C) 2023–present Bartosz Sławecki ([@bswck](https://github.com/bswck)).
