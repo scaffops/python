@@ -11,12 +11,14 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v4"
+    - name: "Install Redis"
+      run: "sudo apt install redis"
     - name: "Install Poetry"
       run: "pipx install poetry"
+    - name: "Install dependencies"
+      run: "poetry install"
     - uses: "actions/setup-python@v5"
       with:
         cache: "poetry"
-    - name: "Install Redis"
-      run: "sudo apt install redis"
     - name: "Run CTT"
-      run: "poetry install && poetry run ctt"
+      run: "poetry run ctt"
