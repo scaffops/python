@@ -163,6 +163,7 @@ after_checkout_project() {
 handle_task_event() {
     if test "$TASK_EVENT" = "COPY"
     then
+        clear
         echo "COPY ROUTINE: Copying the skeleton."
         echo "-----------------------------------"
         after_copy
