@@ -16,7 +16,7 @@ jobs:
         python-version: "3.8"
     - name: "Install CTT"
       run: |
-        pipx install copier-template-tester
-        pipx inject copier-template-tester copier-templates-extensions
+        sudo apt install redis
+        pip install copier-template-tester && copier-templates-extensions
     - name: "Run CTT"
       run: "ctt"
