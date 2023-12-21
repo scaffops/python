@@ -117,18 +117,6 @@ poe skeleton upgrade dev  # Upgrade to the latest commit on the dev branch.
 poe skeleton patch
 ```
 
-# License
-This project is licensed under the terms of the [MIT License](/LICENSE).
-
-# Credits
-[@jpsca](https://github.com/jpsca), for creating Copier.</br>
-[@pawamoy](https://github.com/pawamoy), for creating a sample poetry project template.<br/>
-[@jaraco](https://github.com/jaraco), for inspiring me to create my own skeleton, like [the one he has](https://github.com/jaraco/skeleton).
-
-[Read more about copier.](https://copier.readthedocs.io/en/stable/)<br/>
-[Read more about jaraco/skeleton.](https://blog.jaraco.com/skeleton)
-
-
 # How to develop
 
 1.  Install [Poetry](https://python-poetry.org/) and project dependencies
@@ -149,5 +137,16 @@ This project is licensed under the terms of the [MIT License](/LICENSE).
     ```shell
     ctt
     ```
+
+# License
+This project is licensed under the terms of the [MIT License](/LICENSE).
+
+# Credits
+[@jpsca](https://github.com/jpsca), for creating Copier.</br>
+[@pawamoy](https://github.com/pawamoy), for creating a sample poetry project template.<br/>
+[@jaraco](https://github.com/jaraco), for inspiring me to create my own skeleton, like [the one he has](https://github.com/jaraco/skeleton).
+
+[Read more about copier.](https://copier.readthedocs.io/en/stable/)<br/>
+[Read more about jaraco/skeleton.](https://blog.jaraco.com/skeleton)
 
 (C) 2023–present Bartosz Sławecki ([@bswck](https://github.com/bswck)).
