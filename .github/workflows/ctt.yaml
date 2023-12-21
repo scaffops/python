@@ -19,4 +19,4 @@ jobs:
     - name: "Install Redis"
       run: "sudo apt install redis"
     - name: "Run CTT"
-      run: "poetry install && ctt"
+      run: "poetry install && poetry run ctt"
