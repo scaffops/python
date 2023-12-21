@@ -13,12 +13,12 @@ jobs:
     - uses: "actions/checkout@v4"
     - name: "Install Redis"
       run: "sudo apt install redis"
+    - uses: "actions/setup-python@v5"
+      with:
+        cache: "poetry"
     - name: "Install Poetry"
       run: "pipx install poetry"
     - name: "Install dependencies"
       run: "poetry install"
-    - uses: "actions/setup-python@v5"
-      with:
-        cache: "poetry"
     - name: "Run CTT"
-      run: "poetry run ctt"
+      run: "oetry run ctt"
