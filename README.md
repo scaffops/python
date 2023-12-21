@@ -93,7 +93,7 @@ Almost the same as above.
 1.  Run the following command:
 
     ```shell
-    poe bump
+    poe skeleton bump
     ```
 
 1.  Happy coding!
@@ -108,8 +108,8 @@ poe skeleton bump
 Or, for a specific [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog):
 
 ```
-poe bump 1.0.0  # bump to 1.0.0
-poe bump dev  # bump to the latest commit on the dev branch
+poe skeleton bump 1.0.0  # bump to 1.0.0
+poe skeleton bump dev  # bump to the latest commit on the dev branch
 ```
 
 ## Reconfigure the skeleton
