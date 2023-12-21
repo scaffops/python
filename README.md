@@ -62,7 +62,7 @@ SKELETON=gh:bswck/skeleton
 1. Happy coding!
 Your repository is on GitHub and has:
 - a release maker (`$ poe release`),
-- skeleton tool (`$ poe skeleton [bump|reanswer]`),
+- skeleton tool (`$ poe skeleton [upgrade|patch]`),
 - aesthetic badges in README.md,
 - an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
@@ -93,7 +93,7 @@ Almost the same as above.
 1.  Run the following command:
 
     ```shell
-    poe skeleton bump
+    poe skeleton upgrade
     ```
 
 1.  Happy coding!
@@ -102,19 +102,19 @@ Almost the same as above.
 ## Bump the version of skeleton in your project
 
 ```shell
-poe skeleton bump
+poe skeleton upgrade
 ```
 
 Or, for a specific [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog):
 
 ```
-poe skeleton bump 1.0.0  # bump to 1.0.0
-poe skeleton bump dev  # bump to the latest commit on the dev branch
+poe skeleton upgrade 1.0.0  # upgrade to 1.0.0
+poe skeleton upgrade dev  # upgrade to the latest commit on the dev branch
 ```
 
 ## Reconfigure the skeleton
 ```shell
-poe skeleton reanswer
+poe skeleton patch
 ```
 
 # License

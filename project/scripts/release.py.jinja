@@ -90,7 +90,7 @@ def release(version: str, /) -> None:
     )
 
     if not do_release:
-        _abort(f"You said no when prompted to bump to the {version!r} version.")
+        _abort(f"You said no when prompted to upgrade to the {version!r} version.")
 
     _LOGGER.info("Bumping to the %r version", version)
     _run("poetry", "version", version)
