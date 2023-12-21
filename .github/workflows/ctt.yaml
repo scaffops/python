@@ -21,4 +21,4 @@ jobs:
     - name: "Install dependencies"
       run: "poetry install"
     - name: "Run CTT"
-      run: "oetry run ctt"
+      run: "poetry run ctt"
