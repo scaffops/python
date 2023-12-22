@@ -11,7 +11,6 @@
 #%- endif %#
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Code style](https://img.shields.io/badge/code%20style-black-000000.svg?label=Code%20style)](https://github.com/psf/black)
 #%- if public %#
 [![License](https://img.shields.io/github/license/{{github_username}}/{{repo_name}}.svg?label=License)]({{repo_url}}/blob/HEAD/LICENSE)
 #%- endif %#
