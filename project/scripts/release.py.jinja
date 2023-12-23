@@ -58,9 +58,11 @@ def _setup_logging() -> None:
     _LOGGER.addHandler(_logger_handler)
 
 
-def _command(prompt: str, /) -> str:
-    """Run a command and return its output."""
-    return subprocess.getoutput(prompt)
+def _command(cmd: str, /):
+    data = subprocess.check_output(cmd, shell=True, text=True)
+    if data[-1:] == "\n":
+        data = data[:-1]
+    return data
 
 
 def _run(*prompt: str) -> None:
