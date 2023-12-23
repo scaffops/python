@@ -8,7 +8,7 @@
 # Usage:
 # $ copier copy --trust --vcs-ref HEAD gh:{{skeleton}} project
 # Later on, this script will be included in your project and run automatically within:
-# $ poe upgrade
+# $ poe skeleton upgrade
 
 # shellcheck shell=sh
 # shellcheck disable=SC1054,SC1073,SC2005,SC1083
@@ -27,7 +27,7 @@ setup_task_event() {
         if test "$(pwd | grep "old_copy")"
         then
             export TASK_EVENT="CHECKOUT_LAST_SKELETON"
-        # After update
+            # After update
         else
             export TASK_EVENT="CHECKOUT_PROJECT"
         fi
@@ -127,9 +127,11 @@ after_copy() {
     else
         git revert --no-commit HEAD
         echo "Reverted the latest commit to complete the integration process."
-        echo "Patch your files and commit your changes to inform copier what needs to be kept."
+        echo "Patch your files and commit your changes with the --am option"
+        echo "to inform copier what needs to be kept."
+        echo
         echo "Then run:"
-        echo "$ poe upgrade"
+        echo "$ poe skeleton upgrade"
     fi
     #% endif %#
 }
