@@ -9,14 +9,14 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v4"
+    - name: "Install Poetry"
+      run: "pipx install poetry"
     - name: "Set up Python {{python_version}}"
       uses: "actions/setup-python@v5"
       with:
-        python-version: "{{python_version}}"
+        cache: "poetry"
     - name: "Install the project"
-      run: |
-        pip install poetry
-        poetry install
+      run: "poetry install"
     - name: "Type-check with mypy"
       run: >
         poetry run mypy . --strict

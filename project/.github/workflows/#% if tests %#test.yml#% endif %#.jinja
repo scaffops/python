@@ -14,14 +14,15 @@ jobs:
         python-version: [{{python_versions}}]
     steps:
     - uses: "actions/checkout@v4"
+    - name: "Install Poetry"
+      run: "pipx install poetry"
     - name: "Set up Python {{"${{matrix.python-version}}"}}"
       uses: "actions/setup-python@v5"
       with:
         python-version: "{{"${{matrix.python-version}}"}}"
+        cache: "poetry"
     - name: "Install the project"
-      run: |
-        pip install poetry
-        poetry install
+      run: "poetry install"
     - name: "Run tests"
       run: "poetry run coverage run -m pytest -v ."
     - name: "Report coverage"
