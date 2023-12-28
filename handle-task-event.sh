@@ -94,7 +94,7 @@ after_copy() {
     #% if not ctt_mode %#
     if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
     then
-        BRANCH="master"
+        BRANCH="main"
         echo "Initializing git repository..."
         git init .
         git branch -M "$BRANCH"
