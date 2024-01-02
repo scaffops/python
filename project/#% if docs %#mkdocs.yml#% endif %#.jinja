@@ -66,4 +66,12 @@ plugins:
 - "autorefs"
 - "search"
 - "markdown-exec"
-- "mkdocstrings"
+- "mkdocstrings":
+    handlers:
+      python:
+        options:
+          members_order: "source"
+          show_signature_annotations: true
+        paths: ["{{package_name}}/"]
+        import:
+        - "https://docs.python.org/3/objects.inv"
