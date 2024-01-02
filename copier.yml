@@ -18,7 +18,8 @@ _jinja_extensions:
 _subdirectory: "project"
 _tasks:
 - >-
-  (
+  set -eE
+  && (
   ./handle-task-event
   || (TEMPLATE_PREVIEW=$(mktemp); cp ./handle-task-event $TEMPLATE_PREVIEW)
   )
