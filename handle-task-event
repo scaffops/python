@@ -267,8 +267,9 @@ supply_keys() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
     local ENV_NAME="Upload Coverage"
-    note "Creating a GitHub Actions environment $BLUE$ENV_NAME$NC..."
+    note "Creating a GitHub Actions environment $BLUE$ENV_NAME$NC if necessary..."
     ensure_gh_environment "$ENV_NAME"
+    success "Environment $BLUE$ENV_NAME$NC exists."
     echo
     note "Checking if Smokeshow secret key needs to be created..."
     set +eE
