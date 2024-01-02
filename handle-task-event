@@ -19,8 +19,8 @@ setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
     export SKELETON_COMMAND
     note "(Setting up task event)"
-    info "${GREY}Skeleton command$NC: ${SKELETON_COMMAND:="copy"}"
-    info "${GREY}Project path key$NC: ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
+    info "${GREY}Skeleton command:$NC ${SKELETON_COMMAND:="copy"}"
+    info "${GREY}Project path key:$NC ${PROJECT_PATH_KEY:="${PPID}_skeleton_project_path"}"
 
     # It is a temporary directory that copier uses before or after updating
     set +eE
@@ -56,10 +56,10 @@ setup_task_event() {
     set -eE
 
     determine_project_path
-    info "${GREY}Task stage$NC: $TASK_EVENT"
-    info "${GREY}Last skeleton revision$NC: ${LAST_REF:-"N/A"}"
-    info "${GREY}Project path$NC: ${PROJECT_PATH:-"N/A"}"
-    info "${GREY}Runner ID$NC: $PPID"
+    info "${GREY}Task stage:$NC $TASK_EVENT"
+    info "${GREY}Last skeleton revision:$NC ${LAST_REF:-"N/A"}"
+    info "${GREY}Project path:$NC ${PROJECT_PATH:-"N/A"}"
+    info "${GREY}Runner ID:$NC $PPID"
     echo
 }
 
@@ -294,6 +294,3 @@ supply_keys() {
 #%- if upgrade_script %#
 # End of copied code
 #%- endif %#
-
-setup_task_event
-handle_task_event

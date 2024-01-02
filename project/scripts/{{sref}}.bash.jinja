@@ -65,8 +65,8 @@ run_update_algorithm() {
 after_update_algorithm() {
     # Run post-update hooks, auto-commit changes
     cd "$PROJECT_PATH"
-    info "${GREY}Previous skeleton revision$NC: $LAST_REF"
-    info "${GREY}Current skeleton revision$NC: ${NEW_REF:-"N/A"}"
+    info "${GREY}Previous skeleton revision:$NC $LAST_REF"
+    info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
     local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
     git add .
     if test "$LAST_REF" = "$NEW_REF"
@@ -95,7 +95,7 @@ main() {
 
     cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
     echo
-    info "${GREY}Last skeleton revision$NC: $LAST_REF"
+    info "${GREY}Last skeleton revision:$NC $LAST_REF"
     echo
     note "UPGRADE ROUTINE [1/3]: Running pre-update hooks."
     before_update_algorithm
@@ -105,7 +105,7 @@ main() {
     run_update_algorithm "$@"
     success "UPGRADE ROUTINE [2/3] COMPLETE."
     echo
-    info "${GREY}Project path$NC: $PROJECT_PATH"
+    info "${GREY}Project path:$NC $PROJECT_PATH"
     echo
     note "UPGRADE ROUTINE [3/3]: Running post-update hooks."
     after_update_algorithm
