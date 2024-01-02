@@ -100,8 +100,8 @@ after_copy() {
     then
         BRANCH="main"
         note "Initializing git repository..."
-        git init .
-        git branch -M "$BRANCH"
+        silent git init .
+        silent git branch -M "$BRANCH"
         info "Main branch: $BRANCH"
         gh repo create {{gh.repo_args}}
         git remote add origin "{{repo_url}}.git"
@@ -111,20 +111,21 @@ after_copy() {
     fi
     echo
     #%- if use_precommit %#
-    poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    silent poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    success "Pre-commit installed."
     #%- endif %#
     COMMIT_MSG="Copy {{snref}}"
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
     echo
-    git add .
-    git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    silent git add .
+    silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
     if test "$CREATED"
     then
-        git push --no-verify -u origin "$BRANCH"
+        silent git push --no-verify -u origin "$BRANCH"
         setup_gh
     else
-        git revert --no-commit HEAD
+        silent git revert --no-commit HEAD
         info "Reverted the latest commit to complete the integration process."
         echo "Patch your files and commit your changes with the --am option"
         echo "to inform copier what needs to be kept."
@@ -244,7 +245,7 @@ error() {
 setup_gh() {
     note "Calling GitHub setup hooks..."
     #%- if public %#
-    supply_smokeshow_key
+    supply_keys
     #%- endif %#
 }
 
