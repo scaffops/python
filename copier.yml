@@ -36,7 +36,7 @@ visibility:
 github_username:
   type: "str"
   help: "GitHub username of the owner of the repository, maybe organization"
-  default: "{{git_username}}"
+  default: "{{git_username or 'bswck'}}"
 author_username:
   type: "str"
   default: "{{github_username}}"
@@ -47,7 +47,7 @@ org_full_name:
   help: "Full name of the copyright holder"
 email_address:
   type: "str"
-  default: "{{git_email}}"
+  default: "{{git_email or 'bswck'}}"
   help: "Your e-mail address"
 publish_on_pypi:
   type: "bool"
