@@ -68,7 +68,7 @@ after_update_algorithm() {
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
     local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
-    git add .
+    silent git add .
     if test "$LAST_REF" = "$NEW_REF"
     then
         info "The version of the skeleton has not changed."
@@ -83,7 +83,7 @@ after_update_algorithm() {
     fi
     silent redis-cli del "$PROJECT_PATH_KEY"
     silent redis-cli del "$NEW_REF_KEY"
-    git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     setup_gh && echo
 }
 
