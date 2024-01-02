@@ -270,16 +270,16 @@ supply_keys() {
     note "Creating a GitHub Actions environment $BLUE$ENV_NAME$NC..."
     ensure_gh_environment "$ENV_NAME"
     echo
-    note "Checking if smokeshow secret needs to be created..."
+    note "Checking if Smokeshow secret key needs to be created..."
     set +eE
-    if test "$(gh secret list -e "$ENV_NAME" | grep -o SMOKESHOW_API_KEY)"
+    if test "$(gh secret list -e "$ENV_NAME" | grep -o SMOKESHOW_AUTH_KEY)"
     then
-        info "Smokeshow secret already exists."
+        info "Smokeshow secret key already set."
     else
         info "Smokeshow secret key does not exist yet."
-        note "Creating smokeshow secret key..."
+        note "Creating Smokeshow secret key..."
         SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-        gh secret set SMOKESHOW_AUTH_KEY --env "$ENV_NAME" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to create smokeshow secret."
+        gh secret set SMOKESHOW_AUTH_KEY --env "$ENV_NAME" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to set Smokeshow secret key."
         echo
     fi
     note "Setting codecov secret token..."
