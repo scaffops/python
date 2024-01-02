@@ -47,7 +47,7 @@ org_full_name:
   help: "Full name of the copyright holder"
 email_address:
   type: "str"
-  default: "{{git_email or 'bswck'}}"
+  default: "{{git_email or 'bswck.dev@gmail.com'}}"
   help: "Your e-mail address"
 publish_on_pypi:
   type: "bool"
