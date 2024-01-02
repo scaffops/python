@@ -97,7 +97,6 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_copier_hook
-    echo
     #% if not ctt_mode %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
