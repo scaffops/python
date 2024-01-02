@@ -101,6 +101,7 @@ after_copy() {
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
         BRANCH="main"
+        echo
         note "Initializing git repository..."
         silent git init .
         silent git branch -M "$BRANCH"
