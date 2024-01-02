@@ -17,7 +17,20 @@ _jinja_extensions:
 - "extensions/stringops.py:StringOpsExtension"
 _subdirectory: "project"
 _tasks:
-- ./handle-task-event && rm -f ./handle-task-event
+- >-
+  (
+  ./handle-task-event
+  || (TEMPLATE_PREVIEW=$(mktemp); cp ./handle-task-event $TEMPLATE_PREVIEW)
+  )
+  && rm -f ./handle-task-event
+  && (
+  if test $TEMPLATE_PREVIEW;
+  then (
+  echo "Opening the failing template preview"
+  && $EDITOR $TEMPLATE_PREVIEW
+  );
+  fi
+  )
 
 repo_name:
   type: "str"
