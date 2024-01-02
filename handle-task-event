@@ -267,12 +267,12 @@ supply_keys() {
     note "Checking if smokeshow secret needs to be created..."
     ensure_gh_environment "Upload Coverage"
     set +eE
-    if test "$(gh secret list -e "Upload Coverage" | grep -o SMOKESHOW_KEY)"
+    if test "$(gh secret list -e "Upload Coverage" | grep -o SMOKESHOW_API_KEY)"
     then
         info "Smokeshow secret already exists."
     else
-        SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_KEY | grep -oP "='\K[^']+")
-        gh secret set SMOKESHOW_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null
+        SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_API_KEY | grep -oP "='\K[^']+")
+        gh secret set SMOKESHOW_API_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null
         if test $? = 0
         then
             success "Smokeshow secret created."
