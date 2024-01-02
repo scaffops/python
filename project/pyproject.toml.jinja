@@ -28,21 +28,9 @@ python = ">={{python_version}},<={{latest_python_version}}"
 [tool.poetry.group.dev.dependencies]
 
 [tool.poetry.group.dev-skeleton.dependencies]
-# {{_origin|skeleton_notice(snref=snref, srev=srev, scope="dependency group")|custom_indent("# ")}}
-mypy = "^1.7.0"
-ruff = "^0.1.2"
-towncrier = "^23.11.0"
-#%- if tests %#
-pytest = "^7.4.3"
-coverage = "^7.3.2"
-#%- endif %#
-poethepoet = "^0.24.3"
-#%- if use_precommit %#
-pre-commit = "^3.5.0"
-#%- endif %#
-#%- if public and tests %#
-smokeshow = "^0.4.0"
-#% endif %#
+#%- with included=True %#
+#%- include "pyproject.toml" %#
+#%- endwith %#
 
 #%- if docs %#
 [tool.poetry.group.docs]
