@@ -119,6 +119,7 @@ after_copy() {
     #%- endif %#
     COMMIT_MSG="Copy {{snref}}"
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
+    silent git rm -f ./handle-task-event
     silent git add .
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
