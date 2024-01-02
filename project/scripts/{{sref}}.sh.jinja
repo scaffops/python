@@ -85,8 +85,6 @@ after_update_algorithm() {
     fi
     redis-cli del "$PROJECT_PATH_KEY" > /dev/null 2>&1
     redis-cli del "$NEW_REF_KEY" > /dev/null 2>&1
-    echo "Press ENTER to commit the changes or CTRL+C to abort."
-    read -r || exit 1
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     setup_gh
 }
