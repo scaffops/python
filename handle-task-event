@@ -106,7 +106,7 @@ after_copy() {
         info "Main branch: $BRANCH"
         gh repo create {{gh.repo_args}}
         git remote add origin "{{repo_url}}.git"
-        CREATED=1
+        CREATED="1"
     else
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     fi
@@ -121,7 +121,7 @@ after_copy() {
     silent git add .
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
-    if test "$CREATED"
+    if test "${CREATED:-0}" != "0"
     then
         silent git push --no-verify -u origin "$BRANCH"
         setup_gh
