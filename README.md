@@ -45,21 +45,23 @@ SKELETON=gh:bswck/skeleton
 ```
 
 ## Create a new project
+![Copy demo](./assets/copy_demo.svg)
+
 1.  Make sure that you trust me.
-1.  Run the following command:
+2.  Run the following command:
 
     ```shell
     copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
     ```
 
-1.  Answer the questions.
-1.  Change directory to your project:
+3.  Answer the questions.
+4.  Change directory to your project:
 
     ```shell
     cd path/to/project
     ```
 
-1. Happy coding!
+5. Happy coding!
 Your repository is on GitHub and has:
 - a release maker (`💲 poe release`),
 - skeleton tool (`💲 poe skeleton [upgrade|patch]`),
