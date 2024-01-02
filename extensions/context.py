@@ -15,6 +15,8 @@ if TYPE_CHECKING:
 
 
 LATEST_PYTHON_VERSION: tuple[int, int] = (3, 12)
+PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1]+1)
+
 
 COVERAGE_URL: Template = Template(
     "https://coverage-badge.samuelcolvin.workers.dev/"
@@ -76,7 +78,7 @@ class InplaceContextHook(ContextHook, metaclass=ABCMeta):
         return self._hook(context) or context
 
     @abstractmethod
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         ...
 
 
@@ -101,24 +103,25 @@ class SkeletonExtension(Extension):
 
 
 class ProjectURLContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["repo_url"] = REPO_URL.substitute(context)
         context["coverage_url"] = COVERAGE_URL.substitute(context)
         context["docs_url"] = DOCS_URL.substitute(context)
         context["pypi_url"] = PYPI_URL.substitute(context)
 
 
-def _generate_python_versions(python_version: str) -> Iterable[tuple[int, int]]:
-    python_version = (major, minor) = tuple(map(int, python_version.split(".")))
-    yield python_version
+def _generate_python_versions(python_version_string: str) -> Iterable[tuple[int, int]]:
+    (major, minor) = tuple(map(int, python_version_string.split(".")))
+    yield (major, minor)
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
         yield (major, minor)
 
 
 class PythonVersionsContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
+        context["python_version_ahead"] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context["python_versions"] = ", ".join(
             f"{major}.{minor}".join('""')
             for major, minor in _generate_python_versions(context["python_version"])
@@ -126,7 +129,7 @@ class PythonVersionsContextHook(InplaceContextHook):
 
 
 class VisibilityContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["public"] = context["visibility"] == "public"
         context["private"] = not context["public"]
 
@@ -136,11 +139,11 @@ class TemplateContextHook(InplaceContextHook):
         self.filename = filename and Path(*Path(filename).parts[3:]).as_posix()
         return source
 
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["_origin"] = self.filename
 
 
 class GitContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["git_username"] = getoutput("git config user.name")
         context["git_email"] = getoutput("git config user.email")
