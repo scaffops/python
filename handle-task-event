@@ -76,7 +76,7 @@ run_copier_hook() {
 setup_poetry_virtualenv() {
     # Set up poetry virtualenv. This is needed for copier to work flawlessly.
     #% if not ctt_mode %#
-    note "Using Python version ${PYTHON_VERSION:=$(cat .python-version)}"
+    note "Setting Python version to ${PYTHON_VERSION:=$(cat .python-version)}..."
     poetry env use "$PYTHON_VERSION"
     echo
     note "Running poetry installation for the $TASK_EVENT routine..."
