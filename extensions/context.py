@@ -123,7 +123,7 @@ def _generate_python_versions(python_version_string: str) -> Iterable[tuple[int,
 class PythonVersionsContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
         context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
-        context["python_version_ahead"] = ".".join(map(str, LATEST_PYTHON_VERSION))
+        context["python_version_ahead"] = ".".join(map(str, PYTHON_VERSION_AHEAD))
         context["python_versions"] = ", ".join(
             f"{major}.{minor}".join('""')
             for major, minor in _generate_python_versions(context["python_version"])
