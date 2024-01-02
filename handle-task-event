@@ -265,23 +265,22 @@ supply_keys() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
 
-    info "Checking if smokeshow secret needs to be created..."
+    note "Checking if smokeshow secret needs to be created..."
     ensure_gh_environment "Upload Coverage"
     if test "$(gh secret list -e "Upload Coverage" | grep -o SMOKESHOW_KEY)"
     then
-        info "Smokeshow secret already exists, aborting." && return 0
-    fi
-    info "Smokeshow secret does not exist, creating..."
-
-    SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_KEY | grep -oP "='\K[^']+")
-
-    silent gh secret set SMOKESHOW_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY"
-    if test $? = 0
-    then
-        success "Smokeshow secret created."
+        info "Smokeshow secret already exists, aborting."
     else
-        error 0 "Failed to create smokeshow secret."
+        SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_KEY | grep -oP "='\K[^']+")
+        silent gh secret set SMOKESHOW_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY"
+        if test $? = 0
+        then
+            success "Smokeshow secret created."
+        else
+            error 0 "Failed to create smokeshow secret."
+        fi
     fi
+    note "Creating codecov secret..."
     CODECOV_TOKEN=$(keyring get codecov token)
     silent gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN"
     if test $? = 0
