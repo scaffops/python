@@ -86,6 +86,7 @@ setup_poetry_virtualenv() {
     #% else %#
     :
     #% endif %#
+    clear
 }
 
 after_copy() {
@@ -96,7 +97,7 @@ after_copy() {
     run_copier_hook
     echo
     #% if not ctt_mode %#
-    if test "$(git rev-parse --show-toplevel)" != "$(pwd)"
+    if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
         BRANCH="main"
         note "Initializing git repository..."
@@ -173,7 +174,7 @@ handle_task_event() {
         echo
         #% if not ctt_mode %#
         success "Done! 🎉"
-        info "Your repository is now set up at $BOLD{{repo_url}}$NC"
+        info "Your repository is now set up at ${BOLD}{{repo_url}}$NC"
         info "$ cd $PROJECT_PATH"
         echo
         echo "Happy coding!"

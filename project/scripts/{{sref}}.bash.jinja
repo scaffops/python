@@ -114,7 +114,7 @@ main() {
     success "Done! 🎉"
     echo
     echo "Your repository is now up to date with this {{skeleton}} revision:"
-    echo -e "$BOLD{{skeleton_url}}/tree/${NEW_REF:-"HEAD"}$NC"
+    echo -e "${BOLD}{{skeleton_url}}/tree/${NEW_REF:-"HEAD"}$NC"
 }
 
 main "$@"
