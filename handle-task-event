@@ -113,6 +113,7 @@ after_copy() {
     fi
     echo
     #%- if use_precommit %#
+    note "Installing pre-commit..."
     silent poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
     success "Pre-commit installed."
     #%- endif %#
