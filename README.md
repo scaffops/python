@@ -102,6 +102,7 @@ Almost the same as above.
 
 
 ## Bump the version of skeleton in your project
+![Upgrade demo](./assets/upgrade_demo.svg)
 
 ```shell
 poe skeleton upgrade
