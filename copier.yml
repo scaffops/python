@@ -17,12 +17,7 @@ _jinja_extensions:
 - "extensions/stringops.py:StringOpsExtension"
 _subdirectory: "project"
 _tasks:
-- |
-  #% filter indent(width=0) %#
-  #% include "handle-task-event.sh" %#
-  setup_task_event
-  handle_task_event
-  #% endfilter %#
+- ./handle-task-event && rm -f ./handle-task-event
 
 repo_name:
   type: "str"
