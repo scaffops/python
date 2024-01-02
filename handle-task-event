@@ -70,7 +70,6 @@ run_copier_hook() {
     info "Copier hook exited with code $BOLD$?$NC."
     note "Removing copier hook..."
     rm copier_hook.py || (error $? "Failed to remove copier hook.")
-    clear
 }
 
 setup_poetry_virtualenv() {
@@ -97,6 +96,7 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_copier_hook
+    silent rm -f ./handle-task-event
     #% if not ctt_mode %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
@@ -119,7 +119,6 @@ after_copy() {
     #%- endif %#
     COMMIT_MSG="Copy {{snref}}"
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
-    silent git rm -f ./handle-task-event
     silent git add .
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
