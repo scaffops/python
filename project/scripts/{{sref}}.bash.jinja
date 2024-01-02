@@ -84,7 +84,7 @@ after_update_algorithm() {
     silent redis-cli del "$PROJECT_PATH_KEY"
     silent redis-cli del "$NEW_REF_KEY"
     git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
-    setup_gh
+    setup_gh && echo
 }
 
 main() {

@@ -124,7 +124,7 @@ after_copy() {
     if test "${CREATED:-0}" != 0
     then
         silent git push --no-verify -u origin "$BRANCH"
-        setup_gh
+        setup_gh && echo
     else
         silent git revert --no-commit HEAD
         info "Reverted the latest commit to complete the integration process."
@@ -246,6 +246,7 @@ error() {
 setup_gh() {
     note "Calling GitHub setup hooks..."
     #%- if public %#
+    echo
     supply_keys
     #%- endif %#
 }
@@ -264,7 +265,6 @@ ensure_gh_environment() {
 supply_keys() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
-
     note "Checking if smokeshow secret needs to be created..."
     ensure_gh_environment "Upload Coverage"
     set +eE
@@ -274,6 +274,7 @@ supply_keys() {
     else
         SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
         gh secret set SMOKESHOW_AUTH_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to create smokeshow secret."
+        echo
     fi
     note "Creating codecov secret..."
     CODECOV_TOKEN=$(keyring get codecov token)
