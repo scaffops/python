@@ -6,6 +6,7 @@ on: ["push"]
 
 jobs:
   test:
+    runs-on: "{{"${{matrix.os}}"}}-latest"
     environment: "Test"
     strategy:
       fail-fast: false
