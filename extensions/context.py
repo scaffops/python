@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from string import Template
 from subprocess import getoutput
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from urllib.parse import quote
 
 from jinja2.environment import Environment
@@ -72,13 +72,16 @@ def skeleton_notice(path: str | None, snref: str, srev: str, scope: str = "file"
 class InplaceContextHook(ContextHook, metaclass=ABCMeta):
     update = False
 
+    def hook(self, context: dict[str, Any]) -> dict[str, Any]:
+        return self._hook(context) or context
+
     @abstractmethod
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         ...
 
 
 class SkeletonContextHook(InplaceContextHook):
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, Any]) -> None:
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
         context["skeleton_ref"] = context["sref"] = (
@@ -98,7 +101,7 @@ class SkeletonExtension(Extension):
 
 
 class ProjectURLContextHook(InplaceContextHook):
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         context["repo_url"] = REPO_URL.substitute(context)
         context["coverage_url"] = COVERAGE_URL.substitute(context)
         context["docs_url"] = DOCS_URL.substitute(context)
@@ -114,7 +117,7 @@ def _generate_python_versions(python_version: str) -> Iterable[tuple[int, int]]:
 
 
 class PythonVersionsContextHook(InplaceContextHook):
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context["python_versions"] = ", ".join(
             f"{major}.{minor}".join('""')
@@ -123,7 +126,7 @@ class PythonVersionsContextHook(InplaceContextHook):
 
 
 class VisibilityContextHook(InplaceContextHook):
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         context["public"] = context["visibility"] == "public"
         context["private"] = not context["public"]
 
@@ -133,11 +136,11 @@ class TemplateContextHook(InplaceContextHook):
         self.filename = filename and Path(*Path(filename).parts[3:]).as_posix()
         return source
 
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         context["_origin"] = self.filename
 
 
 class GitContextHook(InplaceContextHook):
-    def hook(self, context: dict[str, object]) -> None:
+    def _hook(self, context: dict[str, object]) -> None:
         context["git_username"] = getoutput("git config user.name")
         context["git_email"] = getoutput("git config user.email")

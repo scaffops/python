@@ -9,7 +9,7 @@ from copier_templates_extensions import ContextHook
 class CommandsContextHook(ContextHook):
     update = False
 
-    def hook(self, context: dict[str, object]) -> None:
+    def hook(self, context: dict[str, object]) -> None:  # type: ignore[override]
         context["gh"] = SimpleNamespace(
             repo_args=(
                 '"{github_username}/{repo_name}" '
