@@ -70,6 +70,7 @@ run_copier_hook() {
     info "Copier hook exited with code $BOLD$?$NC."
     note "Removing copier hook..."
     rm copier_hook.py || (error $? "Failed to remove copier hook.")
+    clear
 }
 
 setup_poetry_virtualenv() {
@@ -175,7 +176,7 @@ handle_task_event() {
         #% if not ctt_mode %#
         success "Done! 🎉"
         info "Your repository is now set up at ${BOLD}{{repo_url}}$NC"
-        echo -e "💲 ${BOLD}cd $PROJECT_PATH$NC"
+        echo -e "  💲 ${BOLD}cd $PROJECT_PATH$NC"
         echo
         echo "Happy coding!"
         echo -e "$GREY-- bswck$NC"
