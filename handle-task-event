@@ -106,7 +106,7 @@ after_copy() {
         info "Main branch: $BRANCH"
         gh repo create {{gh.repo_args}}
         git remote add origin "{{repo_url}}.git"
-        CREATED="1"
+        CREATED=1
     else
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     fi
@@ -117,11 +117,10 @@ after_copy() {
     #%- endif %#
     COMMIT_MSG="Copy {{snref}}"
     REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
-    echo
     silent git add .
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
-    if test "${CREATED:-0}" != "0"
+    if test "${CREATED:-0}" != 0
     then
         silent git push --no-verify -u origin "$BRANCH"
         setup_gh
@@ -269,10 +268,10 @@ supply_keys() {
     ensure_gh_environment "Upload Coverage"
     if test "$(gh secret list -e "Upload Coverage" | grep -o SMOKESHOW_KEY)"
     then
-        info "Smokeshow secret already exists, aborting."
+        info "Smokeshow secret already exists."
     else
         SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_KEY | grep -oP "='\K[^']+")
-        silent gh secret set SMOKESHOW_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY"
+        gh secret set SMOKESHOW_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY"
         if test $? = 0
         then
             success "Smokeshow secret created."
@@ -282,7 +281,7 @@ supply_keys() {
     fi
     note "Creating codecov secret..."
     CODECOV_TOKEN=$(keyring get codecov token)
-    silent gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN"
+    gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN"
     if test $? = 0
     then
         success "Codecov secret created."
