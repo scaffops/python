@@ -1,6 +1,6 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
-name: "Smokeshow"
+name: "Upload Coverage"
 
 on:
   workflow_run:
@@ -14,7 +14,7 @@ permissions:
 jobs:
   smokeshow:
     runs-on: "ubuntu-latest"
-    environment: "Smokeshow"
+    environment: "Upload Coverage"
     steps:
     - uses: "actions/setup-python@v5"
       with:
