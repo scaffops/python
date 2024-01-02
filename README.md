@@ -119,20 +119,20 @@ poe skeleton patch
 
 # How to develop
 
-1.  Install [Poetry](https://python-poetry.org/) and project dependencies
+1.  Install [Poetry](https://python-poetry.org/) and project dependencies.
 
     ```shell
     sudo apt install pipx  # If you don't have pipx installed yet.
     pipx install poetry
     poetry install
     ```
-1.  Install [pre-commit](https://pre-commit.com/) hooks
+1.  Install [pre-commit](https://pre-commit.com/) hooks.
 
     ```shell
     pre-commit install --hook-type pre-commit --hook-type pre-push
     ```
 
-1.  Test your skeleton
+1.  Test your skeleton.
 
     ```shell
     ctt
