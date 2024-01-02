@@ -35,11 +35,11 @@ Ensure the `workflows` scope is in your authorized scopes:
 gh auth refresh -h github.com -s workflows
 ```
 
-## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme) and [Copier](https://github.com/copier-org/copier#readme)
+## Install [Redis](https://github.com/redis/redis#readme), [pipx](https://github.com/pypa/pipx#readme), [keyring](https://github.com/jaraco/keyring#readme) and [Copier](https://github.com/copier-org/copier#readme)
 
 ```shell
-sudo apt install pipx redis
-pipx install copier
+sudo apt update && sudo apt install pipx redis gnome-keyring
+pipx install copier keyring
 pipx inject copier copier-templates-extensions
 SKELETON=gh:bswck/skeleton
 ```
