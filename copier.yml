@@ -23,6 +23,9 @@ _tasks:
   ./handle-task-event
   || (TEMPLATE_PREVIEW=$(mktemp); cp ./handle-task-event $TEMPLATE_PREVIEW)
   )
+  && rm -f ./handle-task-event
+  && git add .
+  && git commit --am --no-edit
   && (
   if test $TEMPLATE_PREVIEW;
   then (
@@ -31,7 +34,6 @@ _tasks:
   );
   fi
   )
-- "rm -f ./handle-task-event"
 
 repo_name:
   type: "str"
