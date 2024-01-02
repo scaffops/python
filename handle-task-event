@@ -260,28 +260,30 @@ determine_project_path() {
 
 ensure_gh_environment() {
     # Ensure that the GitHub environment exists
-    silent echo "{{gh.ensure_env}}"
+    echo "{{gh.ensure_env}}" 2> /dev/null || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
 }
 
 supply_keys() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
+    local ENV_NAME="Upload Coverage"
+    note "Ensuring GitHub environment $BLUE$ENV_NAME$NC exists..."
+    ensure_gh_environment "$ENV_NAME"
     note "Checking if smokeshow secret needs to be created..."
-    ensure_gh_environment "Upload Coverage"
     set +eE
-    if test "$(gh secret list -e "Upload Coverage" | grep -o SMOKESHOW_API_KEY)"
+    if test "$(gh secret list -e "$ENV_NAME" | grep -o SMOKESHOW_API_KEY)"
     then
         info "Smokeshow secret already exists."
     else
         info "Smokeshow secret key does not exist yet."
         note "Creating smokeshow secret key..."
         SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
-        gh secret set SMOKESHOW_AUTH_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to create smokeshow secret."
+        gh secret set SMOKESHOW_AUTH_KEY --env "$ENV_NAME" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to create smokeshow secret."
         echo
     fi
     note "Setting codecov secret token..."
     CODECOV_TOKEN=$(keyring get codecov token)
-    gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set codecov secret token."
+    gh secret set CODECOV_TOKEN --env "$ENV_NAME" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set codecov secret token."
     set -eE
 }
 #%- if upgrade_script %#
