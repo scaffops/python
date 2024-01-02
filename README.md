@@ -49,7 +49,7 @@ SKELETON=gh:bswck/skeleton
 1.  Run the following command:
 
     ```shell
-    copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
+    copier copy --trust --vcs-ref HEAD "💲SKELETON" path/to/project
     ```
 
 1.  Answer the questions.
@@ -83,7 +83,7 @@ Almost the same as above.
 1.  Run the following command:
 
     ```shell
-    copier copy --trust --vcs-ref HEAD "$SKELETON" .
+    copier copy --trust --vcs-ref HEAD "💲SKELETON" .
     ```
 
 1.  Answer the questions.
