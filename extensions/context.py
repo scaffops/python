@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 
 LATEST_PYTHON_VERSION: tuple[int, int] = (3, 12)
-PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1]+1)
+PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1] + 1)
 
 
 COVERAGE_URL: Template = Template(
@@ -57,7 +57,9 @@ SKELETON_NOTICE_PATHLESS: Template = Template(
 )
 
 
-def skeleton_notice(path: str | None, snref: str, srev: str, scope: str = "file") -> str:
+def skeleton_notice(
+    path: str | None, snref: str, srev: str, scope: str = "file"
+) -> str:
     if path is None:
         return SKELETON_NOTICE_PATHLESS.substitute(
             scope=scope,
@@ -86,9 +88,9 @@ class SkeletonContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
         context["skeleton"] = context["_src_path"].lstrip("gh:")
         context["skeleton_url"] = SKELETON_URL.substitute(context)
-        context["skeleton_ref"] = context["sref"] = (
-            context["_copier_answers"]["_commit"]
-        )
+        context["skeleton_ref"] = context["sref"] = context["_copier_answers"][
+            "_commit"
+        ]
         context["skeleton_rev"] = context["srev"] = SKELETON_REV.substitute(context)
         context["skeleton_and_ref"] = context["snref"] = "@".join(
             (context["skeleton"], context["skeleton_ref"])
@@ -135,7 +137,12 @@ class VisibilityContextHook(InplaceContextHook):
 
 
 class TemplateContextHook(InplaceContextHook):
-    def preprocess(self, source: str, name: str, filename: str | None = None) -> str:
+    def preprocess(
+        self,
+        source: str,
+        name: str | None,
+        filename: str | None = None,
+    ) -> str:
         self.filename = filename and Path(*Path(filename).parts[3:]).as_posix()
         return source
 
