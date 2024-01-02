@@ -40,7 +40,7 @@ setup_task_event() {
 
         # Does this repository exist remotely?
         silent git ls-remote "{{repo_url}}" HEAD
-        if test $? = 0 && test "$LAST_REF"  # Missing $LAST_REF means we are not updating.
+        if test $? = 0 && test "${LAST_REF:=""}"  # Missing $LAST_REF means we are not updating.
         then
             # Let the parent process know what is the new skeleton revision
             set -eE
