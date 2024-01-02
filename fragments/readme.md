@@ -9,11 +9,15 @@
 #%- if public %#
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})
 #%- endif %#
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+#%- if docs %#
+[![Documentation Status](https://readthedocs.org/projects/{{docs_slug}}/badge/?version=latest)](https://{{docs_slug}}.readthedocs.io/en/latest/?badge=latest)
+#%- endif %#
 #%- if public %#
 [![License](https://img.shields.io/github/license/{{github_username}}/{{repo_name}}.svg?label=License)]({{repo_url}}/blob/HEAD/LICENSE)
 #%- endif %#
+
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 #%- if use_precommit %#
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 #%- endif %#
