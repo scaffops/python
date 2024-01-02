@@ -49,7 +49,7 @@ SKELETON=gh:bswck/skeleton
 1.  Run the following command:
 
     ```shell
-    copier copy --trust --vcs-ref HEAD "$SKELETON" path/to/project
+    copier copy --trust --vcs-ref HEAD "💲SKELETON" path/to/project
     ```
 
 1.  Answer the questions.
@@ -61,12 +61,12 @@ SKELETON=gh:bswck/skeleton
 
 1. Happy coding!
 Your repository is on GitHub and has:
-- a release maker (`$ poe release`),
-- skeleton tool (`$ poe skeleton [upgrade|patch]`),
+- a release maker (`💲 poe release`),
+- skeleton tool (`💲 poe skeleton [upgrade|patch]`),
 - aesthetic badges in README.md,
 - an auto-generated LICENSE file,
 - a pre-configured `pyproject.toml` file,
-- pre-configured [towncrier](https://github.com/twisted/towncrier#readme) tasks for changelog generation (`$ poe [added|changed|deprecated|removed|fixed|security]`),
+- pre-configured [towncrier](https://github.com/twisted/towncrier#readme) tasks for changelog generation (`💲 poe [added|changed|deprecated|removed|fixed|security]`),
 - a ready-to-use [Poetry](https://python-poetry.org/) virtual environment with all the necessary dev dependencies installed, including [poethepoet](https://github.com/nat-n/poethepoet#readme), [pre-commit](https://pre-commit.com/),
 [mypy](https://github.com/python/mypy#readme), [Ruff](https://github.com/astral-sh/ruff#readme), etc.
 - a pre-configured CI suite for GitHub Actions (including coverage report) and pre-commit.
@@ -83,7 +83,7 @@ Almost the same as above.
 1.  Run the following command:
 
     ```shell
-    copier copy --trust --vcs-ref HEAD "$SKELETON" .
+    copier copy --trust --vcs-ref HEAD "💲SKELETON" .
     ```
 
 1.  Answer the questions.
