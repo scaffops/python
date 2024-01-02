@@ -221,7 +221,7 @@ UI_TICK="${GREEN}✔${NC}"
 UI_CROSS="${RED}✘${NC}"
 
 info() {
-    echo -e "$UI_INFO" "$@"
+    echo -e "$UI_INFO $*"
 }
 
 note() {
@@ -229,7 +229,7 @@ note() {
 }
 
 success() {
-    echo -e "$UI_TICK" "$@"
+    echo -e "$UI_TICK $*"
 }
 
 silent() {
@@ -239,7 +239,7 @@ silent() {
 
 error() {
     local CODE=$1
-    echo -e "$UI_CROSS" "${@:2}" >&2
+    echo -e "$UI_CROSS ${*:2}" >&2
     return "$CODE"
 }
 
