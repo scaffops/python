@@ -271,24 +271,12 @@ supply_keys() {
     then
         info "Smokeshow secret already exists."
     else
-        SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_API_KEY | grep -oP "='\K[^']+")
-        gh secret set SMOKESHOW_API_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null
-        if test $? = 0
-        then
-            success "Smokeshow secret created."
-        else
-            error 0 "Failed to create smokeshow secret."
-        fi
+        SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
+        gh secret set SMOKESHOW_AUTH_KEY --env "Upload Coverage" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to create smokeshow secret."
     fi
     note "Creating codecov secret..."
     CODECOV_TOKEN=$(keyring get codecov token)
-    gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN" 2> /dev/null
-    if test $? = 0
-    then
-        success "Codecov secret created."
-    else
-        error 0 "Failed to create codecov secret."
-    fi
+    gh secret set CODECOV_TOKEN --env "Upload Coverage" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to create codecov secret."
     set -eE
 }
 #%- if upgrade_script %#
