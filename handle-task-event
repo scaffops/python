@@ -260,7 +260,7 @@ determine_project_path() {
 
 ensure_gh_environment() {
     # Ensure that the GitHub environment exists
-    echo "{{gh.ensure_env}}" 2> /dev/null || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
+    silent echo "{{gh.ensure_env}}" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
 }
 
 supply_keys() {
