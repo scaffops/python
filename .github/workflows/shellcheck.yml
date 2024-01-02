@@ -3,7 +3,7 @@ name: "Shellcheck"
 on:
   push:
     branches:
-    - "master"
+    - "main"
 
 jobs:
   shellcheck:
