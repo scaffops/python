@@ -175,7 +175,7 @@ handle_task_event() {
         #% if not ctt_mode %#
         success "Done! 🎉"
         info "Your repository is now set up at ${BOLD}{{repo_url}}$NC"
-        info "$ cd $PROJECT_PATH"
+        echo -e "💲 ${BOLD}cd $PROJECT_PATH$NC"
         echo
         echo "Happy coding!"
         echo -e "$GREY-- bswck$NC"
