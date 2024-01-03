@@ -73,12 +73,12 @@ run_copier_hook() {
 }
 
 setup_poetry_virtualenv() {
-    # Set up poetry virtualenv. This is needed for copier to work flawlessly.
+    # Set up Poetry virtualenv. This is needed for copier to work flawlessly.
     #% if not ctt_mode %#
     note "Setting Python version to ${PYTHON_VERSION:=$(cat .python-version)}..."
     poetry env use "$PYTHON_VERSION"
     echo
-    note "Running poetry installation for the $TASK_EVENT routine..."
+    note "Running Poetry installation for the $TASK_EVENT routine..."
     if test "$TASK_EVENT" = "COPY"
     then
         poetry update || (error $? "Failed to install dependencies.")
@@ -235,8 +235,7 @@ success() {
 }
 
 silent() {
-    local CMD=$1
-    "$CMD" "${@:2}" > /dev/null 2>&1
+    "$1" "${@:2}" > /dev/null 2>&1
 }
 
 error() {
