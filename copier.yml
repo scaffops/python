@@ -19,18 +19,12 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -eE
-  && (
-  ./handle-task-event
-  || (TEMPLATE_PREVIEW=$(mktemp); cp ./handle-task-event $TEMPLATE_PREVIEW)
-  )
-  && (
-  if test $TEMPLATE_PREVIEW;
-  then (
-  echo "Opening the failing template preview"
-  && $EDITOR $TEMPLATE_PREVIEW
-  );
-  fi
-  )
+  && (HANDLER_PREVIEW=$(mktemp); cp ./handle-task-event $HANDLER_PREVIEW)
+  && (./handle-task-event
+  || (
+  echo "Opening the failing handler preview in the editor"
+  && $EDITOR $HANDLER_PREVIEW
+  ))
 
 repo_name:
   type: "str"
