@@ -19,13 +19,12 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -eE
-  && (HANDLER_PREVIEW=$(cat ./handle-task-event))
+  && (HANDLER_PREVIEW=$(cat "./handle-task-event"))
   && (./handle-task-event
   || (
-  echo "Opening the failing handler preview in the editor"
-  && HANDLER_PREVIEW_FILE="/tmp/handler-preview-$(uuidgen)"
-  && echo "$HANDLER_PREVIEW" > $HANDLER_PREVIEW_FILE
-  && $EDITOR "$HANDLER_PREVIEW_FILE"
+  HANDLER_PREVIEW_FILE="/tmp/handler-preview-$(uuidgen)"
+  && echo "$HANDLER_PREVIEW" > "$HANDLER_PREVIEW_FILE"
+  && echo "Failing handler preview saved to $HANDLER_PREVIEW_FILE"
   ))
 
 repo_name:
