@@ -19,7 +19,7 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -eE
-  && (HANDLER_PREVIEW=$(mktemp); cp ./handle-task-event $HANDLER_PREVIEW)
+  && (HANDLER_PREVIEW=$(mktemp); cat ./handle-task-event > $HANDLER_PREVIEW)
   && (./handle-task-event
   || (
   echo "Opening the failing handler preview in the editor"
