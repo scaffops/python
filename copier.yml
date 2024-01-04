@@ -23,7 +23,7 @@ _tasks:
   && (./handle-task-event
   || (
   echo "Opening the failing handler preview in the editor"
-  && $HANDLER_PREVIEW_FILE=$(mktemp)
+  && HANDLER_PREVIEW_FILE=$(mktemp)
   && echo "$HANDLER_PREVIEW" > $HANDLER_PREVIEW_FILE
   && $EDITOR "$HANDLER_PREVIEW_FILE"
   ))
