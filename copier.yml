@@ -19,11 +19,13 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -eE
-  && (HANDLER_PREVIEW=$(mktemp); cat ./handle-task-event > $HANDLER_PREVIEW)
+  && (HANDLER_PREVIEW=$(cat ./handle-task-event))
   && (./handle-task-event
   || (
   echo "Opening the failing handler preview in the editor"
-  && $EDITOR $HANDLER_PREVIEW
+  && $HANDLER_PREVIEW_FILE=$(mktemp)
+  && echo "$HANDLER_PREVIEW" > $HANDLER_PREVIEW_FILE
+  && $EDITOR "$HANDLER_PREVIEW_FILE"
   ))
 
 repo_name:
