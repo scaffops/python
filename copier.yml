@@ -22,7 +22,7 @@ _tasks:
   && (HANDLER_PREVIEW=$(cat "./handle-task-event"))
   && (./handle-task-event
   || (
-  HANDLER_PREVIEW_FILE="/tmp/handler-preview-$(uuidgen)"
+  HANDLER_PREVIEW_FILE="/tmp/skeleton-handler-preview-$(uuidgen)"
   && echo "$HANDLER_PREVIEW" > "$HANDLER_PREVIEW_FILE"
   && echo "Failing handler preview saved to $HANDLER_PREVIEW_FILE"
   ))

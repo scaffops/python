@@ -6,7 +6,7 @@
 #%- if docs %#
 [![Documentation Status](https://readthedocs.org/projects/{{docs_slug}}/badge/?version=latest)](https://{{docs_slug}}.readthedocs.io/en/latest/?badge=latest)
 #%- endif %#
-#%- if public %#
+#%- if tests and public %#
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})
 #%- endif %#
 #%- if public %#
