@@ -248,7 +248,7 @@ setup_gh() {
     note "Calling GitHub setup hooks..."
     #%- if public %#
     echo
-    supply_keys
+    provision_gh_envs
     #%- endif %#
 }
 
@@ -258,17 +258,17 @@ determine_project_path() {
     PROJECT_PATH=$(redis-cli get "$PROJECT_PATH_KEY")
 }
 
-ensure_gh_environment() {
+create_gh_env() {
     # Ensure that the GitHub environment exists
     silent echo "{{gh.ensure_env}}" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
 }
 
-supply_keys() {
+provision_gh_envs() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
     local ENV_NAME="Upload Coverage"
     note "Creating a GitHub Actions environment $BLUE$ENV_NAME$GREY if necessary..."
-    ensure_gh_environment "$ENV_NAME"
+    create_gh_env "$ENV_NAME"
     success "Environment $BLUE$ENV_NAME$NC exists."
     echo
     note "Checking if Smokeshow secret key needs to be created..."
