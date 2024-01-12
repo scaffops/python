@@ -1,16 +1,17 @@
 <!--
 {{_origin|skeleton_notice(snref=snref, srev=srev, scope="section")}}
 -->
-#% if doc_mode %#
+#%- if doc_mode %#
 !!! Note
     If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
-#% else %#
+#%- else %#
 > [!Note]
 > If you use Windows, it is highly recommended to complete the installation in the way presented below through [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
-#% endif %#
+#%- endif %#
 
-#% if public %#
+#%- if public %#
 1.  Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
+
 #%- endif %#
 
 1.  [Install Poetry](https://python-poetry.org/docs/#installation).<br/>
@@ -59,7 +60,7 @@
     poetry shell
     pre-commit install
     ```
-#% if development_guide %#
+#%- if development_guide %#
 
 1.  Create a branch for local development:
 

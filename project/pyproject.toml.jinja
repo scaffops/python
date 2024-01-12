@@ -32,7 +32,7 @@ python = ">={{python_version}},<{{python_version_ahead}}"
 #%- include "pyproject.toml" %#
 #%- endwith %#
 
-#%- if docs %#
+#% if docs -%#
 [tool.poetry.group.docs]
 optional = true
 

@@ -5,9 +5,6 @@
 #%- if use_precommit %#
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 #%- endif %#
-#% if project_description %#
-{{project_description}}
-#% endif %#
 
 #% if tests -%#
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
@@ -19,13 +16,17 @@
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})
 #%- endif %#
 
+#% if project_description -%#
+{{project_description}}
+#% endif %#
+
 #%- if publish_on_pypi %#
 # Installation
-#% else %#
+#%- else %#
 # Installation for contributors
 #%- endif %#
 
-#% if publish_on_pypi %#
+#%- if publish_on_pypi %#
 #%- if is_cli_tool %#
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
 
@@ -55,13 +56,13 @@ poetry add {{pypi_project_name}}
 ```
 
 ## For contributors
-#% endif %#
+#%- endif %#
 #% include "fragments/guide.md" %#
 
-#%- if public %#
+#% if public -%#
 For more information on how to contribute, check out [CONTRIBUTING.md]({{repo_url}}/blob/HEAD/CONTRIBUTING.md).<br/>
 Always happy to accept contributions! ❤️
-#% endif %#
+#%- endif %#
 
 # Legal info
 © Copyright by {{org_full_name}} ([@{{author_username}}](https://github.com/{{author_username}})).
