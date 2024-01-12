@@ -126,7 +126,7 @@ poe skeleton patch
 1.  Install [pre-commit](https://pre-commit.com/) hooks.
 
     ```shell
-    pre-commit install --hook-type pre-commit --hook-type pre-push
+    pre-commit install
     ```
 
 1.  Test your skeleton.

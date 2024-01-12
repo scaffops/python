@@ -57,7 +57,7 @@
 
     ```shell
     poetry shell
-    pre-commit install --hook-type pre-commit --hook-type pre-push
+    pre-commit install
     ```
 #% if development_guide %#
 

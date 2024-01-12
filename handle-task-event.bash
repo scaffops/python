@@ -115,7 +115,7 @@ after_copy() {
     echo
     #%- if use_precommit %#
     note "Installing pre-commit..."
-    silent poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    silent poetry run pre-commit install
     success "Pre-commit installed."
     #%- endif %#
     COMMIT_MSG="Copy {{snref}}"
@@ -151,7 +151,7 @@ after_update() {
     setup_poetry_virtualenv
     run_copier_hook
     #% if use_precommit %#
-    poetry run pre-commit install --hook-type pre-commit --hook-type pre-push
+    poetry run pre-commit install
     #% else %#
     poetry run pre-commit uninstall
     #% endif %#
