@@ -27,6 +27,8 @@ repos:
   hooks:
   - id: "check-merge-conflict"
     args: ["--assume-in-merge"]
+    name: "Check for merge conflicts"
+    stages: ["push"]
 - repo: "https://github.com/python-poetry/poetry"
   rev: "1.7.0"
   hooks:
