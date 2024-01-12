@@ -283,9 +283,13 @@ supply_keys() {
         gh secret set SMOKESHOW_AUTH_KEY --env "$ENV_NAME" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to set Smokeshow secret key."
         echo
     fi
-    note "Setting codecov secret token..."
-    CODECOV_TOKEN=$(keyring get codecov token)
-    gh secret set CODECOV_TOKEN --env "$ENV_NAME" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set codecov secret token."
+    note "Checking if codecov secret token needs to be created..."
+    if test "$(gh secret list -e "$ENV_NAME" | grep -o CODECOV_TOKEN)"
+    then
+        note "Setting codecov secret token..."
+        CODECOV_TOKEN=$(keyring get codecov token)
+        gh secret set CODECOV_TOKEN --env "$ENV_NAME" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set codecov secret token."
+    fi
     set -eE
 }
 #%- if upgrade_script %#
