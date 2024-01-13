@@ -19,16 +19,15 @@ PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1] + 1)
 
 
 COVERAGE_URL: Template = Template(
-    "https://coverage-badge.samuelcolvin.workers.dev/"
-    "redirect/${github}/${repo_name}",
+    "https://coverage-badge.samuelcolvin.workers.dev/redirect/${github}/${repo}",
 )
 
 REPO_URL: Template = Template(
-    "https://github.com/${github}/${repo_name}",
+    "https://github.com/${github}/${repo}",
 )
 
 DOCS_URL: Template = Template(
-    "https://${docs_slug}.readthedocs.io/en/latest/",
+    "https://${rtd}.readthedocs.io/en/latest/",
 )
 
 PYPI_URL: Template = Template(
@@ -112,8 +111,8 @@ class ProjectURLContextHook(InplaceContextHook):
         context["pypi_url"] = PYPI_URL.substitute(context)
 
 
-def _generate_python_versions(python_version_string: str) -> Iterable[tuple[int, int]]:
-    (major, minor) = tuple(map(int, python_version_string.split(".")))
+def _generate_pythons(python_string: str) -> Iterable[tuple[int, int]]:
+    (major, minor) = tuple(map(int, python_string.split(".")))
     yield (major, minor)
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
@@ -122,11 +121,11 @@ def _generate_python_versions(python_version_string: str) -> Iterable[tuple[int,
 
 class PythonVersionsContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
-        context["latest_python_version"] = ".".join(map(str, LATEST_PYTHON_VERSION))
-        context["python_version_ahead"] = ".".join(map(str, PYTHON_VERSION_AHEAD))
-        context["python_versions"] = ", ".join(
+        context["latest_python"] = ".".join(map(str, LATEST_PYTHON_VERSION))
+        context["python_ahead"] = ".".join(map(str, PYTHON_VERSION_AHEAD))
+        context["pythons"] = ", ".join(
             f"{major}.{minor}".join('""')
-            for major, minor in _generate_python_versions(context["python_version"])
+            for major, minor in _generate_pythons(context["python"])
         )
 
 

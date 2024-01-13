@@ -10,7 +10,7 @@
 #%- endif %#
 
 #%- if public %#
-1.  Fork the [{{repo_name}} repository]({{repo_url}}) on GitHub.
+1.  Fork the [{{repo}} repository]({{repo_url}}) on GitHub.
 
 #%- endif %#
 
@@ -31,25 +31,25 @@
     ```
     #%- endif %#
 
-    Be sure to have Python {{python_version}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
+    Be sure to have Python {{python}} installed—if you use [pyenv](https://github.com/pyenv/pyenv#readme), simply run:
 
     ```shell
-    pyenv install {{python_version}}
+    pyenv install {{python}}
     ```
 #% if public %#
 1.  Clone your fork locally and install dependencies.
 
     ```shell
-    git clone https://github.com/your-username/{{repo_name}} path/to/{{repo_name}}
+    git clone https://github.com/your-username/{{repo}} path/to/{{repo}}
 #%- else %#
 1.  Make sure you have the contributor access.
 
 1.  Clone this repository locally and install dependencies.
 
     ```shell
-    git clone {{repo_url}} path/to/{{repo_name}}
+    git clone {{repo_url}} path/to/{{repo}}
 #%- endif %#
-    cd path/to/{{repo_name}}
+    cd path/to/{{repo}}
     poetry env use $(cat .python-version)
     poetry install
     ```

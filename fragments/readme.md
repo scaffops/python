@@ -1,4 +1,4 @@
-# {{repo_name}} [![skeleton](https://img.shields.io/badge/{{sref}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
+# {{repo}} [![skeleton](https://img.shields.io/badge/{{sref}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
 
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -10,10 +10,10 @@
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
 #%- endif %#
 #%- if docs %#
-[![Documentation Status](https://readthedocs.org/projects/{{docs_slug}}/badge/?version=latest)](https://{{docs_slug}}.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/{{rtd}}/badge/?version=latest)](https://{{rtd}}.readthedocs.io/en/latest/?badge=latest)
 #%- endif %#
 #%- if tests and public %#
-[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github}}/{{repo_name}}.svg)]({{coverage_url}})
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github}}/{{repo}}.svg)]({{coverage_url}})
 #%- endif %#
 
 #% if description -%#

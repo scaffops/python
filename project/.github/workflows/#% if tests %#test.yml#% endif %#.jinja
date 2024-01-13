@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu", "macos", "windows"]
-        python-version: [{{python_versions}}]
+        python-version: [{{pythons}}]
     steps:
     - uses: "actions/checkout@v4"
     - name: "Install Poetry"
@@ -30,7 +30,7 @@ jobs:
       run: >
         poetry run coverage report
         && poetry run coverage html --show-contexts
-        --title "{{repo_name}} coverage for {{"${{github.sha}}"}} (measured on Python {{"${{matrix.python-version}}"}})"
+        --title "{{repo}} coverage for {{"${{github.sha}}"}} (measured on Python {{"${{matrix.python-version}}"}})"
     - name: "Store coverage html"
       uses: "actions/upload-artifact@v3"
       with:

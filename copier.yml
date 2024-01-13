@@ -27,7 +27,7 @@ _tasks:
   && echo "Failing handler preview saved to $HANDLER_PREVIEW_FILE"
   ))
 
-repo_name:
+repo:
   type: "str"
   help: "Repository name"
 description:
@@ -53,7 +53,7 @@ org:
   type: "str"
   default: "#% if github == 'bswck' %#Bartosz Sławecki#% endif %#"
   help: "Full name of the copyright holder"
-email_address:
+email:
   type: "str"
   default: "{{git_email or 'bswck.dev@gmail.com'}}"
   help: "Your e-mail address"
@@ -63,7 +63,7 @@ pypi:
   help: "Publish on PyPI"
 pypi_project_name:
   type: "str"
-  default: "{{repo_name|kebabify}}"
+  default: "{{repo|kebabify}}"
   help: "PyPI project name"
   when: "{{pypi}}"
 pypi_description:
@@ -75,9 +75,9 @@ docs:
   type: "bool"
   default: true
   help: "Include documentation suite?"
-docs_slug:
+rtd:
   type: "str"
-  default: "{{repo_name|kebabify}}"
+  default: "{{repo|kebabify}}"
   help: "Documentation project slug (XXXXX.readthedocs.io)"
   when: "{{docs}}"
 tests:
@@ -86,9 +86,9 @@ tests:
   help: "Include test suite?"
 package:
   type: "str"
-  default: "{{repo_name.replace('-', '_')}}"
+  default: "{{repo.replace('-', '_')}}"
   help: "Package import name"
-python_version:
+python:
   type: "str"
   default: "3.8"
   choices:

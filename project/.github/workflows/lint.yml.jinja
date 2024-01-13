@@ -9,10 +9,10 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "actions/checkout@v4"
-    - name: "Set up Python {{python_version}}"
+    - name: "Set up Python {{python}}"
       uses: "actions/setup-python@v4"
       with:
-        python-version: "{{python_version}}"
+        python-version: "{{python}}"
     - name: "Install Ruff"
       run: |
         pip install ruff

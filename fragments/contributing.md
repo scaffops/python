@@ -1,10 +1,10 @@
 <!--
 {{_origin|skeleton_notice(snref=snref, srev=srev)}}
 -->
-# Contributing to [{{repo_name}}]({{repo_url}}) 🎉
+# Contributing to [{{repo}}]({{repo_url}}) 🎉
 Contributions are very welcome. 🚀
 
-There are many ways to contribute, ranging from **writing tutorials and improving the documentation**, to **submitting bug reports and feature requests** or **writing code** which can be incorporated into {{repo_name}}.
+There are many ways to contribute, ranging from **writing tutorials and improving the documentation**, to **submitting bug reports and feature requests** or **writing code** which can be incorporated into {{repo}}.
 
 ## Report bugs and request features 🐛
 Report these in the [issue tracker]({{repo_url}}/issues).
@@ -40,7 +40,7 @@ If you are proposing a feature:
 
 # Get started! 🕹️
 
-Ready to contribute? Here's a quick guide on how to set up {{repo_name}} and make a change.
+Ready to contribute? Here's a quick guide on how to set up {{repo}} and make a change.
 
 #% with development_guide=True %#
 #% include "fragments/guide.md" %#

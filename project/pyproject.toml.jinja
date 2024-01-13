@@ -1,10 +1,10 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
 [tool.poetry]
-name = "{{repo_name}}"
+name = "{{repo}}"
 version = "0.0.0"
 description = "{{pypi_description}}"
-authors = ["{{author}} <{{email_address}}>"]
+authors = ["{{author}} <{{email}}>"]
 license = "{{license}}"
 readme = "README.md"
 packages = [{ include = "{{package}}/" }]
@@ -23,7 +23,7 @@ Coverage = "{{coverage_url}}"
 #%- endif %#
 
 [tool.poetry.dependencies]
-python = ">={{python_version}},<{{python_version_ahead}}"
+python = ">={{python}},<{{python_ahead}}"
 
 [tool.poetry.group.dev.dependencies]
 
