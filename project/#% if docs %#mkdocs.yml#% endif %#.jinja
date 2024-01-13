@@ -46,19 +46,15 @@ extra_css:
 - "css/mkdocstrings.css"
 
 markdown_extensions:
+- "admonition"
+- "footnotes"
+- "pymdownx.emoji"
 - "pymdownx.highlight":
     use_pygments: true
-- "pymdownx.superfences":
-    custom_fences:
-      - name: "mermaid"
-        class: "mermaid"
-        format: !!python/name:pymdownx.superfences.fence_code_format
+- "pymdownx.magiclink"
+- "pymdownx.superfences"
 - "toc":
     permalink: true
-- "admonition"
-- "pymdownx.emoji"
-- "pymdownx.magiclink"
-- "footnotes"
 
 plugins:
 - "autorefs"
