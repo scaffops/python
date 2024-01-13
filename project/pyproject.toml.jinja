@@ -160,8 +160,7 @@ name = "Fixed"
 showcontent = true
 
 [tool.coverage.report]
-omit = ["tests/*"]
-# fail_under = 96
+source = ["{{package}}/"]
 exclude_also = [
     # Be sure to include lines that are not meant to be covered
     # by tests or encountered by the users at runtime.
