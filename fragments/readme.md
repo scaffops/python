@@ -1,8 +1,8 @@
-# {{repo_name}} [![skeleton](https://img.shields.io/badge/{{sref}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if publish_on_pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
+# {{repo_name}} [![skeleton](https://img.shields.io/badge/{{sref}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
 
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-#%- if use_precommit %#
+#%- if precommit %#
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 #%- endif %#
 
@@ -13,20 +13,20 @@
 [![Documentation Status](https://readthedocs.org/projects/{{docs_slug}}/badge/?version=latest)](https://{{docs_slug}}.readthedocs.io/en/latest/?badge=latest)
 #%- endif %#
 #%- if tests and public %#
-[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github_username}}/{{repo_name}}.svg)]({{coverage_url}})
+[![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github}}/{{repo_name}}.svg)]({{coverage_url}})
 #%- endif %#
 
-#% if project_description -%#
-{{project_description}}
+#% if description -%#
+{{description}}
 #% endif %#
 
-#%- if publish_on_pypi %#
+#%- if pypi %#
 # Installation
 #%- else %#
 # Installation for contributors
 #%- endif %#
 
-#%- if publish_on_pypi %#
+#%- if pypi %#
 #%- if is_cli_tool %#
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
 
@@ -65,9 +65,9 @@ Always happy to accept contributions! ❤️
 #%- endif %#
 
 # Legal info
-© Copyright by {{org_full_name}} ([@{{author_username}}](https://github.com/{{author_username}})).
-#%- if license_name != "Custom" %#
-<br />This software is licensed under the terms of [{{license_name}} License]({{repo_url}}/blob/HEAD/LICENSE).
+© Copyright by {{org}} ([@{{author}}](https://github.com/{{author}})).
+#%- if license != "Custom" %#
+<br />This software is licensed under the terms of [{{license}} License]({{repo_url}}/blob/HEAD/LICENSE).
 #%- elif private %#
 <br />This software is closed-source. You are not allowed to share any of its contents to anyone under any circumstances.
 #% endif %#

@@ -30,7 +30,7 @@ _tasks:
 repo_name:
   type: "str"
   help: "Repository name"
-project_description:
+description:
   type: "str"
   default: ""
   help: "Short project description"
@@ -41,23 +41,23 @@ visibility:
   - "private"
   default: "private"
   help: "Repository visibility"
-github_username:
+github:
   type: "str"
   help: "GitHub username of the owner of the repository, maybe organization"
   default: "{{git_username or 'bswck'}}"
-author_username:
+author:
   type: "str"
-  default: "{{github_username}}"
+  default: "{{github}}"
   help: "GitHub username of the author and copyright holder"
-org_full_name:
+org:
   type: "str"
-  default: "#% if github_username == 'bswck' %#Bartosz Sławecki#% endif %#"
+  default: "#% if github == 'bswck' %#Bartosz Sławecki#% endif %#"
   help: "Full name of the copyright holder"
 email_address:
   type: "str"
   default: "{{git_email or 'bswck.dev@gmail.com'}}"
   help: "Your e-mail address"
-publish_on_pypi:
+pypi:
   type: "bool"
   default: true
   help: "Publish on PyPI"
@@ -65,12 +65,12 @@ pypi_project_name:
   type: "str"
   default: "{{repo_name|kebabify}}"
   help: "PyPI project name"
-  when: "{{publish_on_pypi}}"
-pypi_project_description:
+  when: "{{pypi}}"
+pypi_description:
   type: "str"
-  default: "{{project_description}}"
+  default: "{{description}}"
   help: "PyPI project description"
-  when: "{{publish_on_pypi}}"
+  when: "{{pypi}}"
 docs:
   type: "bool"
   default: true
@@ -84,7 +84,7 @@ tests:
   type: "bool"
   default: true
   help: "Include test suite?"
-package_name:
+package:
   type: "str"
   default: "{{repo_name.replace('-', '_')}}"
   help: "Package import name"
@@ -98,7 +98,7 @@ python_version:
   - "3.11"
   - "3.12"
   help: "Minimal Python version"
-license_name:
+license:
   type: "str"
   default: "MIT"
   choices:
@@ -117,11 +117,11 @@ license_name:
     "The Unlicense": "Unlicense"
     "Custom license/No license": "Custom"
   help: "License name"
-use_precommit:
+precommit:
   type: "bool"
   default: true
   help: "Use pre-commit?"
-ctt_mode:
+ctt:
   type: "bool"
   default: false
   help: "Copier Template Tester mode?"

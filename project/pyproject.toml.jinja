@@ -3,11 +3,11 @@
 [tool.poetry]
 name = "{{repo_name}}"
 version = "0.0.0"
-description = "{{pypi_project_description}}"
-authors = ["{{author_username}} <{{email_address}}>"]
-license = "{{license_name}}"
+description = "{{pypi_description}}"
+authors = ["{{author}} <{{email_address}}>"]
+license = "{{license}}"
 readme = "README.md"
-packages = [{ include = "{{package_name}}/" }]
+packages = [{ include = "{{package}}/" }]
 homepage = "{{repo_url}}"
 
 [tool.poetry.urls]
@@ -15,7 +15,7 @@ homepage = "{{repo_url}}"
 Documentation = "{{docs_url}}"
 #%- endif %#
 Issues = "{{repo_url}}/issues"
-#%- if publish_on_pypi %#
+#%- if pypi %#
 Distribution = "{{pypi_url}}"
 #%- endif %#
 #%- if public %#
@@ -122,7 +122,7 @@ profile = "black"
 
 [tool.towncrier]
 directory = "changes"
-package = "{{package_name}}"
+package = "{{package}}"
 filename = "CHANGELOG.md"
 start_string = "<!-- insertion marker -->\n"
 underlines = ["", "", ""]  # We use Markdown

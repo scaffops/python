@@ -20,11 +20,11 @@ PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1] + 1)
 
 COVERAGE_URL: Template = Template(
     "https://coverage-badge.samuelcolvin.workers.dev/"
-    "redirect/${github_username}/${repo_name}",
+    "redirect/${github}/${repo_name}",
 )
 
 REPO_URL: Template = Template(
-    "https://github.com/${github_username}/${repo_name}",
+    "https://github.com/${github}/${repo_name}",
 )
 
 DOCS_URL: Template = Template(

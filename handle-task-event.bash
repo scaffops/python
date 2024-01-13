@@ -74,7 +74,7 @@ run_copier_hook() {
 
 setup_poetry_virtualenv() {
     # Set up Poetry virtualenv. This is needed for copier to work flawlessly.
-    #% if not ctt_mode %#
+    #% if not ctt %#
     note "Setting Python version to ${PYTHON_VERSION:=$(cat .python-version)}..."
     poetry env use "$PYTHON_VERSION"
     echo
@@ -97,7 +97,7 @@ after_copy() {
     setup_poetry_virtualenv
     run_copier_hook
     silent rm -f ./handle-task-event
-    #% if not ctt_mode %#
+    #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
         BRANCH="main"
@@ -113,7 +113,7 @@ after_copy() {
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
     fi
     echo
-    #%- if use_precommit %#
+    #%- if precommit %#
     note "Installing pre-commit..."
     silent poetry run pre-commit install
     success "Pre-commit installed."
@@ -150,7 +150,7 @@ before_update() {
 after_update() {
     setup_poetry_virtualenv
     run_copier_hook
-    #% if use_precommit %#
+    #% if precommit %#
     poetry run pre-commit install
     #% else %#
     poetry run pre-commit uninstall
@@ -174,7 +174,7 @@ handle_task_event() {
         determine_project_path
         success "COPY ROUTINE COMPLETE."
         echo
-        #% if not ctt_mode %#
+        #% if not ctt %#
         success "Done! 🎉"
         info "Your repository is now set up at ${BOLD}{{repo_url}}$NC"
         echo -e "  💲 ${BOLD}cd $PROJECT_PATH$NC"

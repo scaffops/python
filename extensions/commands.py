@@ -12,14 +12,14 @@ class CommandsContextHook(ContextHook):
     def hook(self, context: dict[str, object]) -> None:  # type: ignore[override]
         context["gh"] = SimpleNamespace(
             repo_args=(
-                '"{github_username}/{repo_name}" '
+                '"{github}/{repo_name}" '
                 "--{visibility} --source=./ --remote=upstream"
-                ' --description="{project_description}"'.format(**context)
+                ' --description="{description}"'.format(**context)
             ),
             ensure_env=(
                 """$(jq -n '{{"deployment_branch_policy": {{"protected_branches": false,"""
                 """"custom_branch_policies": true}}}}' | gh api -H "Accept: application"""
-                """/vnd.github+json" -X PUT "/repos/{github_username}/{repo_name}/"""
+                """/vnd.github+json" -X PUT "/repos/{github}/{repo_name}/"""
                 """environments/$1" --input -)""".format(**context)
             ),
         )

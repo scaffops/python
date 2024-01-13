@@ -1,12 +1,12 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
 site_name: "{{repo_name}}"
-site_description: "{{project_description}}"
+site_description: "{{description}}"
 site_url: "{{docs_url}}"
 repo_url: "{{repo_url}}"
-repo_name: "{{github_username}}/{{repo_name}}"
+repo_name: "{{github}}/{{repo_name}}"
 watch:
-- "{{package_name}}"
+- "{{package}}"
 
 nav:
 - "Overview": "index.md"
@@ -71,6 +71,6 @@ plugins:
           docstring_style: "numpy"
           members_order: "source"
           show_signature_annotations: true
-        paths: ["{{package_name}}/"]
+        paths: ["{{package}}/"]
         import:
         - "https://docs.python.org/3/objects.inv"

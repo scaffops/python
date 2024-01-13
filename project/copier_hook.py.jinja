@@ -19,7 +19,7 @@ from os import getenv
 from datetime import datetime
 from pathlib import Path
 
-LICENSE_NAME = "{{license_name}}"
+LICENSE_NAME = "{{license}}"
 PREVIOUS_LICENSE_NAME = getenv("LAST_LICENSE_NAME") or "Custom"
 VISIBILITY = "{{visibility}}"
 DOC_SYMLINKS = {
@@ -27,13 +27,13 @@ DOC_SYMLINKS = {
 }
 
 
-def generate_license_file(license_name: str | None = None) -> None:
-    if license_name is None:
-        license_name = LICENSE_NAME
+def generate_license_file(license: str | None = None) -> None:
+    if license is None:
+        license = LICENSE_NAME
 
     print("Previous license name:", PREVIOUS_LICENSE_NAME)
     print("Set license name:", LICENSE_NAME)
-    if license_name in (PREVIOUS_LICENSE_NAME, "Custom"):
+    if license in (PREVIOUS_LICENSE_NAME, "Custom"):
         print(
             "Not generating license file: "
             "license name not changed or a custom license",
@@ -41,12 +41,12 @@ def generate_license_file(license_name: str | None = None) -> None:
         return
 
     if Path("LICENSE").exists():
-        #% if ctt_mode %#
+        #% if ctt %#
         do_overwrite = True
         #% else %#
         do_overwrite = (
             input(
-                f"Overwrite existing LICENSE file (new license: {license_name})? [y/N] "
+                f"Overwrite existing LICENSE file (new license: {license})? [y/N] "
             )
             .strip() or "n" [0]
             .lower()
@@ -60,17 +60,17 @@ def generate_license_file(license_name: str | None = None) -> None:
     try:
         license_response = json.loads(
             urllib.request.urlopen(
-                f"https://api.github.com/licenses/{license_name}"
+                f"https://api.github.com/licenses/{license}"
             ).read(),
         )
     except urllib.error.HTTPError as exc:
-        print(f"Error finding license {license_name}: {exc}", file=sys.stderr)
+        print(f"Error finding license {license}: {exc}", file=sys.stderr)
         license_text = None
     else:
         try:
             license_text = license_response["body"]
         except KeyError:
-            print(f"Incorrect license output for {license_name}", file=sys.stderr)
+            print(f"Incorrect license output for {license}", file=sys.stderr)
             pprint.pprint(license_response, stream=sys.stderr)
             license_text = None
 
@@ -80,7 +80,7 @@ def generate_license_file(license_name: str | None = None) -> None:
             f"{datetime.now().year}–present",
         ).replace(
             "[fullname]",
-            "{{org_full_name}} ({{github_username}})",
+            "{{org}} ({{github}})",
         )
         Path("LICENSE").write_text(generated_license_text)
 
