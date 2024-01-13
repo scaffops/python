@@ -49,7 +49,7 @@ author:
   type: "str"
   default: "{{github}}"
   help: "GitHub username of the author and copyright holder"
-org:
+copyright:
   type: "str"
   default: "#% if github == 'bswck' %#Bartosz Sławecki#% endif %#"
   help: "Full name of the copyright holder"

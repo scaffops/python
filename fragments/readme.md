@@ -65,7 +65,7 @@ Always happy to accept contributions! ❤️
 #%- endif %#
 
 # Legal info
-© Copyright by {{org}} ([@{{author}}](https://github.com/{{author}})).
+© Copyright by {{copyright}} ([@{{author}}](https://github.com/{{author}})).
 #%- if license != "Custom" %#
 <br />This software is licensed under the terms of [{{license}} License]({{repo_url}}/blob/HEAD/LICENSE).
 #%- elif private %#
