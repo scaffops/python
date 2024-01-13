@@ -60,9 +60,7 @@ def _setup_logging() -> None:
 
 def _command(prompt: str, /) -> str:
     data = subprocess.check_output(prompt, shell=True, text=True)
-    if data[-1:] == "\n":
-        data = data[:-1]
-    return data
+    return data[:-(data[-1:] == "\n") or None]
 
 
 def _run(*prompt: str) -> None:
