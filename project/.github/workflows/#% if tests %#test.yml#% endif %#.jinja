@@ -40,7 +40,7 @@ jobs:
         (measured on Python {{"${{matrix.python-version}}"}})"
     - name: "Store coverage html"
       uses: "{{actions['actions/upload-artifact']}}"
-      if: "{{"${{matrix.python-version == '"}}{{python}}{{"' && success()}}"}}"
+      if: "{{"${{matrix.python-version == '"}}{{python}}{{"' && matrix.os == 'ubuntu' && success()}}"}}"
       with:
         name: "coverage-html"
         path: "htmlcov"

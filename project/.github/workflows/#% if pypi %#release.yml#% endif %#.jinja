@@ -17,7 +17,6 @@ jobs:
       id-token: "write"
     env:
       POETRY_VIRTUALENVS_CREATE: "false"
-      POETRY_VERSION: "{{poetry_version}}"
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
