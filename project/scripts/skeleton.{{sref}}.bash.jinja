@@ -50,7 +50,7 @@ do_update() {
 
 run_update_algorithm() {
     # Run the underlying update algorithm
-    export MODE
+    export SKELETON_COMMAND
     SKELETON_COMMAND="${1:-"upgrade"}"
     if test "$SKELETON_COMMAND" = "upgrade-patch"
     then

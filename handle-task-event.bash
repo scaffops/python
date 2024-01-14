@@ -275,20 +275,22 @@ provision_gh_envs() {
     set +eE
     if test "$(gh secret list -e "$ENV_NAME" | grep -o SMOKESHOW_AUTH_KEY)"
     then
-        info "Smokeshow secret key already set."
+        note "Smokeshow secret key already set."
     else
-        info "Smokeshow secret key does not exist yet."
+        note "Smokeshow secret key does not exist yet."
         note "Creating Smokeshow secret key..."
         SMOKESHOW_KEY=$(smokeshow generate-key | grep SMOKESHOW_AUTH_KEY | grep -oP "='\K[^']+")
         gh secret set SMOKESHOW_AUTH_KEY --env "$ENV_NAME" --body "$SMOKESHOW_KEY" 2> /dev/null || error 0 "Failed to set Smokeshow secret key."
         echo
     fi
-    note "Checking if codecov secret token needs to be created..."
+    note "Checking if Codecov secret token needs to be created..."
     if test "$(gh secret list -e "$ENV_NAME" | grep -o CODECOV_TOKEN)"
     then
-        note "Setting codecov secret token..."
+        note "Codecov secret key already set."
+    else
+        note "Setting Codecov secret token..."
         CODECOV_TOKEN=$(keyring get codecov token)
-        gh secret set CODECOV_TOKEN --env "$ENV_NAME" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set codecov secret token."
+        gh secret set CODECOV_TOKEN --env "$ENV_NAME" --body "$CODECOV_TOKEN" 2> /dev/null || error 0 "Failed to set Codecov secret token."
     fi
     set -eE
 }
