@@ -30,7 +30,6 @@ jobs:
     - run: "smokeshow upload coverage-html"
       env:
         SMOKESHOW_GITHUB_STATUS_DESCRIPTION: "Coverage {coverage-percentage}"
-        # 5 is set here while V2 is in development and coverage is far from complete
         SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 91
         SMOKESHOW_GITHUB_CONTEXT: "coverage"
         SMOKESHOW_GITHUB_TOKEN: "{{"${{secrets.GITHUB_TOKEN}}"}}"
