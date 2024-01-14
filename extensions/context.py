@@ -83,9 +83,18 @@ class InplaceContextHook(ContextHook, metaclass=ABCMeta):
         ...
 
 
+GH_SKELETON_REPO_NAME = getoutput(
+    "gh repo view --json nameWithOwner --jq .nameWithOwner"
+)
+
+
 class SkeletonContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
-        context["skeleton"] = context["github"] + "/" + context["repo"]
+        context["skeleton"] = (
+            GH_SKELETON_REPO_NAME
+            if context["ctt"]
+            else context["_src_path"].lstrip("gh://")
+        )
         context["skeleton_url"] = SKELETON_URL.substitute(context)
         context["skeleton_ref"] = context["sref"] = context["_copier_answers"][
             "_commit"
