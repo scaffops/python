@@ -35,7 +35,7 @@ jobs:
     - name: "Report coverage"
       run: >
         poetry run coverage report
-        && poetry run coverage html --show-contexts
+        && poetry run coverage html
         --title "{{repo}} coverage for {{"${{github.sha}}"}}
         (measured on Python {{"${{matrix.python-version}}"}})"
     - name: "Store coverage html"
