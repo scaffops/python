@@ -1,11 +1,5 @@
 # {{repo}} [![skeleton](https://img.shields.io/badge/{{sref}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
 
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-#%- if precommit %#
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-#%- endif %#
-
 #% if tests -%#
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
 #%- endif %#
@@ -27,14 +21,14 @@
 #%- endif %#
 
 #%- if pypi %#
-#%- if is_cli_tool %#
-To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx)
+#%- if cli %#
+To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx):
 
 ```shell
 pipx install {{pypi_project_name}}
 ```
 
-You might also simply install it with pip:
+But you might also simply install it with pip to access the library API:
 
 ```shell
 pip install {{pypi_project_name}}
@@ -49,13 +43,18 @@ pip install {{pypi_project_name}}
 
 #%- endif %#
 
-If you use [Poetry](https://python-poetry.org/), then run:
+If you use [Poetry](https://python-poetry.org/), then you might want to run:
 
 ```shell
 poetry add {{pypi_project_name}}
 ```
 
 ## For contributors
+#%- endif %#
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+#%- if precommit %#
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 #%- endif %#
 #% include "fragments/guide.md" %#
 

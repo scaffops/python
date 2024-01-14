@@ -90,6 +90,10 @@ package:
   type: "str"
   default: "{{repo.replace('-', '_')}}"
   help: "Package import name"
+cli:
+  type: "bool"
+  default: false
+  help: "Is this a CLI app?"
 python:
   type: "str"
   default: "3.8"

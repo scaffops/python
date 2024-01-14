@@ -27,4 +27,5 @@ docs = true
 tests = true
 pypy = true
 pypi = true
+cli = true
 precommit = true
