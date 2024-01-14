@@ -1,0 +1,27 @@
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
+name: "Audit"
+
+on: ["push"]
+
+jobs:
+  pip-audit:
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: "{{actions['actions/checkout']}}"
+    - name: "Install Poetry"
+      run: "pipx install poetry=={{poetry_version}}"
+    - name: "Set up Python {{python}}"
+      uses: "{{actions['actions/setup-python']}}"
+      with:
+        cache: "poetry"
+    - name: "Install the project"
+      run: "poetry install"
+    - name: "Set up Python location for pip-audit"
+      shell: "bash"
+      run: 'echo "PIPAPI_PYTHON_LOCATION=$(poetry env info -e)" >> $GITHUB_ENV'
+    - name: "Audit"
+      uses: "{{actions['pypa/gh-action-pip-audit']}}"
