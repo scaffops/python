@@ -29,6 +29,8 @@ jobs:
     - name: "Install the project"
       run: "poetry install"
     - name: "Run tests"
+      env:
+        PY_COLORS: 1  # Thanks @zanieb!
       run: "poetry run coverage run -m pytest -v ."
     - name: "Report coverage"
       run: >
