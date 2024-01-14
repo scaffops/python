@@ -83,6 +83,7 @@ class InplaceContextHook(ContextHook, metaclass=ABCMeta):
         ...
 
 
+# Assume the tester is in the skeleton repository
 GH_SKELETON_REPO_NAME = getoutput(
     "gh repo view --json nameWithOwner --jq .nameWithOwner"
 )
