@@ -100,6 +100,10 @@ python:
   - "3.11"
   - "3.12"
   help: "Minimal Python version"
+pypy:
+  type: "bool"
+  default: true
+  help: "Include PyPy (apart from CPython) in the test matrix?"
 license:
   type: "str"
   default: "MIT"

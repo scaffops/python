@@ -121,12 +121,18 @@ class ProjectURLContextHook(InplaceContextHook):
         context["pypi_url"] = PYPI_URL.substitute(context)
 
 
-def _generate_pythons(python_string: str) -> Iterable[tuple[int, int]]:
+def _generate_pythons(
+    python_string: str,
+    *,
+    pypy: bool = True,
+) -> Iterable[tuple[str, int]]:
     (major, minor) = tuple(map(int, python_string.split(".")))
-    yield (major, minor)
+    yield (str(major), minor)
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
-        yield (major, minor)
+        yield (str(major), minor)
+        if pypy:
+            yield (f"pypy{major}", minor)
 
 
 class PythonVersionsContextHook(InplaceContextHook):
@@ -135,7 +141,12 @@ class PythonVersionsContextHook(InplaceContextHook):
         context["python_ahead"] = ".".join(map(str, PYTHON_VERSION_AHEAD))
         context["pythons"] = ", ".join(
             f"{major}.{minor}".join('""')
-            for major, minor in _generate_pythons(context["python"])
+            for major, minor in sorted(
+                _generate_pythons(
+                    context["python"],
+                    pypy=context["pypy"],
+                )
+            )
         )
 
 
