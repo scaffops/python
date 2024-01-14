@@ -159,8 +159,10 @@ directory = "fixed"
 name = "Fixed"
 showcontent = true
 
-[tool.coverage.report]
+[tool.coverage.run]
 source = ["{{package}}/"]
+
+[tool.coverage.report]
 exclude_also = [
     # Be sure to include lines that are not meant to be covered
     # by tests or encountered by the users at runtime.
