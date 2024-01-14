@@ -9,12 +9,10 @@ license = "{{license}}"
 readme = "README.md"
 packages = [{ include = "{{package}}/" }]
 homepage = "{{repo_url}}"
-#%- if cli %#
-
+#% if cli %#
 [tool.poetry.scripts]
 {{package}} = "{{package}}"
-
-#% endif -%#
+#% endif %#
 [tool.poetry.urls]
 #%- if docs %#
 Documentation = "{{docs_url}}"
