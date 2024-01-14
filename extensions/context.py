@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 
 LATEST_PYTHON_VERSION: tuple[int, int] = (3, 12)
+LATEST_PYPY_VERSION: tuple[int, int] = (3, 10)
 PYTHON_VERSION_AHEAD: tuple[int, int] = (3, LATEST_PYTHON_VERSION[1] + 1)
 
 
@@ -128,11 +129,13 @@ def _generate_pythons(
 ) -> Iterable[tuple[str, int]]:
     (major, minor) = tuple(map(int, python_string.split(".")))
     yield (str(major), minor)
+    pypy and (major, minor) <= LATEST_PYPY_VERSION and (yield (f"pypy{major}", minor))
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
         yield (str(major), minor)
-        if pypy:
+        pypy and (major, minor) <= LATEST_PYPY_VERSION and (
             yield (f"pypy{major}", minor)
+        )
 
 
 class PythonVersionsContextHook(InplaceContextHook):
