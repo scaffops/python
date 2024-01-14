@@ -13,5 +13,7 @@ def indent(value: str, prefix: str, *, with_first: bool = False) -> str:
 class StringOpsExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
-        environment.filters["kebabify"] = kebabify
-        environment.filters["custom_indent"] = indent
+        environment.filters.update(
+            kebabify=kebabify,
+            custom_indent=indent,
+        )

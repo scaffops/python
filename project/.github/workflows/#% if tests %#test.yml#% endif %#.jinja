@@ -1,5 +1,8 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
 name: "Tests"
 
 on: ["push"]
@@ -13,12 +16,13 @@ jobs:
       matrix:
         os: ["ubuntu", "macos", "windows"]
         python-version: [{{pythons}}]
+    timeout-minutes: 10
     steps:
-    - uses: "actions/checkout@v4"
+    - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
-      run: "pipx install poetry"
+      run: "pipx install poetry=={{poetry_version}}"
     - name: "Set up Python {{"${{matrix.python-version}}"}}"
-      uses: "actions/setup-python@v5"
+      uses: "{{actions['actions/setup-python']}}"
       with:
         python-version: "{{"${{matrix.python-version}}"}}"
         cache: "poetry"
@@ -30,9 +34,11 @@ jobs:
       run: >
         poetry run coverage report
         && poetry run coverage html --show-contexts
-        --title "{{repo}} coverage for {{"${{github.sha}}"}} (measured on Python {{"${{matrix.python-version}}"}})"
+        --title "{{repo}} coverage for {{"${{github.sha}}"}}
+        (measured on Python {{"${{matrix.python-version}}"}})
     - name: "Store coverage html"
-      uses: "actions/upload-artifact@v3"
+      uses: "{{actions['actions/upload-artifact']}}"
+      if: "{{"${{matrix.python-version == '"}}{{python}}{{"' && success()}}"}}"
       with:
         name: "coverage-html"
         path: "htmlcov"

@@ -1,5 +1,8 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
 name: "Lint"
 
 on: ["push"]
@@ -8,13 +11,12 @@ jobs:
   lint:
     runs-on: "ubuntu-latest"
     steps:
-    - uses: "actions/checkout@v4"
+    - uses: "{{actions['actions/checkout']}}"
     - name: "Set up Python {{python}}"
-      uses: "actions/setup-python@v4"
+      uses: "{{actions['actions/setup-python']}}"
       with:
         python-version: "{{python}}"
     - name: "Install Ruff"
-      run: |
-        pip install ruff
+      run: "pip install ruff"
     - name: "Analyze the code with Ruff"
       run: "ruff ."

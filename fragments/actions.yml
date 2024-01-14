@@ -1,0 +1,33 @@
+# This workflow exists to store pinned GitHub Actions versions.
+# It is meant to be updated by dependabot when new actions are released
+# in order to ensure supply chain security.
+# When this template is rendered, the filter `use_actions` collects all
+# actions declared in this workflow and shares them in context with
+# the workflows in the `project/` core template directory.
+
+# Motivation
+# ==========
+# Allowing dependabot to submit PRs to this workflow ensures that the latest versions
+# of actions with all necessary security updates are quickly available to all projects.
+# Keeping actions pinned ensures that there is always time to review updates
+# to actions before they are merged and used in production.
+
+name: "Supply Chain Security for GitHub Actions"
+
+on: "workflow_dispatch"
+
+jobs:
+  exist:
+    runs-on: "ubuntu-latest"
+    if: false
+    steps:
+    #% filter use_actions %#
+    - uses: "actions/checkout@v4"
+    - uses: "actions/setup-python@v5"
+    - uses: "pypa/gh-action-pypi-publish@release/v1"
+    - uses: "dawidd6/action-download-artifact@v3"
+    - uses: "actions/upload-artifact@v4"
+      with: {path: null}
+    - uses: "readthedocs/actions/preview@v1"
+      with: {project-slug: null}
+    #% endfilter %#

@@ -1,5 +1,8 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
 name: "Upload Coverage"
 
 on:
@@ -16,11 +19,11 @@ jobs:
     runs-on: "ubuntu-latest"
     environment: "Upload Coverage"
     steps:
-    - uses: "actions/setup-python@v5"
+    - uses: "{{actions['actions/setup-python']}}"
       with:
         python-version: "{{python}}"
     - run: "pip install smokeshow"
-    - uses: "dawidd6/action-download-artifact@v2"
+    - uses: "{{actions['dawidd6/action-download-artifact']}}"
       with:
         workflow: "test.yml"
         commit: "{{"${{github.event.workflow_run.head_sha}}"}}"

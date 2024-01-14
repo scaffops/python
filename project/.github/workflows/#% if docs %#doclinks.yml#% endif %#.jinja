@@ -1,6 +1,10 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
 
-name: "readthedocs/actions"
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
+name: "ReadTheDocs Preview"
+
 on:
   pull_request_target:
     types:
@@ -16,6 +20,6 @@ jobs:
   documentation-links:
     runs-on: "ubuntu-latest"
     steps:
-    - uses: "readthedocs/actions/preview@v1"
+    - uses: "{{actions['readthedocs/actions/preview']}}"
       with:
         project-slug: "{{rtd}}"
