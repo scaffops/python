@@ -30,7 +30,10 @@ repos:
     name: "Check for merge conflicts"
     stages: ["push"]
 - repo: "https://github.com/python-poetry/poetry"
-  rev: "1.7.0"
+#%- if False %#
+  rev: "1.7.1"
+#%- endif %#
+  #% if True %#rev: "{{poetry_version}}"#% endif %#
   hooks:
   - id: "poetry-lock"
     stages: ["push"]
