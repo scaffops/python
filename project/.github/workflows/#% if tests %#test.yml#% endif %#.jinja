@@ -35,7 +35,7 @@ jobs:
         poetry run coverage report
         && poetry run coverage html --show-contexts
         --title "{{repo}} coverage for {{"${{github.sha}}"}}
-        (measured on Python {{"${{matrix.python-version}}"}})
+        (measured on Python {{"${{matrix.python-version}}"}})"
     - name: "Store coverage html"
       uses: "{{actions['actions/upload-artifact']}}"
       if: "{{"${{matrix.python-version == '"}}{{python}}{{"' && success()}}"}}"
