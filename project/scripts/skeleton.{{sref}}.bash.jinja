@@ -75,6 +75,9 @@ after_update_algorithm() {
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
     local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
+    note "Locking Poetry dependencies..."
+    poetry lock
+    note "Committing changes..."
     silent git add .
     silent git rm -f ./handle-task-event
     if test "$LAST_REF" = "$NEW_REF"
