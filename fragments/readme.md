@@ -3,11 +3,11 @@
 #% if tests -%#
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
 #%- endif %#
-#%- if docs %#
-[![Documentation Status](https://readthedocs.org/projects/{{rtd}}/badge/?version=latest)](https://{{rtd}}.readthedocs.io/en/latest/?badge=latest)
-#%- endif %#
 #%- if tests and public %#
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github}}/{{repo}}.svg)]({{coverage_url}})
+#%- endif %#
+#%- if docs %#
+[![Documentation Status](https://readthedocs.org/projects/{{rtd}}/badge/?version=latest)](https://{{rtd}}.readthedocs.io/en/latest/?badge=latest)
 #%- endif %#
 
 #% if description -%#
