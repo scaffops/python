@@ -23,7 +23,7 @@ ruff = "^0.1.12"
 towncrier = "^23.11.0"
 #%- if tests %#
 pytest = "^7.4.3"
-coverage = "^7.3.2"
+coverage = "^7.4.0"
 #%- endif %#
 poethepoet = "^0.24.3"
 #%- if precommit %#
