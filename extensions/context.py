@@ -85,7 +85,7 @@ class InplaceContextHook(ContextHook, metaclass=ABCMeta):
 
 class SkeletonContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
-        context["skeleton"] = context["_src_path"].lstrip("gh:")
+        context["skeleton"] = context["github"] + "/" + context["repo"]
         context["skeleton_url"] = SKELETON_URL.substitute(context)
         context["skeleton_ref"] = context["sref"] = context["_copier_answers"][
             "_commit"
