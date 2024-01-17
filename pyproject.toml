@@ -10,7 +10,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10.5,<3.11"
 poethepoet = "^0.24.3"
-copier = "^9.1.0"
+copier = "^9.1.1"
 copier-template-tester = "^2.1.1"
 copier-templates-extensions = "^0.3.0"
 pre-commit = "^3.6.0"
