@@ -96,7 +96,7 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_copier_hook
-    silent rm -f ./handle-task-event
+    silent rm -f ./setup
     #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
@@ -207,7 +207,7 @@ handle_task_event() {
 }
 #%- endif %#
 #%- if upgrade_script %#
-# Automatically copied from {{skeleton_url}}/tree/{{sref}}/handle-task-event.sh
+# Automatically copied from {{skeleton_url}}/tree/{{sref}}/setup.sh
 #%- endif %#
 # Comms
 BOLD="\033[1m"
@@ -362,7 +362,7 @@ after_update_algorithm() {
     poetry lock
     note "Committing changes..."
     silent git add .
-    silent git rm -f ./handle-task-event
+    silent git rm -f ./setup
     if test "$LAST_REF" = "$NEW_REF"
     then
         info "The version of the skeleton has not changed."
