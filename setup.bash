@@ -96,7 +96,7 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_copier_hook
-    silent rm -f ./setup
+    silent rm -f ./setup-local.bash
     #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
@@ -362,7 +362,7 @@ after_update_algorithm() {
     poetry lock
     note "Committing changes..."
     silent git add .
-    silent git rm -f ./setup
+    silent git rm -f ./setup-local.bash
     if test "$LAST_REF" = "$NEW_REF"
     then
         info "The version of the skeleton has not changed."

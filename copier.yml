@@ -21,8 +21,8 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -eE
-  && (HANDLER_PREVIEW=$(cat "./setup"))
-  && (./setup --run
+  && (HANDLER_PREVIEW=$(cat "./setup-local.bash"))
+  && (./setup-local.bash --run
   || (
   HANDLER_PREVIEW_FILE="/tmp/skeleton-handler-preview-$(uuidgen)"
   && echo "$HANDLER_PREVIEW" > "$HANDLER_PREVIEW_FILE"
