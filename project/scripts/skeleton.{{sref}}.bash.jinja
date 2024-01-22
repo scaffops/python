@@ -71,10 +71,24 @@ run_update_algorithm() {
 
 after_update_algorithm() {
     # Run post-update hooks, auto-commit changes
+    local CONFLICTED_FILES
+    local REVISION_PARAGRAPH
     cd "$PROJECT_PATH"
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
-    local REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
+    REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
+    CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
+    note "Checking for conflicts..."
+    if test "$CONFLICTED_FILES"
+    then
+        error 0 "There are conflicts in the following files:" >&2
+        echo "$CONFLICTED_FILES" >&2
+        echo "Resolving automatically. Please review the changes after the upgrade." >&2
+        git checkout --theirs . >&2
+        success "Conflicts resolved, proceeding."
+    else
+        success "No conflicts, proceeding."
+    fi
     note "Locking Poetry dependencies..."
     poetry lock
     note "Committing changes..."
