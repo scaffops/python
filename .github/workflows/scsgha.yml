@@ -25,8 +25,8 @@ jobs:
     - uses: "actions/checkout@v4"
     - uses: "actions/setup-python@v5"
     - uses: "pypa/gh-action-pypi-publish@release/v1"
-    - uses: "dawidd6/action-download-artifact@v3"
     - uses: "pypa/gh-action-pip-audit@v1.0.8"
+    - uses: "actions/download-artifact@v4"
     - uses: "actions/upload-artifact@v4"
       with: {path: null}
     - uses: "readthedocs/actions/preview@v1"
