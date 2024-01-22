@@ -27,9 +27,16 @@ def get_action_key(action: str) -> str:
     return action.partition("@")[0]
 
 
+class ActionsDict(dict):
+    __slots__ = ()  # Prevent from creating __weakref__ and __dict__ slots.
+
+    def __missing__(self, key: str) -> str:
+        return key + "@HEAD"
+
+
 @pass_context
 def use_actions(ctx: Context, action_string: str) -> None:
-    actions = {}
+    actions = ActionsDict()
     steps = safe_load(action_string)
     for step in steps:
         if "uses" in step:
