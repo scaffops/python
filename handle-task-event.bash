@@ -294,6 +294,116 @@ provision_gh_envs() {
     fi
     set -eE
 }
+
 #%- if upgrade_script %#
+determine_new_ref() {
+    # Determine the new skeleton revision set by the child process
+    export NEW_REF
+    NEW_REF=$(redis-cli get "$NEW_REF_KEY")
+}
+
+before_update_algorithm() {
+    # Stash changes if any
+    if test "$(git status --porcelain)"
+    then
+        error 0 "There are uncommitted changes in the project."
+        error 1 "Stash them and continue."
+    else
+        note "Working tree clean, no need to stash."
+    fi
+}
+
+do_update() {
+    copier update --trust --vcs-ref "$1" "${@:2}"
+}
+
+run_update_algorithm() {
+    # Run the underlying update algorithm
+    export SKELETON_COMMAND
+    SKELETON_COMMAND="${1:-"upgrade"}"
+    if test "$SKELETON_COMMAND" = "upgrade-patch"
+    then
+        do_update "${2:-"HEAD"}"
+    elif test "$SKELETON_COMMAND" = "upgrade"
+    then
+        do_update "${2:-"HEAD"}" --defaults
+    elif test "$SKELETON_COMMAND" = "patch"
+    then
+        # shellcheck disable=SC2068
+        do_update "$LAST_REF" ${@:3}
+    else
+        error 1 "Unknown update algorithm: '$1'"
+    fi
+    determine_new_ref
+    determine_project_path
+}
+
+after_update_algorithm() {
+    # Run post-update hooks, auto-commit changes
+    local CONFLICTED_FILES
+    local REVISION_PARAGRAPH
+    cd "$PROJECT_PATH"
+    info "${GREY}Previous skeleton revision:$NC $LAST_REF"
+    info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
+    REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
+    CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
+    note "Checking for conflicts..."
+    if test "$CONFLICTED_FILES"
+    then
+        error 0 "There are conflicts in the following files:" >&2
+        echo "$CONFLICTED_FILES" >&2
+        echo "Resolving automatically. Please review the changes after the upgrade." >&2
+        git checkout --theirs . >&2
+        success "Conflicts resolved, proceeding."
+    else
+        success "No conflicts, proceeding."
+    fi
+    note "Locking Poetry dependencies..."
+    poetry lock
+    note "Committing changes..."
+    silent git add .
+    silent git rm -f ./handle-task-event
+    if test "$LAST_REF" = "$NEW_REF"
+    then
+        info "The version of the skeleton has not changed."
+        local COMMIT_MSG="Mechanized patch at {{skeleton}}@$NEW_REF"
+    else
+        if test "$NEW_REF"
+        then
+            local COMMIT_MSG="Upgrade to {{skeleton}}@$NEW_REF"
+        else
+            local COMMIT_MSG="Upgrade to {{skeleton}} of unknown revision"
+        fi
+    fi
+    silent redis-cli del "$PROJECT_PATH_KEY"
+    silent redis-cli del "$NEW_REF_KEY"
+    silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    setup_gh && echo
+}
+
+update_entrypoint() {
+    cd "${PROJECT_PATH:=$(git rev-parse --show-toplevel)}" || exit 1
+    echo
+    info "${GREY}Last skeleton revision:$NC $LAST_REF"
+    echo
+    note "UPGRADE ROUTINE [1/3]: Running pre-update hooks."
+    before_update_algorithm
+    success "UPGRADE ROUTINE [1/3] COMPLETE."
+    echo
+    note "UPGRADE ROUTINE [2/3]: Running the underlying update algorithm."
+    run_update_algorithm "$@"
+    success "UPGRADE ROUTINE [2/3] COMPLETE."
+    echo
+    info "${GREY}Project path:$NC $PROJECT_PATH"
+    echo
+    note "UPGRADE ROUTINE [3/3]: Running post-update hooks."
+    after_update_algorithm
+    success "UPGRADE ROUTINE [3/3] COMPLETE."
+    echo
+    success "Done! 🎉"
+    echo
+    info "Your repository is now up to date with this {{skeleton}} revision:"
+    echo -e "  ${BOLD}{{skeleton_url}}/tree/${NEW_REF:-"HEAD"}$NC"
+}
 # End of copied code
 #%- endif %#
