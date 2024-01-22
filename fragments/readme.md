@@ -10,6 +10,13 @@
 [![Documentation Status](https://readthedocs.org/projects/{{rtd}}/badge/?version=latest)](https://{{rtd}}.readthedocs.io/en/latest/?badge=latest)
 #%- endif %#
 
+#% if wip -%#
+> [!Warning]
+> 🚧 **Work in Progress**. 🚧
+>
+> Hit the `👁 Watch` button to know when this project is ready to be tried out!
+#%- endif %#
+
 #% if description -%#
 {{description}}
 #% endif %#

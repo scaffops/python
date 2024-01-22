@@ -18,6 +18,7 @@ pypy = false
 license = "MIT"
 precommit = false
 ctt = true
+wip = false
 
 [output.".ctt/base"]
 
@@ -29,3 +30,4 @@ pypy = true
 pypi = true
 cli = true
 precommit = true
+wip = true

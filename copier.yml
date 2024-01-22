@@ -36,6 +36,10 @@ description:
   type: "str"
   default: ""
   help: "Short project description"
+wip:
+  type: "bool"
+  default: true
+  help: "Add a work-in-progress notice to the README?"
 visibility:
   type: "str"
   choices:
