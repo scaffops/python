@@ -1,0 +1,31 @@
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+
+#% include "fragments/gha-header.yml" %#
+#%- from "fragments/actions.yml" import actions %#
+
+name: "Check news entry"
+
+on:
+  pull_request:
+    types:
+    - "labeled"
+    - "unlabeled"
+    - "opened"
+    - "reopened"
+    - "synchronize"
+
+jobs:
+  check-news-entry:
+    runs-on: "ubuntu-latest"
+
+    steps:
+    - uses: "{{actions['actions/checkout']}}"
+      with:
+        # `towncrier check` runs `git diff --name-only origin/main...`, which
+        # needs a non-shallow clone.
+        fetch-depth: 0
+
+    - name: "Check news entry"
+      if: "!contains(github.event.pull_request.labels.*.name, 'skip news')"
+      run: |
+        pipx run towncrier check --compare-with origin/{{"${{ github.base_ref }}"}}
