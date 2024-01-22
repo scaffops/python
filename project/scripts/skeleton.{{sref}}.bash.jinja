@@ -22,7 +22,14 @@
 # shellcheck disable=SC2005,SC1091
 
 set -eEuo pipefail
-source setup-local.bash
+
+TEMPFILE=$(mktemp)
+
+curl "{{raw_skeleton_url}}/HEAD/setup.bash" > "$TEMPFILE"
+trap 'rm -f "$TEMPFILE"' EXIT
+
+# shellcheck disable=SC1090
+source "$TEMPFILE"
 
 update_setup() {
     export LAST_REF="{{sref}}"

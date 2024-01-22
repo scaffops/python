@@ -39,6 +39,10 @@ SKELETON_URL: Template = Template(
     "https://github.com/${skeleton}",
 )
 
+RAW_SKELETON_URL: Template = Template(
+    "https://raw.githubusercontent.com/${skeleton}",
+)
+
 SKELETON_REV: Template = Template(
     "https://github.com/${skeleton}/tree/${skeleton_ref}",
 )
@@ -98,6 +102,7 @@ class SkeletonContextHook(InplaceContextHook):
             else context["_src_path"].lstrip("gh://")
         )
         context["skeleton_url"] = SKELETON_URL.substitute(context)
+        context["raw_skeleton_url"] = RAW_SKELETON_URL.substitute(context)
         context["skeleton_ref"] = context["sref"] = context["_copier_answers"][
             "_commit"
         ]
