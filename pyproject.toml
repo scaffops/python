@@ -24,6 +24,8 @@ towncrier = "^23.11.0"
 #%- if tests %#
 pytest = "^7.4.3"
 pytest-cov = "^4.1.0"
+pytest-doctestplus = "^1.1.0"
+covdefaults = "^2.3.0"
 #%- endif %#
 poethepoet = "^0.24.3"
 #%- if precommit %#
