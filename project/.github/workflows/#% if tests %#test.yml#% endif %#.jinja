@@ -16,31 +16,32 @@ jobs:
       matrix:
         os: ["ubuntu", "macos", "windows"]
         python-version: [{{pythons}}]
+    env:
+      context: "{{'${{python-version}}-${{os}}'}}"
     timeout-minutes: 10
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
       run: "pipx install poetry=={{poetry_version}}"
-    - name: "Set up Python {{"${{matrix.python-version}}"}}"
+    - name: "Set up Python {{'${{matrix.python-version}}'}}"
       uses: "{{actions['actions/setup-python']}}"
       with:
-        python-version: "{{"${{matrix.python-version}}"}}"
+        python-version: "{{'${{matrix.python-version}}'}}"
         cache: "poetry"
     - name: "Install the project"
       run: "poetry install"
     - name: "Run tests"
       env:
         PY_COLORS: 1  # Thanks @zanieb!
-      run: "poetry run coverage run -m pytest -v ."
-    - name: "Report coverage"
       run: >
-        poetry run coverage report
-        && poetry run coverage html
-        --title "{{repo}} coverage for {{"${{github.sha}}"}}
-        (measured on Python {{"${{matrix.python-version}}"}})"
-    - name: "Store coverage html"
+        poetry run pytest
+        --cov-context={{'${{env.context}}'}}
+        --cov-report=term:skip-covered
+        --doctest-only
+        -v .
+    - name: "Upload coverage data file artifact"
       uses: "{{actions['actions/upload-artifact']}}"
-      if: "{{"${{matrix.python-version == '"}}{{python}}{{"' && matrix.os == 'ubuntu' && success()}}"}}"
       with:
-        name: "coverage-html"
-        path: "htmlcov"
+        name: "coverage-{{'${{env.context}}'}}"
+        path: ".coverage"
+        overwrite: true
