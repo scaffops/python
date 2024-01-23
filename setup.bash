@@ -26,7 +26,7 @@ UI_NOTE="${GREY}→${NC}"
 UI_TICK="${GREEN}✔${NC}"
 UI_CROSS="${RED}✘${NC}"
 
-#% include "mkcontext.bash" %#
+#% include "make_context.bash" %#
 
 setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
@@ -257,7 +257,7 @@ determine_project_path() {
 
 create_gh_env() {
     # Ensure that the GitHub environment exists
-    silent "$GH_ENSURE_ENV" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
+    eval "echo \$($GH_ENSURE_ENV)" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
 }
 
 provision_gh_envs() {
@@ -265,8 +265,7 @@ provision_gh_envs() {
     local CODECOV_TOKEN
     local ENV_NAME="Upload Coverage"
     note "Creating a GitHub Actions environment $BLUE$ENV_NAME$GREY if necessary..."
-    create_gh_env "$ENV_NAME"
-    success "Environment $BLUE$ENV_NAME$NC exists."
+    create_gh_env "$ENV_NAME" && success "Environment $BLUE$ENV_NAME$NC exists."
     echo
     note "Checking if Smokeshow secret key needs to be created..."
     set +eE

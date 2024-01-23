@@ -5,14 +5,14 @@ from typing import TYPE_CHECKING
 from copier_templates_extensions import ContextHook
 
 if TYPE_CHECKING:
-    from extensions.mkcontext import MkContextDict
+    from extensions.make_context import MakeContextDict
 
 
 class CommandsContextHook(ContextHook):
     update = False
 
     def hook(self, context: dict[str, object]) -> None:  # type: ignore[override]
-        bash: MkContextDict = context["mkcontext"]  # type: ignore[assignment]
+        bash: MakeContextDict = context["make_context"]  # type: ignore[assignment]
         context[bash["gh_repo_args"]] = (
             '"{github}/{repo}" '
             "--{visibility} --source=./ --remote=upstream"

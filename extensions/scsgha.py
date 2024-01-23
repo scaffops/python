@@ -54,6 +54,6 @@ class SCSGHAExtension(Extension):  # Pronounced as scassgah ex*cough*sion
 
 class PoetryVersionContextHook(ContextHook):
     def hook(self, context: dict[str, Any]) -> dict[str, Any]:
-        bash = context["mkcontext"]
+        bash = context["make_context"]
         context[bash["poetry_version"]] = POETRY_VERSION
         return context

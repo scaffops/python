@@ -14,7 +14,7 @@ from copier_templates_extensions import ContextHook
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from extensions.mkcontext import MkContextDict
+    from extensions.make_context import MakeContextDict
 
 
 LATEST_PYTHON_VERSION: tuple[int, int] = (3, 12)
@@ -84,11 +84,11 @@ class InplaceContextHook(ContextHook, metaclass=ABCMeta):
     update = False
 
     def hook(self, context: dict[str, Any]) -> dict[str, Any]:
-        bash: MkContextDict = context["mkcontext"]
+        bash: MakeContextDict = context["make_context"]
         return self._hook(context, bash) or context
 
     @abstractmethod
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         ...
 
 
@@ -99,7 +99,7 @@ GH_SKELETON_REPO_NAME = getoutput(
 
 
 class SkeletonContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["skeleton"]] = (
             GH_SKELETON_REPO_NAME
             if context["ctt"]
@@ -126,7 +126,7 @@ class SkeletonExtension(Extension):
 
 
 class ProjectURLContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["repo_url"]] = REPO_URL.substitute(context)
         context[bash["coverage_url"]] = COVERAGE_URL.substitute(context)
         context[bash["docs_url"]] = DOCS_URL.substitute(context)
@@ -150,7 +150,7 @@ def _generate_pythons(
 
 
 class PythonVersionsContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["latest_python"]] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context[bash["python_ahead"]] = ".".join(map(str, PYTHON_VERSION_AHEAD))
         context[bash["pythons"]] = ", ".join(
@@ -165,7 +165,7 @@ class PythonVersionsContextHook(InplaceContextHook):
 
 
 class VisibilityContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["public"]] = context[bash["visibility"]] == "public"
         context[bash["private"]] = not context["public"]
 
@@ -180,16 +180,16 @@ class TemplateContextHook(InplaceContextHook):
         self.filename = filename and Path(*Path(filename).parts[3:]).as_posix()
         return source
 
-    def _hook(self, context: dict[str, Any], _bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], _bash: MakeContextDict, /) -> None:
         context["_origin"] = self.filename
 
 
 class GitContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["git_username"]] = getoutput("git config user.name")
         context[bash["git_email"]] = getoutput("git config user.email")
 
 
 class SelfContextHook(InplaceContextHook):
-    def _hook(self, context: dict[str, Any], _bash: MkContextDict, /) -> None:
+    def _hook(self, context: dict[str, Any], _bash: MakeContextDict, /) -> None:
         context["context"] = context.copy()

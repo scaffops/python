@@ -31,9 +31,9 @@ trap 'rm -f "$TEMPFILE"' EXIT
 # shellcheck disable=SC1090
 source "$TEMPFILE"
 
-mkcontext() {
+make_context() {
     #%- filter indent("\t") %#
-    #%- include "mkcontext.bash" %#
+    #%- include "make_context.bash" %#
     #%- endfilter %#
     export LAST_REF="{{sref}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
@@ -41,5 +41,5 @@ mkcontext() {
     export LAST_LICENSE_NAME="{{_copier_answers['license']}}"
 }
 
-mkcontext
+make_context
 update_entrypoint "$@"
