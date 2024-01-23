@@ -119,7 +119,7 @@ after_copy() {
         silent git init .
         silent git branch -M "$BRANCH"
         info "Main branch: $BRANCH"
-        gh repo create "$GH_REPO_ARGS"
+        eval "gh repo create $GH_REPO_ARGS"
         git remote add origin "$REPO_URL.git"
         CREATED=1
     else
