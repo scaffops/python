@@ -3,7 +3,7 @@
 #
 # Interact with {{skeleton}} (current version: {{skeleton_rev}}).
 #
-# {{_origin|skeleton_notice(snref=snref, srev=srev)|custom_indent("# ")}}
+# {{_origin|skeleton_notice(snref=snref, srev=srev)|indent("# ")}}
 #
 # Usage:
 #
@@ -32,7 +32,9 @@ trap 'rm -f "$TEMPFILE"' EXIT
 source "$TEMPFILE"
 
 mkcontext() {
-    #% include "mkcontext.bash" %#
+    #%- filter indent("\t") %#
+    #%- include "mkcontext.bash" %#
+    #%- endfilter %#
     export LAST_REF="{{sref}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
     export NEW_REF_KEY="$$_skeleton_new_ref"

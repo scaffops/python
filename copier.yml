@@ -18,6 +18,7 @@ _jinja_extensions:
 - "extensions/scsgha.py:SCSGHAExtension"
 - "extensions/scsgha.py:PoetryVersionContextHook"
 - "extensions/stringops.py:StringOpsExtension"
+- "extensions/mkcontext.py:MkContextContextHook"
 _subdirectory: "project"
 _tasks:
 - >-
