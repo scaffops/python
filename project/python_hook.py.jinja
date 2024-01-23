@@ -1,6 +1,6 @@
-# %- if True %#
+#%- if True %#
 # You shouldn't be seeing this file!
-# %- endif %#
+#%- endif %#
 """
 Copier copy/update hook script.
 
@@ -41,16 +41,16 @@ def generate_license_file(license: str | None = None) -> None:
         return
 
     if Path("LICENSE").exists():
-        # % if ctt %#
+        #% if ctt %#
         do_overwrite = True
-        # % else %#
+        #% else %#
         do_overwrite = (
             input(
                 f"Overwrite existing LICENSE file (new license: {license})? [y/N] "
             ).strip()
             or "n"
         )[0].lower() == "y"
-        # % endif %#
+        #% endif %#
         if not do_overwrite:
             return
 
@@ -94,9 +94,9 @@ def generate_doc_symlinks() -> None:
 
 def main() -> None:
     generate_license_file()
-    # %- if docs %#
+    #%- if docs %#
     generate_doc_symlinks()
-    # %- endif %#
+    #%- endif %#
 
 
 if __name__ == "__main__":
