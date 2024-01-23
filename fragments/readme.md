@@ -12,7 +12,7 @@
 
 #% if wip -%#
 > [!Warning]
-> 🚧 **Work in Progress**. 🚧
+> **Work in Progress**. 🚧
 >
 > Hit the `👁 Watch` button to know when this project is ready to be tried out!
 #%- endif %#
