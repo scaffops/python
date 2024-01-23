@@ -119,7 +119,7 @@ after_copy() {
         silent git init .
         silent git branch -M "$BRANCH"
         info "Main branch: $BRANCH"
-        gh repo create {{gh.repo_args}}
+        gh repo create "$GH_REPO_ARGS"
         git remote add origin "$REPO_URL.git"
         CREATED=1
     else
@@ -257,7 +257,7 @@ determine_project_path() {
 
 create_gh_env() {
     # Ensure that the GitHub environment exists
-    silent echo "{{gh.ensure_env}}" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
+    silent "$GH_ENSURE_ENV" || error 0 "Failed to ensure GitHub environment $BLUE$1$NC exists."
 }
 
 provision_gh_envs() {
