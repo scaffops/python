@@ -344,16 +344,15 @@ after_update_algorithm() {
     REVISION_PARAGRAPH="Skeleton revision: $SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
     CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
     note "Checking for conflicts..."
-    if test "$CONFLICTED_FILES"
-    then
+    while test "$CONFLICTED_FILES"
+    do
         error 0 "There are conflicts in the following files:" >&2
         echo "$CONFLICTED_FILES" >&2
-        echo "Resolving automatically. Please review the changes after the upgrade." >&2
-        git checkout --theirs . >&2
-        success "Conflicts resolved, proceeding."
-    else
-        success "No conflicts, proceeding."
-    fi
+        echo "Resolve them and press Enter." >&2
+        read -r
+        CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
+    done
+    success "No conflicts, proceeding."
     note "Locking Poetry dependencies..."
     poetry lock
     note "Committing changes..."
