@@ -22,14 +22,8 @@ _jinja_extensions:
 _subdirectory: "project"
 _tasks:
 - >-
-  set -eE
-  && (HANDLER_PREVIEW=$(cat "./setup-local.bash"))
-  && (./setup-local.bash --run
-  || (
-  HANDLER_PREVIEW_FILE="/tmp/skeleton-handler-preview-$(uuidgen)"
-  && echo "$HANDLER_PREVIEW" > "$HANDLER_PREVIEW_FILE"
-  && echo "Failing handler preview saved to $HANDLER_PREVIEW_FILE"
-  ))
+  set -ex
+  && ./setup-local.bash --run
 
 repo:
   type: "str"
