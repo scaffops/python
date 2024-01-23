@@ -182,3 +182,8 @@ class GitContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any]) -> None:
         context["git_username"] = getoutput("git config user.name")
         context["git_email"] = getoutput("git config user.email")
+
+
+class SelfContextHook(InplaceContextHook):
+    def _hook(self, context: dict[str, Any]) -> None:
+        context["context"] = context.copy()

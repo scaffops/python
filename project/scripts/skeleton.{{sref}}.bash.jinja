@@ -31,12 +31,13 @@ trap 'rm -f "$TEMPFILE"' EXIT
 # shellcheck disable=SC1090
 source "$TEMPFILE"
 
-update_setup() {
+mkcontext() {
+    #% include "mkcontext.bash" %#
     export LAST_REF="{{sref}}"
     export PROJECT_PATH_KEY="$$_skeleton_project_path"
     export NEW_REF_KEY="$$_skeleton_new_ref"
     export LAST_LICENSE_NAME="{{_copier_answers['license']}}"
 }
 
-update_setup
+mkcontext
 update_entrypoint "$@"

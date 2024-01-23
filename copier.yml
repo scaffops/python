@@ -14,6 +14,7 @@ _jinja_extensions:
 - "extensions/context.py:VisibilityContextHook"
 - "extensions/context.py:TemplateContextHook"
 - "extensions/context.py:GitContextHook"
+- "extensions/context.py:SelfContextHook"
 - "extensions/scsgha.py:SCSGHAExtension"
 - "extensions/scsgha.py:PoetryVersionContextHook"
 - "extensions/stringops.py:StringOpsExtension"

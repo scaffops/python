@@ -1,4 +1,3 @@
-#%- if not upgrade_script -%#
 # (C) 2023–present Bartosz Sławecki (bswck)
 #
 # This script is run on every copier task event.
@@ -14,6 +13,20 @@
 # shellcheck disable=SC1054,SC1073,SC2005,SC1083
 
 set -eEuo pipefail
+
+BOLD="\033[1m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+BLUE="\033[0;34m"
+GREY="\033[0;90m"
+NC="\033[0m"
+
+UI_INFO="${BLUE}🛈${NC}"
+UI_NOTE="${GREY}→${NC}"
+UI_TICK="${GREEN}✔${NC}"
+UI_CROSS="${RED}✘${NC}"
+
+#% include "mkcontext.bash" %#
 
 setup_task_event() {
     # By default use PPID not to overlap with other running copier processes
@@ -39,12 +52,12 @@ setup_task_event() {
         silent redis-cli set "$PROJECT_PATH_KEY" "$(pwd)"
 
         # Does this repository exist remotely?
-        silent git ls-remote "{{repo_url}}" HEAD
+        silent git ls-remote "$REPO_URL" HEAD
         if test $? = 0 && test "${LAST_REF:=""}"  # Missing $LAST_REF means we are not updating.
         then
             # Let the parent process know what is the new skeleton revision
             set -eE
-            silent redis-cli set "$NEW_REF_KEY" "{{sref}}"
+            silent redis-cli set "$NEW_REF_KEY" "$SREF"
             export TASK_EVENT="UPGRADE"
             export BRANCH
             BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -63,13 +76,13 @@ setup_task_event() {
     echo
 }
 
-run_copier_hook() {
+run_python_hook() {
     # Run a temporary hook that might generate LICENSE file and other stuff
     note "Running copier hook..."
-    python copier_hook.py
+    python python_hook.py
     info "Copier hook exited with code $BOLD$?$NC."
     note "Removing copier hook..."
-    rm copier_hook.py || (error $? "Failed to remove copier hook.")
+    rm python_hook.py || (error $? "Failed to remove copier hook.")
 }
 
 setup_poetry_virtualenv() {
@@ -95,7 +108,7 @@ after_copy() {
     note "Setting up the project..."
     echo
     setup_poetry_virtualenv
-    run_copier_hook
+    run_python_hook
     silent rm -f ./setup-local.bash
     #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
@@ -107,7 +120,7 @@ after_copy() {
         silent git branch -M "$BRANCH"
         info "Main branch: $BRANCH"
         gh repo create {{gh.repo_args}}
-        git remote add origin "{{repo_url}}.git"
+        git remote add origin "$REPO_URL.git"
         CREATED=1
     else
         BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -118,8 +131,8 @@ after_copy() {
     silent poetry run pre-commit install
     success "Pre-commit installed."
     #%- endif %#
-    COMMIT_MSG="Copy {{snref}}"
-    REVISION_PARAGRAPH="Skeleton revision: {{skeleton_rev}}"
+    COMMIT_MSG="Copy $SNREF"
+    REVISION_PARAGRAPH="Skeleton revision: $SKELETON_REV"
     silent git add .
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
@@ -140,7 +153,7 @@ after_copy() {
 }
 
 after_checkout_last_skeleton() {
-    run_copier_hook
+    run_python_hook
 }
 
 before_update() {
@@ -149,7 +162,7 @@ before_update() {
 
 after_update() {
     setup_poetry_virtualenv
-    run_copier_hook
+    run_python_hook
     #% if precommit %#
     poetry run pre-commit install
     #% else %#
@@ -162,7 +175,7 @@ before_checkout_project() {
 }
 
 after_checkout_project() {
-    run_copier_hook
+    run_python_hook
 }
 
 handle_task_event() {
@@ -176,7 +189,7 @@ handle_task_event() {
         echo
         #% if not ctt %#
         success "Done! 🎉"
-        info "Your repository is now set up at ${BOLD}{{repo_url}}$NC"
+        info "Your repository is now set up at ${BOLD}$REPO_URL$NC"
         echo -e "  💲 ${BOLD}cd $PROJECT_PATH$NC"
         echo
         echo "Happy coding!"
@@ -205,22 +218,6 @@ handle_task_event() {
         success "UPGRADE ALGORITHM [3/3] COMPLETE."
     fi
 }
-#%- endif %#
-#%- if upgrade_script %#
-# Automatically copied from {{skeleton_url}}/tree/{{sref}}/setup.sh
-#%- endif %#
-# Comms
-BOLD="\033[1m"
-RED="\033[0;31m"
-GREEN="\033[0;32m"
-BLUE="\033[0;34m"
-GREY="\033[0;90m"
-NC="\033[0m"
-
-UI_INFO="${BLUE}🛈${NC}"
-UI_NOTE="${GREY}→${NC}"
-UI_TICK="${GREEN}✔${NC}"
-UI_CROSS="${RED}✘${NC}"
 
 info() {
     echo -e "$UI_INFO $*"
@@ -295,7 +292,6 @@ provision_gh_envs() {
     set -eE
 }
 
-#%- if upgrade_script %#
 determine_new_ref() {
     # Determine the new skeleton revision set by the child process
     export NEW_REF
@@ -345,7 +341,7 @@ after_update_algorithm() {
     cd "$PROJECT_PATH"
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
-    REVISION_PARAGRAPH="Skeleton revision: {{skeleton_url}}/tree/${NEW_REF:-"HEAD"}"
+    REVISION_PARAGRAPH="Skeleton revision: $SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
     CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
     note "Checking for conflicts..."
     if test "$CONFLICTED_FILES"
@@ -366,13 +362,13 @@ after_update_algorithm() {
     if test "$LAST_REF" = "$NEW_REF"
     then
         info "The version of the skeleton has not changed."
-        local COMMIT_MSG="Mechanized patch at {{skeleton}}@$NEW_REF"
+        local COMMIT_MSG="Mechanized patch at $SKELETON@$NEW_REF"
     else
         if test "$NEW_REF"
         then
-            local COMMIT_MSG="Upgrade to {{skeleton}}@$NEW_REF"
+            local COMMIT_MSG="Upgrade to $SKELETON@$NEW_REF"
         else
-            local COMMIT_MSG="Upgrade to {{skeleton}} of unknown revision"
+            local COMMIT_MSG="Upgrade to $SKELETON of unknown revision"
         fi
     fi
     silent redis-cli del "$PROJECT_PATH_KEY"
@@ -402,8 +398,6 @@ update_entrypoint() {
     echo
     success "Done! 🎉"
     echo
-    info "Your repository is now up to date with this {{skeleton}} revision:"
-    echo -e "  ${BOLD}{{skeleton_url}}/tree/${NEW_REF:-"HEAD"}$NC"
+    info "Your repository is now up to date with this $SKELETON revision:"
+    echo -e "  ${BOLD}$SKELETON_URL/tree/${NEW_REF:-"HEAD"}$NC"
 }
-# End of copied code
-#%- endif %#

@@ -11,7 +11,7 @@ from jinja2.utils import pass_context
 from yaml import safe_load  # type: ignore[import-untyped]
 
 
-# Gonna fix this when I rewrite the Cleo command-line argument parser...
+# Gonna fix this when I rewrite the Cleo command-line arguments parser...
 POETRY_VERSION_DEFAULT = "1.7.1"  # Last known version of Poetry while writing this
 POETRY_VERSION_PAT = re.compile(rb"version (^\))")
 POETRY_VERSION_MATCH = POETRY_VERSION_PAT.match(check_output(["poetry", "--version"]))
