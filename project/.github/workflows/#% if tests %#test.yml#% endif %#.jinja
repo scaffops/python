@@ -38,7 +38,7 @@ jobs:
         --context={{'${{env.context}}'}}
         -m pytest --doctest-only -v .
     - name: "Show coverage report"
-      run: "poetry run coverage report --show-missing ."
+      run: "poetry run coverage report --show-missing"
     - name: "Upload coverage data file artifact"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
