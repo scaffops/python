@@ -29,10 +29,11 @@ jobs:
         cache: "poetry"
     - name: "Install the project"
       run: "poetry install --only=dev,dev-skeleton"
-    - run: "gh run download {{'${{github.event.workflow_run.id}}'}} --dir .covfiles/"
+    - run: "gh run download {{'${{github.event.workflow_run.id}}'}} --dir .covarchives/"
       env:
         GH_TOKEN: "{{'${{github.token}}'}}"
-    - run: "poetry run coverage combine .covfiles/coverage-*"
+    - run: "unzip -o .covarchives/coverage-\\* -d .covfiles/"
+    - run: "poetry run coverage combine .covfiles/*"
     - run: >
         poetry run coverage html
         --show-contexts
