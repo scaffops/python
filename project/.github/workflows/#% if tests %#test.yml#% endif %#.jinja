@@ -17,7 +17,7 @@ jobs:
         os: ["ubuntu", "macos", "windows"]
         python-version: [{{pythons}}]
     env:
-      context: "{{'${{python-version}}-${{os}}'}}"
+      context: "{{'${{matrix.python-version}}-${{matrix.os}}'}}"
     timeout-minutes: 10
     steps:
     - uses: "{{actions['actions/checkout']}}"
