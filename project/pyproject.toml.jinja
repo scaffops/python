@@ -169,14 +169,6 @@ relative_files = true
 
 [tool.coverage.report]
 fail_under = 90
-exclude_also = [
-    # Be sure to include lines that are not meant to be covered
-    # by tests or encountered by the users at runtime.
-    "raise NotImplementedError",          # Do not cover abstract methods.
-    "if ((t|typing)\\.?)?TYPE_CHECKING:", # Do not cover type checking imports.
-    "@((t|typing)\\.?)?overload",         # Do not cover overload definitions.
-    "\\(((t|typing)\\.?)?Protocol\\):$",  # Do not cover entire protocol definitions.
-]
 
 [build-system]
 requires = ["poetry-core"]
