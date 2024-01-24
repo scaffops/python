@@ -15,17 +15,16 @@ permissions:
   statuses: "write"
 
 jobs:
-  smokeshow:
+  combine:
+    if: "{{'${{github.event.workflow_run.conclusion == \'success\'}}'}}"
     runs-on: "ubuntu-latest"
-    environment: "Upload Coverage"
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
       run: "pipx install poetry=={{poetry_version}}"
-    - name: "Set up Python {{'${{matrix.python-version}}'}}"
+    - name: "Set up Python"
       uses: "{{actions['actions/setup-python']}}"
       with:
-        python-version: "{{'${{matrix.python-version}}'}}"
         cache: "poetry"
     - name: "Install the project"
       run: "poetry install --only=dev,dev-skeleton"
@@ -39,6 +38,53 @@ jobs:
         --directory=.covhtml/
         --show-contexts
         --title "{{repo}} coverage for {{'${{github.sha}}'}}"
+    - name: "Upload coverage data file"
+      uses: "{{actions['actions/upload-artifact']}}"
+      with:
+        name: "coverage"
+        path: ".coverage"
+    - name: "Upload coverage HTML report"
+      uses: "{{actions['actions/upload-artifact']}}"
+      with:
+        name: "coverage-html"
+        path: ".covhtml/"
+
+  codecov:
+    needs: "combine"
+    if: "{{'${{github.event.workflow_run.event == \'pull_request\'}}'}}"
+    runs-on: "ubuntu-latest"
+    environment: "Upload Coverage"
+    steps:
+    - uses: "{{actions['actions/checkout']}}"
+    - uses: "{{actions['actions/download-artifact']}}"
+      with:
+        name: "coverage"
+        merge-multiple: true
+    - name: "Upload coverage reports to Codecov"
+      uses: "{{actions['codecov/codecov-action']}}"
+      env:
+        CODECOV_TOKEN: "{{'${{secrets.CODECOV_TOKEN}}'}}"
+
+  smokeshow:
+    needs: "combine"
+    if: "{{'${{github.event.workflow_run.head_branch == \'main\'}}'}}"
+    runs-on: "ubuntu-latest"
+    environment: "Upload Coverage"
+    steps:
+    - uses: "{{actions['actions/checkout']}}"
+    - name: "Install Poetry"
+      run: "pipx install poetry=={{poetry_version}}"
+    - uses: "{{actions['actions/setup-python']}}"
+      with:
+        cache: "poetry"
+    - name: "Install the project"
+      run: "poetry install --only=dev,dev-skeleton"
+    - name: "Download coverage reports"
+      uses: "{{actions['actions/download-artifact']}}"
+      with:
+        name: "coverage-html"
+        path: ".covhtml/"
+        merge-multiple: true
     - run: "poetry run smokeshow upload .covhtml/"
       env:
         SMOKESHOW_GITHUB_STATUS_DESCRIPTION: "Coverage {coverage-percentage}"
