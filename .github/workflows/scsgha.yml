@@ -19,7 +19,6 @@ on: "workflow_dispatch"
 jobs:
   exist:
     runs-on: "ubuntu-latest"
-    if: false
     steps:
     #% filter use_actions %#
     - uses: "actions/checkout@v4"

@@ -32,17 +32,23 @@ jobs:
       env:
         GH_TOKEN: "{{'${{github.token}}'}}"
     - run: "poetry run coverage combine --append .covfiles/*"
+    - name: "Upload coverage data file"
+      uses: "{{actions['actions/upload-artifact']}}"
+      with:
+        name: "coverage"
+        path: ".coverage"
+    - run: "poetry run coverage xml --fail-under=0"
+    - name: "Upload coverage XML report"
+      uses: "{{actions['actions/upload-artifact']}}"
+      with:
+        name: "coverage-xml"
+        path: "coverage.xml"
     - run: >
         poetry run coverage html
         --fail-under=0
         --directory=.covhtml/
         --show-contexts
         --title "{{repo}} coverage for {{'${{github.sha}}'}}"
-    - name: "Upload coverage data file"
-      uses: "{{actions['actions/upload-artifact']}}"
-      with:
-        name: "coverage"
-        path: ".coverage"
     - name: "Upload coverage HTML report"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
@@ -58,10 +64,12 @@ jobs:
     - uses: "{{actions['actions/checkout']}}"
     - uses: "{{actions['actions/download-artifact']}}"
       with:
-        name: "coverage"
+        name: "coverage-xml"
         merge-multiple: true
     - name: "Upload coverage reports to Codecov"
       uses: "{{actions['codecov/codecov-action']}}"
+      with:
+        files: "coverage.xml"
       env:
         CODECOV_TOKEN: "{{'${{secrets.CODECOV_TOKEN}}'}}"
 
