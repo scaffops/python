@@ -39,9 +39,10 @@ jobs:
         -m pytest --doctest-only -v .
     - name: "Show coverage report"
       run: "poetry run coverage report --show-missing"
+    - run: "mv .coverage .coverage.{{'${{env.context}}'}}"
     - name: "Upload coverage data file artifact"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
         name: "coverage-{{'${{env.context}}'}}"
-        path: ".coverage"
+        path: ".coverage.{{'${{env.context}}'}}"
         overwrite: true
