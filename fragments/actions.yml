@@ -19,11 +19,11 @@ on: "workflow_dispatch"
 jobs:
   exist:
     runs-on: "ubuntu-latest"
-    if: false
     steps:
     #% filter use_actions %#
     - uses: "actions/checkout@v4"
     - uses: "actions/setup-python@v5"
+    - uses: "codecov/codecov-action@v3"
     - uses: "pypa/gh-action-pypi-publish@release/v1"
     - uses: "pypa/gh-action-pip-audit@v1.0.8"
     - uses: "actions/download-artifact@v4"
