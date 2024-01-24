@@ -35,9 +35,10 @@ jobs:
     - run: "poetry run coverage combine --append .covfiles/*"
     - run: >
         poetry run coverage html
+        --directory=.covhtml/
         --show-contexts
         --title "{{repo}} coverage for {{'${{github.sha}}'}}"
-    - run: "poetry run smokeshow upload coverage"
+    - run: "poetry run smokeshow upload .covhtml/"
       env:
         SMOKESHOW_GITHUB_STATUS_DESCRIPTION: "Coverage {coverage-percentage}"
         SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
