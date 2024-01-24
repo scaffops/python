@@ -11,7 +11,7 @@ packages = [{ include = "{{package}}/" }]
 homepage = "{{repo_url}}"
 #% if cli %#
 [tool.poetry.scripts]
-{{package}} = "{{package}}"
+{{package}} = "{{package}}.__main__:main"
 #% endif %#
 [tool.poetry.urls]
 #%- if docs %#
