@@ -167,6 +167,7 @@ plugins = ["covdefaults"]
 source = ["{{package}}/"]
 
 [tool.coverage.report]
+fail_under = 90
 exclude_also = [
     # Be sure to include lines that are not meant to be covered
     # by tests or encountered by the users at runtime.
