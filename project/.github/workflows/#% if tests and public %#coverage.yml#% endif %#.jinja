@@ -19,10 +19,15 @@ jobs:
     runs-on: "ubuntu-latest"
     environment: "Upload Coverage"
     steps:
-    - uses: "{{actions['actions/setup-python']}}"
+    - name: "Install Poetry"
+      run: "pipx install poetry=={{poetry_version}}"
+    - name: "Set up Python {{'${{matrix.python-version}}'}}"
+      uses: "{{actions['actions/setup-python']}}"
       with:
-        python-version: "{{python}}"
-    - run: "pip install smokeshow"
+        python-version: "{{'${{matrix.python-version}}'}}"
+        cache: "poetry"
+    - name: "Install the project"
+      run: "poetry install --only=dev,dev-skeleton"
     - uses: "{{actions['actions/download-artifact']}}"
       with:
         pattern: "coverage-*"
