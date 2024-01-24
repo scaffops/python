@@ -34,12 +34,12 @@ jobs:
         pattern: "coverage-*"
         path: ".covfiles/"
         merge-multiple: true
-    - run: "coverage combine .covfiles/coverage-*"
+    - run: "poetry run coverage combine .covfiles/coverage-*"
     - run: >
         poetry run coverage html
         --show-contexts
         --title "{{repo}} coverage for {{'${{github.sha}}'}}"
-    - run: "smokeshow upload coverage"
+    - run: "poetry run smokeshow upload coverage"
       env:
         SMOKESHOW_GITHUB_STATUS_DESCRIPTION: "Coverage {coverage-percentage}"
         SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 91
