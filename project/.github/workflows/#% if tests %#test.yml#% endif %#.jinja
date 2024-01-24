@@ -34,11 +34,11 @@ jobs:
       env:
         PY_COLORS: 1  # Thanks @zanieb!
       run: >
-        poetry run pytest
-        --cov-context={{'${{env.context}}'}}
-        --cov-report=term:skip-covered
-        --doctest-only
-        -v .
+        poetry run coverage run
+        --context={{'${{env.context}}'}}
+        pytest --doctest-only -v .
+    - name: "Show coverage report"
+      run: "poetry run coverage report --show-missing ."
     - name: "Upload coverage data file artifact"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
