@@ -29,11 +29,7 @@ jobs:
         cache: "poetry"
     - name: "Install the project"
       run: "poetry install --only=dev,dev-skeleton"
-    - uses: "{{actions['actions/download-artifact']}}"
-      with:
-        pattern: "coverage-*"
-        path: ".covfiles/"
-        merge-multiple: true
+    - run: "gh run download {{'${{github.event.workflow_run.id}}'}} --dir .covfiles/"
     - run: "poetry run coverage combine .covfiles/coverage-*"
     - run: >
         poetry run coverage html
