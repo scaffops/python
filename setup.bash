@@ -359,28 +359,28 @@ after_update_algorithm() {
     success "No conflicts, proceeding."
     note "Locking Poetry dependencies..."
     poetry lock
-    silent git add .
-    silent git rm -f ./setup-local.bash
-    if test "$LAST_REF" = "$NEW_REF"
-    then
-        info "The version of the skeleton has not changed."
-        local COMMIT_MSG="Mechanized patch at $SKELETON@$NEW_REF"
-    else
-        if test "$NEW_REF"
-        then
-            local COMMIT_MSG="Upgrade to $SKELETON@$NEW_REF"
-        else
-            local COMMIT_MSG="Upgrade to $SKELETON of unknown revision"
-        fi
-    fi
-    silent redis-cli del "$PROJECT_PATH_KEY"
-    silent redis-cli del "$NEW_REF_KEY"
     if test "$(git status --porcelain)"
     then
-        info "No changes to commit."
-    else
+        silent git add .
+        silent git rm -f ./setup-local.bash
+        if test "$LAST_REF" = "$NEW_REF"
+        then
+            info "The version of the skeleton has not changed."
+            local COMMIT_MSG="Mechanized patch at $SKELETON@$NEW_REF"
+        else
+            if test "$NEW_REF"
+            then
+                local COMMIT_MSG="Upgrade to $SKELETON@$NEW_REF"
+            else
+                local COMMIT_MSG="Upgrade to $SKELETON of unknown revision"
+            fi
+        fi
+        silent redis-cli del "$PROJECT_PATH_KEY"
+        silent redis-cli del "$NEW_REF_KEY"
         note "Committing changes..."
         silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    else
+        info "No changes to commit."
     fi
     setup_gh && echo
 }
