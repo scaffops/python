@@ -341,20 +341,24 @@ after_update_algorithm() {
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
     REVISION_PARAGRAPH="Skeleton revision: $SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
-    CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
     note "Checking for conflicts..."
-    while test "$CONFLICTED_FILES"
+    for CONFLICTED_FILE in $(git diff --name-only --diff-filter=U)
+    do
+        if ! test "$(git diff --check "$CONFLICTED_FILE")"
+        then
+            git add "$CONFLICTED_FILE"
+        fi
+    done
+    while test "${CONFLICTED_FILES:-"$(git diff --name-only --diff-filter=U)"}"
     do
         error 0 "There are conflicts in the following files:" >&2
         echo "$CONFLICTED_FILES" >&2
         echo "Resolve them and press Enter." >&2
         read -r
-        CONFLICTED_FILES="$(git diff --name-only --diff-filter=U)"
     done
     success "No conflicts, proceeding."
     note "Locking Poetry dependencies..."
     poetry lock
-    note "Committing changes..."
     silent git add .
     silent git rm -f ./setup-local.bash
     if test "$LAST_REF" = "$NEW_REF"
@@ -371,7 +375,13 @@ after_update_algorithm() {
     fi
     silent redis-cli del "$PROJECT_PATH_KEY"
     silent redis-cli del "$NEW_REF_KEY"
-    silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    if test "$(git status --porcelain)"
+    then
+        info "No changes to commit."
+    else
+        note "Committing changes..."
+        silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
+    fi
     setup_gh && echo
 }
 
