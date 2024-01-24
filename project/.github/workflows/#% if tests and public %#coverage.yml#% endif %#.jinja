@@ -19,6 +19,7 @@ jobs:
     runs-on: "ubuntu-latest"
     environment: "Upload Coverage"
     steps:
+    - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
       run: "pipx install poetry=={{poetry_version}}"
     - name: "Set up Python {{'${{matrix.python-version}}'}}"
