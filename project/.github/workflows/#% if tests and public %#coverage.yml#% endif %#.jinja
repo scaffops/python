@@ -35,7 +35,7 @@ jobs:
     - run: "poetry run coverage combine --append .covfiles/*"
     - run: >
         poetry run coverage html
-        --ignore-errors
+        --fail-under=0
         --directory=.covhtml/
         --show-contexts
         --title "{{repo}} coverage for {{'${{github.sha}}'}}"
