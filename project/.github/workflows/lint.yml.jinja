@@ -12,11 +12,13 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
     - uses: "{{actions['actions/checkout']}}"
+    - name: "Install Poetry"
+      run: "pipx install poetry=={{poetry_version}}"
     - name: "Set up Python {{python}}"
       uses: "{{actions['actions/setup-python']}}"
       with:
-        python-version: "{{python}}"
-    - name: "Install Ruff"
-      run: "pip install ruff"
+        cache: "poetry"
+    - name: "Install the project"
+      run: "poetry install --only=dev,dev-skeleton"
     - name: "Analyze the code with Ruff"
-      run: "ruff ."
+      run: "ruff check ."
