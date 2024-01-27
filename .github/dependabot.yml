@@ -1,4 +1,4 @@
-#% from "fragments/actions.yml" import actions -%#
+#% from ".github/workflows/scsgha.yml" import actions -%#
 version: 2
 updates:
 - package-ecosystem: "gitsubmodule"
