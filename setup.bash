@@ -335,30 +335,42 @@ run_update_algorithm() {
 
 after_update_algorithm() {
     # Run post-update hooks, auto-commit changes
-    local CONFLICTED_FILES
+    declare -a CONFLICTED_FILES
+    declare -a UNMERGED_FILES
     local REVISION_PARAGRAPH
     cd "$PROJECT_PATH"
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
     REVISION_PARAGRAPH="Skeleton revision: $SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
+    echo
     note "Checking for conflicts..."
-    for CONFLICTED_FILE in $(git diff --name-only --diff-filter=U)
+    echo
+    readarray -t UNMERGED_FILES <<< "$(git diff --name-only --diff-filter=U)"
+    for UNMERGED_FILE in "${UNMERGED_FILES[@]}"
     do
-        if ! test "$(git diff --check "$CONFLICTED_FILE")"
+        if test "$(git diff --check "$UNMERGED_FILE")"
         then
-            git add "$CONFLICTED_FILE"
+            CONFLICTED_FILES+=("$UNMERGED_FILE")
+        else
+            git add "$UNMERGED_FILE"
         fi
     done
-    while test "${CONFLICTED_FILES:-"$(git diff --name-only --diff-filter=U)"}"
+    while test "${CONFLICTED_FILES[@]}"
     do
-        error 0 "There are conflicts in the following files:" >&2
-        echo "$CONFLICTED_FILES" >&2
-        echo "Resolve them and press Enter." >&2
+        error 0 "There are conflicts in the following files:"
+        for CONFLICTED_FILE in "${CONFLICTED_FILES[@]}"
+        do
+            error 0 "- $CONFLICTED_FILE"
+        done
+        error 0 "Resolve them and press Enter."
         read -r
+        readarray -t CONFLICTED_FILES <<< "$(git diff --name-only --diff-filter=U)"
+        echo
     done
     success "No conflicts, proceeding."
     note "Locking Poetry dependencies..."
     poetry lock
+    echo
     if test "$(git status --porcelain)"
     then
         silent git add .
