@@ -22,17 +22,14 @@ env:
 jobs:
   check-news-entry:
     runs-on: "ubuntu-latest"
-
     steps:
     - uses: "{{actions['actions/checkout']}}"
       with:
         # `towncrier check` runs `git diff --name-only origin/main...`, which
         # needs a non-shallow clone.
         fetch-depth: 0
-
     - name: "Check news entry"
       if: >
         !contains(github.event.pull_request.labels.*.name, 'skip news')
         && !contains(env.SKIP_NEWS_FROM_USERS, github.event.pull_request.user.login)
-      run: |
-        pipx run towncrier check --compare-with origin/{{'${{ github.base_ref }}'}}
+      run: "pipx run towncrier check --compare-with origin/{{'${{github.base_ref}}'}}"
