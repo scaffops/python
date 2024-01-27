@@ -15,7 +15,7 @@
 !!! warning
     **Work in Progress**. 🚧
 
-    Hit the `👁 Watch` button to know when this project is ready to be tried out!
+    [Hit the `👁 Watch` button on GitHub]({{repo_url}}) to know when this project is ready to be tried out!
 #%- else %#
 > [!Warning]
 > **Work in Progress**. 🚧
