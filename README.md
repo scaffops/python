@@ -121,6 +121,7 @@ poe skeleton patch
     ```shell
     sudo apt install pipx  # If you don't have pipx installed yet.
     pipx install poetry
+    pipx inject poetry "sync-pre-commit-lock[poetry]"
     poetry install
     ```
 1.  Install [pre-commit](https://pre-commit.com/) hooks.
