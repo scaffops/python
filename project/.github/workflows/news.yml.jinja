@@ -14,6 +14,11 @@ on:
     - "reopened"
     - "synchronize"
 
+env:
+  SKIP_NEWS_FROM_USERS:
+  - "dependabot[bot]"
+  - "pre-commit-ci[bot]"
+
 jobs:
   check-news-entry:
     runs-on: "ubuntu-latest"
@@ -26,6 +31,8 @@ jobs:
         fetch-depth: 0
 
     - name: "Check news entry"
-      if: "!contains(github.event.pull_request.labels.*.name, 'skip news')"
+      if: >
+        !contains(github.event.pull_request.labels.*.name, 'skip news')
+        && !contains(env.SKIP_NEWS_FROM_USERS, github.event.pull_request.user.login)
       run: |
         pipx run towncrier check --compare-with origin/{{'${{ github.base_ref }}'}}
