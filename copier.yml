@@ -9,6 +9,7 @@ _jinja_extensions:
 - "extensions/commands.py:CommandsContextHook"
 - "extensions/context.py:SkeletonContextHook"
 - "extensions/context.py:SkeletonExtension"
+- "extensions/context.py:DateTimeExtension"
 - "extensions/context.py:ProjectURLContextHook"
 - "extensions/context.py:PythonVersionsContextHook"
 - "extensions/context.py:VisibilityContextHook"
@@ -135,4 +136,7 @@ ctt:
   type: "bool"
   default: false
   help: "Copier Template Tester mode?"
+  when: "{{False}}"
+year:
+  default: "{{now().year}}"
   when: "{{False}}"
