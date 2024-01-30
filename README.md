@@ -34,7 +34,7 @@ gh auth login
 ```shell
 sudo apt update && sudo apt install pipx redis gnome-keyring
 pipx install copier keyring
-pipx inject copier copier-templates-extensions
+pipx inject copier copier-templates-extensions tomli
 SKELETON=gh:bswck/skeleton
 ```
 
