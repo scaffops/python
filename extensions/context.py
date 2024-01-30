@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from datetime import datetime, timezone
 from pathlib import Path
 from string import Template
 from subprocess import getoutput
@@ -124,16 +123,6 @@ class SkeletonExtension(Extension):
         super().__init__(environment)
         # Usage: {{path...|skeleton_notice(snref=snref, srev=srev)}}
         environment.filters["skeleton_notice"] = skeleton_notice
-
-
-def now() -> datetime:
-    return datetime.now(tz=timezone.utc)
-
-
-class DateTimeExtension(Extension):
-    def __init__(self, environment: Environment) -> None:
-        super().__init__(environment)
-        environment.filters["now"] = now
 
 
 class ProjectURLContextHook(InplaceContextHook):
