@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
+from ast import literal_eval
 from pathlib import Path
 from string import Template
 from subprocess import getoutput
@@ -76,7 +77,7 @@ def skeleton_notice(
         scope=scope,
         snref=snref,
         srev=srev,
-        path=quote(path),
+        path=quote(path or ""),
     )
 
 
@@ -118,11 +119,12 @@ class SkeletonContextHook(InplaceContextHook):
         )
 
 
-class SkeletonExtension(Extension):
+class FilterExtension(Extension):
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
         # Usage: {{path...|skeleton_notice(snref=snref, srev=srev)}}
         environment.filters["skeleton_notice"] = skeleton_notice
+        environment.globals["literal_eval"] = literal_eval
 
 
 class ProjectURLContextHook(InplaceContextHook):

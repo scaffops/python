@@ -35,7 +35,14 @@ python = ">={{python}},<{{python_ahead}}"
 #%- include "pyproject.toml" %#
 #%- endwith %#
 
-#% if docs -%#
+#%- if tests %#
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+#%- endif %#
+
+#%- if docs %#
+
 [tool.poetry.group.docs]
 optional = true
 

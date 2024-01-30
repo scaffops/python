@@ -1,4 +1,12 @@
 #% from ".github/workflows/scsgha.yml" import actions -%#
+#%- set dev_dependencies_dump %#
+#%- filter use_dev_dependencies %#
+#%- with included=True %#
+#%- include "pyproject.toml" %#
+#%- endwith %#
+#%- endfilter %#
+#%- endset %#
+#%- set dev_dependencies=literal_eval(dev_dependencies_dump) %#
 version: 2
 updates:
 - package-ecosystem: "gitsubmodule"
@@ -9,12 +17,17 @@ updates:
   directory: "/"
   schedule:
     interval: "daily"
-  #% if True %#ignore:#% endif %#
-  #% if True %#{{"# Actions managed by %s" % skeleton_url}}#% endif %#
+#% if actions %#  ignore:#% endif %#
+#% if actions %#  {{"# Actions managed by %s" % skeleton_url}}#% endif %#
 #%- for action in actions %#
-  #% if True %#- dependency-name: "{{action}}"#% endif %#
+#% if actions %#  - dependency-name: "{{action}}"#% endif %#
 #%- endfor %#
 - package-ecosystem: "pip"
   directory: "/"
   schedule:
     interval: "daily"
+#% if dev_dependencies %#  ignore:#% endif %#
+#% if dev_dependencies %#  {{"# Dependencies managed by %s" % skeleton_url}}#% endif %#
+#%- for dev_dependency in dev_dependencies %#
+#% if dev_dependencies %#  - dependency-name: "{{dev_dependency}}"#% endif %#
+#%- endfor %#

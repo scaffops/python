@@ -8,7 +8,7 @@ _jinja_extensions:
 - "copier_templates_extensions.TemplateExtensionLoader"
 - "extensions/commands.py:CommandsContextHook"
 - "extensions/context.py:SkeletonContextHook"
-- "extensions/context.py:SkeletonExtension"
+- "extensions/context.py:FilterExtension"
 - "extensions/context.py:ProjectURLContextHook"
 - "extensions/context.py:PythonVersionsContextHook"
 - "extensions/context.py:VisibilityContextHook"

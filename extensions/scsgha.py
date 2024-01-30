@@ -4,11 +4,12 @@ import re
 from subprocess import check_output
 from typing import Any
 
+import tomli  # type: ignore[import-untyped]
+import yaml  # type: ignore[import-untyped]
 from copier_templates_extensions import ContextHook
 from jinja2.environment import Environment, Context
 from jinja2.ext import Extension
 from jinja2.utils import pass_context
-from yaml import safe_load  # type: ignore[import-untyped]
 
 
 # Gonna fix this when I rewrite the Cleo command-line arguments parser...
@@ -35,21 +36,33 @@ class ActionsDict(dict):
 
 
 @pass_context
-def use_actions(ctx: Context, action_string: str) -> None:
+def use_actions(ctx: Context, action_string: str) -> str:
     actions = ActionsDict()
-    steps = safe_load(action_string)
-    for step in steps:
-        if "uses" in step:
-            action = step["uses"]
+    declared_actions = yaml.safe_load(action_string)
+    for declared_action in declared_actions:
+        if "uses" in declared_action:
+            action = declared_action["uses"]
             actions[get_action_key(action)] = action
     ctx.vars["actions"] = actions
     ctx.exported_vars.add("actions")
+    return action_string
+
+
+@pass_context
+def use_dev_dependencies(ctx: Context, deps_string: str) -> str:
+    dev_dependencies = ctx.vars["dev_dependencies"] = {
+        **(ctx.vars.get("dev_dependencies") or {}),
+        **tomli.loads(deps_string),
+    }
+    ctx.exported_vars.add("dev_dependencies")
+    return str(dev_dependencies)
 
 
 class SCSGHAExtension(Extension):  # Pronounced as scassgah ex*cough*sion
     def __init__(self, environment: Environment) -> None:
         super().__init__(environment)
         environment.filters["use_actions"] = use_actions
+        environment.filters["use_dev_dependencies"] = use_dev_dependencies
 
 
 class PoetryVersionContextHook(ContextHook):
