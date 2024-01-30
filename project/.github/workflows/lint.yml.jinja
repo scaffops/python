@@ -21,4 +21,4 @@ jobs:
     - name: "Install the project"
       run: "poetry install --only=dev,dev-skeleton"
     - name: "Analyze the code with Ruff"
-      run: "ruff check ."
+      run: "poetry run ruff check ."
