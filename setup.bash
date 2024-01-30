@@ -355,7 +355,7 @@ after_update_algorithm() {
             git add "$UNMERGED_FILE"
         fi
     done
-    while test "${CONFLICTED_FILES[@]}"
+    while (( "${CONFLICTED_FILES[@]}" ))
     do
         error 0 "There are conflicts in the following files:"
         for CONFLICTED_FILE in "${CONFLICTED_FILES[@]}"
