@@ -1,4 +1,4 @@
-# {{repo}} [![skeleton](https://img.shields.io/badge/{{sref|urlencode|replace("-", "–")}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project_name}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project_name}}?label=PyPI)]({{pypi_url}})#% endif %#
+# {{repo}} [![skeleton](https://img.shields.io/badge/{{sref|urlencode|replace("-", "–")}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project}}?label=PyPI)]({{pypi_url}})#% endif %#
 
 #% if tests -%#
 [![Tests]({{repo_url}}/actions/workflows/test.yml/badge.svg)]({{repo_url}}/actions/workflows/test.yml)
@@ -39,20 +39,20 @@
 To use this globally as a CLI tool, simply install it with [pipx](https://github.com/pypa/pipx):
 
 ```shell
-pipx install {{pypi_project_name}}
+pipx install {{pypi_project}}
 ```
 
 But you might also simply install it with pip to access the library API:
 
 ```shell
-pip install {{pypi_project_name}}
+pip install {{pypi_project}}
 ```
 
 #%- else %#
 You might simply install it with pip:
 
 ```shell
-pip install {{pypi_project_name}}
+pip install {{pypi_project}}
 ```
 
 #%- endif %#
@@ -60,7 +60,7 @@ pip install {{pypi_project_name}}
 If you use [Poetry](https://python-poetry.org/), then you might want to run:
 
 ```shell
-poetry add {{pypi_project_name}}
+poetry add {{pypi_project}}
 ```
 
 ## For contributors

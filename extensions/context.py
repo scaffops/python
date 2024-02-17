@@ -36,7 +36,7 @@ DOCS_URL: Template = Template(
 )
 
 PYPI_URL: Template = Template(
-    "https://pypi.org/project/${pypi_project_name}/",
+    "https://pypi.org/project/${pypi_project}/",
 )
 
 SKELETON_URL: Template = Template(

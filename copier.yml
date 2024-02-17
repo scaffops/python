@@ -63,9 +63,9 @@ pypi:
   type: "bool"
   default: true
   help: "Publish on PyPI"
-pypi_project_name:
+pypi_project:
   type: "str"
-  default: "{{repo|kebabify}}"
+  default: "{{pypi_project_name or repo|kebabify}}"
   help: "PyPI project name"
   when: "{{pypi}}"
 pypi_description:
