@@ -23,24 +23,24 @@ theme:
   - "navigation.top"
   - "navigation.tracking"
   palette:
-  - media: "(prefers-color-scheme)"
-    toggle:
-      icon: "material/brightness-auto"
-      name: "Switch to light mode"
   - media: "(prefers-color-scheme: light)"
     scheme: "default"
     primary: "teal"
     accent: "purple"
     toggle:
-      icon: "material/weather-sunny"
+      icon: "material/weather-night"
       name: "Switch to dark mode"
   - media: "(prefers-color-scheme: dark)"
     scheme: "slate"
     primary: "black"
     accent: "lime"
     toggle:
-      icon: "material/weather-night"
+      icon: "material/brightness-auto"
       name: "Switch to system preference"
+  - media: "(prefers-color-scheme)"
+    toggle:
+      icon: "material/weather-sunny"
+      name: "Switch to light mode"
 
 extra_css:
 - "css/mkdocstrings.css"
