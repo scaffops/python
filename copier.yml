@@ -104,6 +104,13 @@ python:
   - "3.11"
   - "3.12"
   help: "Minimal Python version"
+python_max:
+  type: "str"
+  default: "{{python_ahead or '3.13'}}"
+  choices:
+  - "{{python_ahead or '3.13'}}"
+  - "4.0"
+  help: "Allow Python versions until this version (exclusive)"
 pypy:
   type: "bool"
   default: true
