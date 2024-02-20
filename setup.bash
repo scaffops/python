@@ -263,7 +263,7 @@ create_gh_env() {
 provision_gh_envs() {
     local SMOKESHOW_KEY
     local CODECOV_TOKEN
-    local ENV_NAME="Upload Coverage"
+    local ENV_NAME="Coverage"
     note "Creating a GitHub Actions environment $BLUE$ENV_NAME$GREY if necessary..."
     create_gh_env "$ENV_NAME" && success "Environment $BLUE$ENV_NAME$NC exists."
     echo

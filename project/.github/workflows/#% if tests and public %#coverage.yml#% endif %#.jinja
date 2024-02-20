@@ -3,7 +3,7 @@
 #% include "fragments/gha-header.yml" %#
 #%- from ".github/workflows/scsgha.yml" import actions %#
 
-name: "Upload Coverage"
+name: "Coverage"
 
 on:
   workflow_run:
@@ -59,7 +59,7 @@ jobs:
     needs: "combine"
     if: "{{'${{github.event.workflow_run.pull_requests[0]}}'}}"
     runs-on: "ubuntu-latest"
-    environment: "Upload Coverage"
+    environment: "Coverage"
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - uses: "{{actions['actions/download-artifact']}}"
@@ -79,7 +79,7 @@ jobs:
     needs: "combine"
     if: "{{'${{github.event.workflow_run.head_branch == \'main\'}}'}}"
     runs-on: "ubuntu-latest"
-    environment: "Upload Coverage"
+    environment: "Coverage"
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
