@@ -348,6 +348,7 @@ after_update_algorithm() {
     readarray -t UNMERGED_FILES <<< "$(git diff --name-only --diff-filter=U)"
     for UNMERGED_FILE in "${UNMERGED_FILES[@]}"
     do
+        if ! test "$UNMERGED_FILE"; then continue; fi
         if test "$(git diff --check "$UNMERGED_FILE")"
         then
             CONFLICTED_FILES+=("$UNMERGED_FILE")
