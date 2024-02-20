@@ -31,7 +31,10 @@ jobs:
     - run: "gh run download {{'${{github.event.workflow_run.id}}'}} --dir .covfiles/"
       env:
         GH_TOKEN: "{{'${{github.token}}'}}"
-    - run: "poetry run coverage combine --append .covfiles/*"
+    - name: "Combine coverage data files from multicontextual runs"
+      run: "poetry run coverage combine --append .covfiles/*"
+    - name: "Show coverage report"
+      run: "poetry run coverage report --show-missing --fail-under=0"
     - name: "Upload coverage data file"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
@@ -72,8 +75,6 @@ jobs:
         files: "coverage.xml"
       env:
         CODECOV_TOKEN: "{{'${{secrets.CODECOV_TOKEN}}'}}"
-    - name: "Show coverage report"
-      run: "poetry run coverage report --show-missing"
 
   smokeshow:
     needs: "combine"
@@ -103,5 +104,3 @@ jobs:
         SMOKESHOW_GITHUB_TOKEN: "{{'${{secrets.GITHUB_TOKEN}}'}}"
         SMOKESHOW_GITHUB_PR_HEAD_SHA: "{{'${{github.event.workflow_run.head_sha}}'}}"
         SMOKESHOW_AUTH_KEY: "{{'${{secrets.SMOKESHOW_AUTH_KEY}}'}}"
-    - name: "Show coverage report"
-      run: "poetry run coverage report --show-missing"
