@@ -72,6 +72,8 @@ jobs:
         files: "coverage.xml"
       env:
         CODECOV_TOKEN: "{{'${{secrets.CODECOV_TOKEN}}'}}"
+    - name: "Show coverage report"
+      run: "poetry run coverage report --show-missing"
 
   smokeshow:
     needs: "combine"
@@ -101,3 +103,5 @@ jobs:
         SMOKESHOW_GITHUB_TOKEN: "{{'${{secrets.GITHUB_TOKEN}}'}}"
         SMOKESHOW_GITHUB_PR_HEAD_SHA: "{{'${{github.event.workflow_run.head_sha}}'}}"
         SMOKESHOW_AUTH_KEY: "{{'${{secrets.SMOKESHOW_AUTH_KEY}}'}}"
+    - name: "Show coverage report"
+      run: "poetry run coverage report --show-missing"
