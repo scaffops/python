@@ -22,5 +22,5 @@ class CommandsContextHook(ContextHook):
             """jq -n '{{"deployment_branch_policy": {{"protected_branches": false,"""
             """"custom_branch_policies": true}}}}' | gh api -H "Accept: application"""
             """/vnd.github+json" -X PUT "/repos/{github}/{repo}/"""
-            """environments/$1" --input -"""
+            """environments/$1" --silent --input -"""
         ).format(**context)
