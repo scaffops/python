@@ -26,7 +26,7 @@ set -eEuo pipefail
 TEMPFILE=$(mktemp)
 
 curl "{{raw_skeleton_url}}/HEAD/setup.bash" > "$TEMPFILE"
-trap 'rm -f "$TEMPFILE"' EXIT
+trap 'builtin command rm -f "$TEMPFILE"' EXIT
 
 # shellcheck disable=SC1090
 source "$TEMPFILE"

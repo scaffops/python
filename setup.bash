@@ -78,11 +78,11 @@ setup_task_event() {
 
 run_python_hook() {
     # Run a temporary hook that might generate LICENSE file and other stuff
-    note "Running copier hook..."
-    python python_hook.py
-    info "Copier hook exited with code $BOLD$?$NC."
-    note "Removing copier hook..."
-    rm python_hook.py || (error $? "Failed to remove copier hook.")
+    note "Running Python hook..."
+    builtin command env python python_hook.py
+    info "Python hook exited with code $BOLD$?$NC."
+    note "Removing Python hook..."
+    builtin command rm python_hook.py || (error $? "Failed to remove copier hook.")
 }
 
 setup_poetry_virtualenv() {
@@ -109,7 +109,7 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_python_hook
-    silent rm -f ./setup-local.bash
+    silent builtin command rm -f ./setup-local.bash
     #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
@@ -119,7 +119,7 @@ after_copy() {
         silent git init .
         silent git branch -M "$BRANCH"
         info "Main branch: $BRANCH"
-        eval "gh repo create $GH_REPO_ARGS"
+        builtin eval "gh repo create $GH_REPO_ARGS"
         git remote add origin "$REPO_URL.git"
         CREATED=1
     else
