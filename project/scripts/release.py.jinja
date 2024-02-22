@@ -72,9 +72,8 @@ def release(version: str, /, next_version: str = "patch") -> None:
     """Release a semver version."""
     print(welcome_msg := "Simple release utility.".title())
     print("-" * len(welcome_msg))
-    print(f"Release version: {version}")
-    print(f"Post-release version: {next_version}")
-    print()
+    _LOGGER.info("Release version: %s", version)
+    _LOGGER.info("Post-release version: %s", next_version)
 
     _run("pre-commit", "run", "--all-files", "--hook-stage", "pre-push")
     changed_files = _command("git status --porcelain")
