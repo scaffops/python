@@ -76,6 +76,7 @@ def release(version: str, /, next_version: str = "patch") -> None:
     print(f"Post-release version: {next_version}")
     print()
 
+    _run("pre-commit", "run", "--all-files", "--hook-stage", "pre-push")
     changed_files = _command("git status --porcelain")
 
     if changed_files:
