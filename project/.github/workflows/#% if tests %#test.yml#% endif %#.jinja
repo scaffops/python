@@ -39,7 +39,7 @@ jobs:
         -m pytest --doctest-only -v .
     - name: "Show coverage report"
       run: "poetry run coverage report --show-missing --fail-under=0"
-    - run: "builtin command mv .coverage .coverage.{{'${{env.context}}'}}"
+    - run: "mv .coverage .coverage.{{'${{env.context}}'}}"
     - name: "Upload coverage data file artifact"
       uses: "{{actions['actions/upload-artifact']}}"
       with:
