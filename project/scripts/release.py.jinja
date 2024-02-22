@@ -60,7 +60,7 @@ def _setup_logging() -> None:
 
 def _command(prompt: str, /) -> str:
     data = subprocess.check_output(prompt, shell=True, text=True)
-    return data[:-(data[-1:] == "\n") or None]
+    return data[: -(data[-1:] == "\n") or None]
 
 
 def _run(*prompt: str) -> None:
@@ -161,8 +161,13 @@ def release(version: str, /) -> None:
                 )
 
             _run(
-                "gh", "release", "create", new_version, "--generate-notes",
-                "--notes-file", temp_file.name,
+                "gh",
+                "release",
+                "create",
+                new_version,
+                "--generate-notes",
+                "--notes-file",
+                temp_file.name,
             )
             os.unlink(temp_file.name)
         else:
@@ -178,7 +183,12 @@ def main(argv: list[str] | None = None) -> None:
     _setup_logging()
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
-    parser.add_argument("version", type=str, default=_command("poetry version --short"))
+    parser.add_argument(
+        "version",
+        nargs="?",
+        type=str,
+        default=_command("poetry version --short"),
+    )
     release(*vars(parser.parse_args(argv)).values())
 
 
