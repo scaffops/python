@@ -70,7 +70,7 @@ def _run(*prompt: str) -> None:
 
 def release(version: str, /, next_version: str = "patch") -> None:
     """Release a semver version."""
-    print(welcome_msg := "Simple release utility.")
+    print(welcome_msg := "Simple release utility.".title())
     print("-" * len(welcome_msg))
     print(f"Release version: {version}")
     print(f"Post-release version: {next_version}")
