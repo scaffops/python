@@ -68,8 +68,14 @@ def _run(*prompt: str) -> None:
     subprocess.run([*prompt], check=True)
 
 
-def release(version: str, /) -> None:
+def release(version: str, /, next_version: str = "patch") -> None:
     """Release a semver version."""
+    print(welcome_msg := "Simple release utility.")
+    print("-" * len(welcome_msg) + "\n")
+    print(f"Release version: {version}")
+    print(f"Post-release version: {next_version}")
+    print()
+
     changed_files = _command("git status --porcelain")
 
     if changed_files:
@@ -175,19 +181,29 @@ def release(version: str, /) -> None:
 
     _LOGGER.info("Done.")
     _LOGGER.info("Bumping to the next patch version...")
-    _run("poetry", "version", "patch")
+    _run("poetry", "version", next_version)
 
 
 def main(argv: list[str] | None = None) -> None:
     """Run the script."""
     _setup_logging()
+    current_version = _command("poetry version --short")
 
     parser = argparse.ArgumentParser(description="Release a semver version.")
     parser.add_argument(
         "version",
         nargs="?",
-        type=str,
-        default=_command("poetry version --short"),
+        default=current_version,
+        help=(
+            "The version to release. Defaults to the "
+            f"current version ({current_version})"
+        ),
+    )
+    parser.add_argument(
+        "-n",
+        "--next",
+        dest="next_version",
+        default="patch",
     )
     release(*vars(parser.parse_args(argv)).values())
 
