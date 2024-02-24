@@ -138,6 +138,10 @@ precommit:
   type: "bool"
   default: true
   help: "Use pre-commit?"
+tidelift:
+  type: "bool"
+  default: false
+  help: "Is the package lifted?"
 ctt:
   type: "bool"
   default: false

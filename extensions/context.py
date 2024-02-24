@@ -39,6 +39,11 @@ PYPI_URL: Template = Template(
     "https://pypi.org/project/${pypi_project}/",
 )
 
+TIDELIFT_URL: Template = Template(
+    "https://tidelift.com/subscription/pkg/pypi-${pypi_project}"
+    "?utm_source=pypi-${pypi_project}",
+)
+
 SKELETON_URL: Template = Template(
     "https://github.com/${skeleton}",
 )
@@ -133,6 +138,7 @@ class ProjectURLContextHook(InplaceContextHook):
         context[bash["coverage_url"]] = COVERAGE_URL.substitute(context)
         context[bash["docs_url"]] = DOCS_URL.substitute(context)
         context[bash["pypi_url"]] = PYPI_URL.substitute(context)
+        context[bash["tidelift_url"]] = TIDELIFT_URL.substitute(context)
 
 
 def _generate_pythons(

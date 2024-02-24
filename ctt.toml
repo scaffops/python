@@ -33,3 +33,4 @@ cli = true
 precommit = true
 wip = true
 python_until = "4.0"
+tidelift = true
