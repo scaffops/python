@@ -133,7 +133,7 @@ after_copy() {
     #%- endif %#
     COMMIT_MSG="Copy $SNREF"
     REVISION_PARAGRAPH="Skeleton revision: $SKELETON_REV"
-    silent git add .
+    silent git add -A
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
     echo
     if test "${CREATED:-0}" != 0
@@ -371,7 +371,7 @@ after_update_algorithm() {
     done
     success "No conflicts, proceeding."
     note "Locking Poetry dependencies..."
-    poetry lock
+    poetry lock || :
     echo
     if test "$(git status --porcelain)"
     then
