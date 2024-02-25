@@ -79,7 +79,7 @@
 1.  Commit your changes and push your branch to GitHub:
 
     ```shell
-    git add .
+    git add -A
     git commit -m "Short description of changes (50 chars max)" -m "Optional extended description"
     git push origin name-of-your-bugfix-or-feature
     ```

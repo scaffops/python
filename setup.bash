@@ -375,7 +375,7 @@ after_update_algorithm() {
     echo
     if test "$(git status --porcelain)"
     then
-        silent git add .
+        silent git add -A
         silent git rm -f ./setup-local.bash
         if test "$LAST_REF" = "$NEW_REF"
         then
