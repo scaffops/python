@@ -36,10 +36,8 @@
 
 # For Enterprise
 
-| | |
-| -------- | ------ |
-| [![Tidelift](https://nedbatchelder.com/pix/Tidelift_Logo_small.png)]({{tidelift_url}}utm_medium=referral&utm_campaign=readme) | [Available as part of the Tidelift Subscription.]({{tidelift_url}}&&utm_medium=referral&utm_campaign=readme)<br>This project and the maintainers of thousands of other packages are working with Tidelift to deliver one enterprise subscription that covers all of the open source you use. [Learn more here]({{tidelift_url}}&utm_medium=referral&utm_campaign=#% if doc_mode %#readthedocs#% else %#github#% endif %#).
-| | |
+| [![Tidelift](https://nedbatchelder.com/pix/Tidelift_Logo_small.png)]({{tidelift_url}}utm_medium=referral&utm_campaign=readme) | [Available as part of the Tidelift Subscription.]({{tidelift_url}}&&utm_medium=referral&utm_campaign=readme)<br>This project and the maintainers of thousands of other packages are working with Tidelift to deliver one enterprise subscription that covers all of the open source you use.<br>[Learn more here]({{tidelift_url}}&utm_medium=referral&utm_campaign=#% if doc_mode %#readthedocs#% else %#github#% endif %#). |
+| - | - |
 
 #% include "fragments/security.md" %#
 #%- endif %#
@@ -47,7 +45,7 @@
 #%- if pypi %#
 # Installation
 #%- else %#
-# Installation for contributors
+# Installation for Contributors
 #%- endif %#
 
 #%- if pypi %#
@@ -79,7 +77,7 @@ If you use [Poetry](https://python-poetry.org/), then you might want to run:
 poetry add {{pypi_project}}
 ```
 
-## For contributors
+## For Contributors
 #%- endif %#
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
@@ -93,7 +91,7 @@ For more information on how to contribute, check out [CONTRIBUTING.md]({{repo_ur
 Always happy to accept contributions! ❤️
 #%- endif %#
 
-# Legal info
+# Legal Info
 © Copyright by {{copyright}} ([@{{author}}](https://github.com/{{author}})).
 #%- if license != "Custom" %#
 <br />This software is licensed under the terms of [{{license}} License]({{repo_url}}/blob/HEAD/LICENSE).
