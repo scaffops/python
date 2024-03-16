@@ -24,6 +24,8 @@ jobs:
       run: "poetry install"
     - name: "Run CTT"
       run: "poetry run ctt"
+      env:
+        GH_TOKEN: "${{github.token}}"
     - name: "Record CTT debug artifacts"
       if: "always()"
       uses: "actions/upload-artifact@v4"
