@@ -1,7 +1,6 @@
 # Specify shared data across all 'output' destinations
 # Note that the copier.yml defaults are used whenever the key is not set in this file
 [defaults]
-repo = "skeleton-ctt"
 description = "Test snapshot of the skeleton template."
 visibility = "private"
 github = "bswck"
@@ -22,8 +21,10 @@ ctt = true
 wip = false
 
 [output.".ctt/base"]
+repo = "ctt_base"
 
 [output.".ctt/extended"]
+repo = "ctt_extended"
 visibility = "public"
 docs = true
 tests = true

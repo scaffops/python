@@ -23,6 +23,14 @@ _subdirectory: "project"
 _tasks:
 - >-
   set -ex
+  #%- if ctt %#
+  && rm -rf "../.artifacts/{{repo}}/"
+  && mkdir -p ../.artifacts/
+  && cp -r . "../.artifacts/{{repo}}/"
+  && cd ../.artifacts/
+  && zip -r "artifacts.zip" *
+  && cd -
+  #%- endif %#
   && ./setup-local.bash --run
 
 repo:

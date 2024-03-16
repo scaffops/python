@@ -24,3 +24,8 @@ jobs:
       run: "poetry install"
     - name: "Run CTT"
       run: "poetry run ctt"
+    - name: "Record CTT debug artifacts"
+      uses: "actions/upload-artifact@v4"
+      with:
+        name: "ctt-artifacts"
+        path: ".ctt/.artifacts/artifacts.zip"
