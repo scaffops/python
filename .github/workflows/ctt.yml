@@ -25,6 +25,7 @@ jobs:
     - name: "Run CTT"
       run: "poetry run ctt"
       env:
+        TERM: "xterm"
         GH_TOKEN: "${{github.token}}"
     - name: "Record CTT debug artifacts"
       if: "always()"
