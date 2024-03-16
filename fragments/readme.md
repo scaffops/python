@@ -33,12 +33,13 @@
 #% endif %#
 
 #%- if tidelift %#
-# For enterprise
-Available as part of the Tidelift Subscription.
 
-This project and the maintainers of thousands of other packages are working with Tidelift to deliver one enterprise subscription that covers all of the open source you use.
+# For Enterprise
 
-[Learn more here]({{tidelift_url}}&utm_medium=referral&utm_campaign=#% if doc_mode %#readthedocs#% else %#github#% endif %#).
+| | |
+| -------- | ------ |
+| [![Tidelift](https://nedbatchelder.com/pix/Tidelift_Logo_small.png)]({{tidelift_url}}utm_medium=referral&utm_campaign=readme) | [Available as part of the Tidelift Subscription.]({{tidelift_url}}&&utm_medium=referral&utm_campaign=readme)<br>This project and the maintainers of thousands of other packages are working with Tidelift to deliver one enterprise subscription that covers all of the open source you use. [Learn more here]({{tidelift_url}}&utm_medium=referral&utm_campaign=#% if doc_mode %#readthedocs#% else %#github#% endif %#).
+| | |
 
 #% include "fragments/security.md" %#
 #%- endif %#
