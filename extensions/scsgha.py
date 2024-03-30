@@ -13,7 +13,7 @@ from jinja2.utils import pass_context
 
 
 # Gonna fix this when I rewrite the Cleo command-line arguments parser...
-POETRY_VERSION_DEFAULT = "1.7.1"  # Last known version of Poetry while writing this
+POETRY_VERSION_DEFAULT = "1.8.2"
 POETRY_VERSION_PAT = re.compile(rb"version (^\))")
 POETRY_VERSION_MATCH = POETRY_VERSION_PAT.match(check_output(["poetry", "--version"]))
 POETRY_VERSION = POETRY_VERSION_MATCH and POETRY_VERSION_MATCH.group(1).decode()
