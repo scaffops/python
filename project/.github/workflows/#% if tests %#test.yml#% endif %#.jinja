@@ -9,24 +9,33 @@ on: ["push"]
 
 jobs:
   test:
-    runs-on: "{{'${{matrix.os}}'}}-latest"
+    runs-on: "{{'${{matrix.platform}}'}}-latest"
     environment: "Test"
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu", "macos", "windows"]
-        python-version: [{{pythons}}]
+        # https://github.com/jaraco/skeleton/issues/115
+        platform: ["ubuntu", "macos", "windows"]
+        python:
+        #%- for outermost_python in outermost_pythons %#
+        - "{{'%s.%s' % outermost_python}}"
+        #%- endfor %#
+        include:
+        #%- for intermediate_python in intermediate_pythons %#
+        - python: "{{'%s.%s' % intermediate_python}}"
+          platform: "ubuntu"
+        #%- endfor %#
     env:
-      context: "{{'${{matrix.python-version}}-${{matrix.os}}'}}"
+      context: "{{'${{matrix.python}}-${{matrix.platform}}'}}"
     timeout-minutes: 10
     steps:
     - uses: "{{actions['actions/checkout']}}"
     - name: "Install Poetry"
       run: "pipx install poetry=={{poetry_version}}"
-    - name: "Set up Python {{'${{matrix.python-version}}'}}"
+    - name: "Set up Python {{'${{matrix.python}}'}}"
       uses: "{{actions['actions/setup-python']}}"
       with:
-        python-version: "{{'${{matrix.python-version}}'}}"
+        python-version: "{{'${{matrix.python}}'}}"
         cache: "poetry"
     - name: "Install the project"
       run: "poetry install"

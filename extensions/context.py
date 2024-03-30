@@ -145,29 +145,51 @@ def _generate_pythons(
     python_string: str,
     *,
     pypy: bool = True,
+    intermediate: bool = True,
+    outermost: bool = True,
 ) -> Iterable[tuple[str, int]]:
     (major, minor) = tuple(map(int, python_string.split(".")))
-    yield (str(major), minor)
-    pypy and (major, minor) <= LATEST_PYPY_VERSION and (yield (f"pypy{major}", minor))
+    if outermost:
+        yield (str(major), minor)
+        if pypy:
+            yield (f"pypy{major}", minor)
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
-        yield (str(major), minor)
-        pypy and (major, minor) <= LATEST_PYPY_VERSION and (
+        if (
+            (major, minor) == LATEST_PYTHON_VERSION
+            and outermost
+            or (major, minor) < LATEST_PYTHON_VERSION
+            and intermediate
+        ):
+            yield (str(major), minor)
+        if pypy and (
+            (major, minor) == LATEST_PYPY_VERSION
+            and outermost
+            or (major, minor) < LATEST_PYPY_VERSION
+            and intermediate
+        ):
             yield (f"pypy{major}", minor)
-        )
 
 
 class PythonVersionsContextHook(InplaceContextHook):
     def _hook(self, context: dict[str, Any], bash: MakeContextDict, /) -> None:
         context[bash["latest_python"]] = ".".join(map(str, LATEST_PYTHON_VERSION))
         context[bash["python_ahead"]] = ".".join(map(str, PYTHON_VERSION_AHEAD))
-        context[bash["pythons"]] = ", ".join(
-            f"{major}.{minor}".join('""')
-            for major, minor in sorted(
-                _generate_pythons(
-                    context[bash["python"]],
-                    pypy=context[bash["pypy"]],
-                )
+        python = context[bash["python"]]
+        pypy = context[bash["pypy"]]
+        context[bash["pythons"]] = sorted(_generate_pythons(python, pypy=pypy))
+        context[bash["outermost_pythons"]] = sorted(
+            _generate_pythons(
+                python,
+                pypy=pypy,
+                intermediate=False,
+            )
+        )
+        context[bash["intermediate_pythons"]] = sorted(
+            _generate_pythons(
+                python,
+                pypy=pypy,
+                outermost=False,
             )
         )
 
