@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from itertools import chain
 import re
+from itertools import chain
 from subprocess import check_output
 from typing import Any
 
