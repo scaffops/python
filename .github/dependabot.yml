@@ -35,6 +35,12 @@ updates:
   groups:
     main:
       dependency-type: "production"
+#%- if False %#
+  ignore:
+  # https://github.com/pre-commit/pre-commit/pull/3042
+  # https://github.com/python/cpython/issues/116608
+  - dependency-name: "pre-commit"
+#%- endif %#
 #% if dev_dependencies %#  ignore:#% endif %#
 #% if dev_dependencies %#  {{"# Dependencies managed by %s" % skeleton_url}}#% endif %#
 #%- for dev_dependency in dev_dependencies %#
