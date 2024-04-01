@@ -160,7 +160,7 @@ def _generate_pythons(
             and intermediate
         ):
             yield (str(major), minor)
-        if pypy and ((major, minor) == LATEST_PYPY_VERSION and intermediate):
+        if pypy and (major, minor) == LATEST_PYPY_VERSION and intermediate:
             yield (f"pypy{major}", minor)
 
 
