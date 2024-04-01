@@ -13,6 +13,7 @@ poethepoet = "^0.25.0"
 copier = "^9.1.1"
 copier-template-tester = "^2.1.1"
 copier-templates-extensions = "^0.3.0"
+pyyaml-include = "2.0.a2"
 
 #%- endif %#
 [tool.poetry.group.dev-skeleton.dependencies]
@@ -42,6 +43,7 @@ addopts = "--doctest-modules"
 #%- endif %#
 
 #%- if docs %#
+
 
 [tool.poetry.group.docs]
 optional = true

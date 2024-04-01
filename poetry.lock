@@ -1694,19 +1694,18 @@ pyyaml = "*"
 
 [[package]]
 name = "pyyaml-include"
-version = "2.0"
-description = "An extending constructor of PyYAML: include other YAML files into current YAML document"
+version = "2.0a2"
+description = "Extending PyYAML with a custom constructor for including YAML files within YAML files"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pyyaml-include-2.0.tar.gz", hash = "sha256:e826f0b3121a3818e04a0f45169a8af59b90961a91c7f4984086226c6c72e600"},
-    {file = "pyyaml_include-2.0-py3-none-any.whl", hash = "sha256:b053fb227754af99d3d3326745e1289f91e839b430888eca0b195ebb925141bd"},
+    {file = "pyyaml-include-2.0a2.tar.gz", hash = "sha256:9843a47ad3a4143dafd9c7b17e94db3e9e2678c7c50431440618c4ad9958ecb9"},
+    {file = "pyyaml_include-2.0a2-py3-none-any.whl", hash = "sha256:63526c73cc2540c2eaab07b9ca9888cd0798fa059b2338300029a6dbd609441a"},
 ]
 
 [package.dependencies]
 fsspec = ">=2021.04.0"
 PyYAML = ">=6.0,<7.0"
-typing-extensions = {version = "*", markers = "python_version < \"3.11\""}
 
 [[package]]
 name = "questionary"
@@ -2167,4 +2166,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.5,<3.11"
-content-hash = "8ba596a74e34a29d460ddf6ba007101692ee56f6b37722bf7de55a3d4bb1297f"
+content-hash = "6e28030da1a54770de2491240416ffc93ea0a5b0abbb5222487df15997225c05"
