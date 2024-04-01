@@ -13,6 +13,9 @@ updates:
   directory: "/"
   schedule:
     interval: "daily"
+  groups:
+    submodules:
+      dependency-type: "production"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
@@ -22,10 +25,16 @@ updates:
 #%- for action in actions %#
 #% if actions %#  - dependency-name: "{{action}}"#% endif %#
 #%- endfor %#
+  groups:
+    actions:
+      dependency-type: "development"
 - package-ecosystem: "pip"
   directory: "/"
   schedule:
     interval: "daily"
+  groups:
+    main:
+      dependency-type: "production"
 #% if dev_dependencies %#  ignore:#% endif %#
 #% if dev_dependencies %#  {{"# Dependencies managed by %s" % skeleton_url}}#% endif %#
 #%- for dev_dependency in dev_dependencies %#
