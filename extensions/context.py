@@ -151,8 +151,6 @@ def _generate_pythons(
     (major, minor) = tuple(map(int, python_string.split(".")))
     if outermost:
         yield (str(major), minor)
-        if pypy:
-            yield (f"pypy{major}", minor)
     while (major, minor) < LATEST_PYTHON_VERSION:
         minor += 1
         if (
@@ -162,12 +160,7 @@ def _generate_pythons(
             and intermediate
         ):
             yield (str(major), minor)
-        if pypy and (
-            (major, minor) == LATEST_PYPY_VERSION
-            and outermost
-            or (major, minor) < LATEST_PYPY_VERSION
-            and intermediate
-        ):
+        if pypy and ((major, minor) == LATEST_PYPY_VERSION and intermediate):
             yield (f"pypy{major}", minor)
 
 

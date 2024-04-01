@@ -14,12 +14,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # https://github.com/jaraco/skeleton/issues/115
-        platform: ["ubuntu", "macos", "windows"]
+        # https://blog.jaraco.com/efficient-use-of-ci-resources/
         python:
         #%- for outermost_python in outermost_pythons %#
         - "{{'%s.%s' % outermost_python}}"
         #%- endfor %#
+        platform:
+        - "ubuntu"
+        - "macos"
+        - "windows"
         include:
         #%- for intermediate_python in intermediate_pythons %#
         - python: "{{'%s.%s' % intermediate_python}}"
