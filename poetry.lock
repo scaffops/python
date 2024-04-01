@@ -1140,13 +1140,13 @@ testing = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygm
 
 [[package]]
 name = "pytest-doctestplus"
-version = "1.1.0"
+version = "1.2.1"
 description = "Pytest plugin with advanced doctest features."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-doctestplus-1.1.0.tar.gz", hash = "sha256:ea0a710f1b6a3571ed971fb6d6e5db05a2ae6b91b0fbcafe30fb5ea40e9987c4"},
-    {file = "pytest_doctestplus-1.1.0-py3-none-any.whl", hash = "sha256:b98d95b4956a03256c638f1f9f72200160e9885ab1cd40f35c4453bc1d2e32b2"},
+    {file = "pytest-doctestplus-1.2.1.tar.gz", hash = "sha256:2472a8a2c8cea34d2f65f6499543faeb748eecb59c597852fd98839b47307679"},
+    {file = "pytest_doctestplus-1.2.1-py3-none-any.whl", hash = "sha256:103705daee8d4468eb59d444c29b0d71eb85b8f6d582295c8bc3d68ee1d88911"},
 ]
 
 [package.dependencies]
@@ -1495,4 +1495,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.5,<3.11"
-content-hash = "e8a25a4db8001bee18f6bfea1087795ead51050738a74f2f5da61575a0440a7d"
+content-hash = "58359c208486e8a871f2ef52215fcf5f1386f1cdeff48043f0ee60e1c0f38954"
