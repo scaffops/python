@@ -59,17 +59,15 @@ def use_dev_dependencies(ctx: Context, deps_string: str) -> str:
         except KeyError:
             pass
         else:
-            declared_dev_dependencies.update(
-                {  # fmt: off
-                    dep: version
-                    for dep, version in chain.from_iterable(
-                        map(
-                            lambda group: (group.get("dependencies") or {}).items(),
-                            dependency_groups.values(),
-                        )
-                    )
-                }
-            )  # fmt: on
+            # fmt: off
+            declared_dev_dependencies.update({
+                dep: version
+                for dep, version in chain.from_iterable(map(
+                    lambda group: (group.get("dependencies") or {}).items(),
+                    dependency_groups.values(),
+                ))
+            })
+            # fmt: on
     dev_dependencies = ctx.vars["dev_dependencies"] = {
         **(ctx.vars.get("dev_dependencies") or {}),
         **declared_dev_dependencies,
