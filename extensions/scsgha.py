@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from itertools import chain
 import re
 from subprocess import check_output
 from typing import Any
@@ -50,9 +51,28 @@ def use_actions(ctx: Context, action_string: str) -> str:
 
 @pass_context
 def use_dev_dependencies(ctx: Context, deps_string: str) -> str:
+    metadata_chunk = tomli.loads(deps_string)
+    declared_dev_dependencies = metadata_chunk.get("dev-dependencies") or {}
+    if not declared_dev_dependencies:
+        try:
+            dependency_groups = metadata_chunk["tool"]["poetry"]["group"]
+        except KeyError:
+            pass
+        else:
+            declared_dev_dependencies.update(
+                {  # fmt: off
+                    dep: version
+                    for dep, version in chain.from_iterable(
+                        map(
+                            lambda group: (group.get("dependencies") or {}).items(),
+                            dependency_groups.values(),
+                        )
+                    )
+                }
+            )  # fmt: on
     dev_dependencies = ctx.vars["dev_dependencies"] = {
         **(ctx.vars.get("dev_dependencies") or {}),
-        **tomli.loads(deps_string),
+        **declared_dev_dependencies,
     }
     ctx.exported_vars.add("dev_dependencies")
     return str(dev_dependencies)
