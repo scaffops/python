@@ -13,7 +13,6 @@ rtd = "skeleton-ctt"
 tests = false
 package = "skeleton_ctt"
 python = "3.8"
-python_until = "3.13"
 pypy = false
 license = "MIT"
 precommit = false
@@ -22,6 +21,7 @@ wip = false
 
 [output.".ctt/base"]
 repo = "ctt_base"
+python_until = "4.0"
 
 [output.".ctt/extended"]
 repo = "ctt_extended"
@@ -33,5 +33,5 @@ pypi = true
 cli = true
 precommit = true
 wip = true
-python_until = "4.0"
+python_until = ""
 tidelift = true

@@ -116,8 +116,9 @@ python_until:
   type: "str"
   default: "{{python_max or python_ahead or '3.13'}}"
   choices:
-  - "4.0"
-  - "{{python_ahead or '3.13'}}"
+    "4.0": "4.0"
+    "{{python_ahead or '3.13'}}": "{{python_ahead or '3.13'}}"
+    "None": ""
   help: "Allow Python versions until this version (exclusive)"
 pypy:
   type: "bool"
