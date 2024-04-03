@@ -852,13 +852,13 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "keyring"
-version = "25.0.0"
+version = "25.1.0"
 description = "Store and access your passwords safely."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "keyring-25.0.0-py3-none-any.whl", hash = "sha256:9a15cd280338920388e8c1787cb8792b9755dabb3e7c61af5ac1f8cd437cefde"},
-    {file = "keyring-25.0.0.tar.gz", hash = "sha256:fc024ed53c7ea090e30723e6bd82f58a39dc25d9a6797d866203ecd0ee6306cb"},
+    {file = "keyring-25.1.0-py3-none-any.whl", hash = "sha256:26fc12e6a329d61d24aa47b22a7c5c3f35753df7d8f2860973cf94f4e1fb3427"},
+    {file = "keyring-25.1.0.tar.gz", hash = "sha256:7230ea690525133f6ad536a9b5def74a4bd52642abe594761028fc044d7c7893"},
 ]
 
 [package.dependencies]
@@ -873,7 +873,7 @@ SecretStorage = {version = ">=3.2", markers = "sys_platform == \"linux\""}
 [package.extras]
 completion = ["shtab (>=1.1.0)"]
 docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
+testing = ["pytest (>=6,!=8.1.1)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-ruff (>=0.2.1)"]
 
 [[package]]
 name = "markdown"
@@ -2166,4 +2166,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.5,<3.11"
-content-hash = "55d0a038e9146342c37abcf45ca65955bedc37dbfc8342521399e31e25994694"
+content-hash = "c0007db6fb46d21a0eba929316dfac50a707bf3e58ed30b779eedabf3b153bb6"
