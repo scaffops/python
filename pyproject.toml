@@ -10,10 +10,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10.5,<3.11"
 poethepoet = "^0.25.0"
-copier = "^9.1.1"
+copier = "^9.2.0"
 copier-template-tester = "^2.1.1"
 copier-templates-extensions = "^0.3.0"
-pyyaml-include = "2.0.a2"
+pyyaml-include = "2.0"
 
 #%- endif %#
 [tool.poetry.group.dev-skeleton.dependencies]
