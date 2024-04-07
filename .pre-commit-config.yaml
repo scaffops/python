@@ -43,11 +43,11 @@ repos:
     name: "Run Poetry check hook"
 #% endif %#
 #%- if not included %#
-- repo: "https://github.com/KyleKing/copier-template-tester"
-  rev: "2.1.1"
-  hooks:
-  - id: "copier-template-tester"
-    stages: ["push"]
-    name: "Run Copier template tester"
-    additional_dependencies: ["copier-templates-extensions"]
+# - repo: "https://github.com/KyleKing/copier-template-tester"
+#   rev: "2.1.1"
+#   hooks:
+#   - id: "copier-template-tester"
+#     stages: ["push"]
+#     name: "Run Copier template tester"
+#     additional_dependencies: ["copier-templates-extensions"]
 #%- endif %#
