@@ -5,6 +5,7 @@
 
 Entrypoint script.
 """
+from __future__ import annotations
 
 
 def main() -> None:
