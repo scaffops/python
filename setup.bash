@@ -131,7 +131,7 @@ after_copy() {
     silent poetry run pre-commit install
     success "Pre-commit installed."
     #%- endif %#
-    COMMIT_MSG="Copy $SNREF"
+    COMMIT_MSG="Copy $SKELETON_REV"
     REVISION_PARAGRAPH="Skeleton revision: $SKELETON_REV"
     silent git add -A
     silent git commit --no-verify -m "$COMMIT_MSG" -m "$REVISION_PARAGRAPH"
@@ -337,11 +337,13 @@ after_update_algorithm() {
     # Run post-update hooks, auto-commit changes
     declare -a CONFLICTED_FILES
     declare -a UNMERGED_FILES
+    local REVISION_URL
     local REVISION_PARAGRAPH
+    REVISION_URL="$SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
+    REVISION_PARAGRAPH="Skeleton revision: $REVISION_URL"
     cd "$PROJECT_PATH"
     info "${GREY}Previous skeleton revision:$NC $LAST_REF"
     info "${GREY}Current skeleton revision:$NC ${NEW_REF:-"N/A"}"
-    REVISION_PARAGRAPH="Skeleton revision: $SKELETON_URL/tree/${NEW_REF:-"HEAD"}"
     echo
     note "Checking for conflicts..."
     echo
@@ -380,13 +382,13 @@ after_update_algorithm() {
         if test "$LAST_REF" = "$NEW_REF"
         then
             info "The version of the skeleton has not changed."
-            local COMMIT_MSG="Mechanized patch at $SKELETON@$NEW_REF"
+            local COMMIT_MSG="Mechanized patch at $REVISION_URL"
         else
             if test "$NEW_REF"
             then
-                local COMMIT_MSG="Upgrade to $SKELETON@$NEW_REF"
+                local COMMIT_MSG="Upgrade to $REVISION_URL"
             else
-                local COMMIT_MSG="Upgrade to $SKELETON of unknown revision"
+                local COMMIT_MSG="Upgrade to $SKELETON_URL of unknown revision"
             fi
         fi
         silent redis-cli del "$PROJECT_PATH_KEY"
