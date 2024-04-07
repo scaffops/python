@@ -65,7 +65,7 @@ copyright:
   help: "Full name of the copyright holder"
 email:
   type: "str"
-  default: "{{git_email or 'bswck.dev@gmail.com'}}"
+  default: "{{git_email or 'bartoszpiotrslawecki@gmail.com'}}"
   help: "Your e-mail address"
 pypi:
   type: "bool"
