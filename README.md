@@ -1,4 +1,4 @@
-# skeleton [![CTT](https://github.com/bswck/skeleton/actions/workflows/ctt.yml/badge.svg?branch=main)](https://github.com/bswck/skeleton/actions/workflows/ctt.yml)
+# skeleton [![CTT](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml/badge.svg?branch=main)](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
@@ -35,7 +35,7 @@ gh auth login
 sudo apt update && sudo apt install pipx redis gnome-keyring
 pipx install copier keyring
 pipx inject copier copier-templates-extensions tomli
-SKELETON=gh:bswck/skeleton
+SKELETON=gh:skeleton-ci/skeleton-python
 ```
 
 ## Create a new project
@@ -105,7 +105,7 @@ poe skeleton upgrade
 Or, for a specific [ref](https://www.atlassian.com/git/tutorials/refs-and-the-reflog):
 
 ```shell
-poe skeleton upgrade 1.0.0  # Upgrade to bswck/skeleton@1.0.0.
+poe skeleton upgrade 1.0.0  # Upgrade to skeleton-ci/skeleton-python@1.0.0.
 poe skeleton upgrade dev  # Upgrade to the latest commit on the dev branch.
 ```
 
