@@ -1,4 +1,4 @@
-# {{repo}} [![skeleton](https://img.shields.io/badge/{{sref|urlencode|replace("-", "–")}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project}}?label=PyPI)]({{pypi_url}})#% endif %#
+# <div align="center">{{repo}}<br>[![skeleton](https://img.shields.io/badge/{{sref|urlencode|replace("-", "–")}}-skeleton?label=%F0%9F%92%80%20{{skeleton|urlencode}}&labelColor=black&color=grey&link={{skeleton_url|urlencode}})]({{srev}})#% if pypi %# [![Supported Python versions](https://img.shields.io/pypi/pyversions/{{pypi_project}}.svg?logo=python&label=Python)]({{pypi_url}}) [![Package version](https://img.shields.io/pypi/v/{{pypi_project}}?label=PyPI)]({{pypi_url}})#% endif %#</div>
 
 #%- if tests %#
 
