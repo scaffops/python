@@ -1,6 +1,4 @@
-# skeleton [![CTT](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml/badge.svg?branch=main)](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml)
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+# <div align="center">Project skeleton for Python<br>[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![CTT](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml/badge.svg?branch=main)](https://github.com/skeleton-ci/skeleton-python/actions/workflows/ctt.yml)</div>
 
 My [copier](https://github.com/copier-org/copier) Python project template. Tested with [CTT](https://github.com/KyleKing/copier-template-tester).
 
