@@ -23,6 +23,9 @@ PREVIOUS_LICENSE_NAME = getenv("LAST_LICENSE_NAME") or "Custom"
 VISIBILITY = "{{visibility}}"
 DOC_SYMLINKS = {
     "docs/changelog.md": "../CHANGELOG.md",
+    #%- if public %#
+    "docs/code_of_conduct.md": "../CODE_OF_CONDUCT.md",
+    #%- endif %#
 }
 
 
