@@ -107,6 +107,11 @@ ignore = [
     # Description: Line contains TODO, consider resolving the issue
     # Rationale: Not appropriate for the project.
     "FIX002",
+
+    # Description: Implicitly concatenated string literals on one line
+    # Rationale:
+    #  Allegedly conflicts with COM812 in the formatter, a more important (IMO!) rule
+    "ISC001",
 ]
 
 [tool.ruff.lint.isort]
