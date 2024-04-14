@@ -109,9 +109,12 @@ ignore = [
     "FIX002",
 
     # Description: Implicitly concatenated string literals on one line
-    # Rationale:
-    #  Allegedly conflicts with COM812 in the formatter, a more important (IMO!) rule
+    # Rationale: Allegedly conflicts with the formatter
     "ISC001",
+
+    # Description: Trailing comma missing
+    # Rationale: Allegedly conflicts with the formatter
+    "COM812",
 ]
 
 [tool.ruff.lint.isort]
