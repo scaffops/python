@@ -19,7 +19,7 @@ jobs:
       with:
         cache: "poetry"
     - name: "Install the project"
-      run: "poetry install"
+      run: "poetry install --all-extras"
     - name: "Set up Python location for pip-audit"
       shell: "bash"
       run: 'echo "PIPAPI_PYTHON_LOCATION=$(poetry env info -e)" >> $GITHUB_ENV'

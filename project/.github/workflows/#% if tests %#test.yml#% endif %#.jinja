@@ -41,7 +41,7 @@ jobs:
         python-version: "{{'${{matrix.python}}'}}"
         cache: "poetry"
     - name: "Install the project"
-      run: "poetry install"
+      run: "poetry install --all-extras"
     - name: "Run tests"
       env:
         PY_COLORS: 1  # Thanks @zanieb!
