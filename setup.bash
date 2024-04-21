@@ -375,7 +375,7 @@ after_update_algorithm() {
     note "Locking Poetry dependencies..."
     poetry lock || :
     echo
-    if test "$(git status --porcelain)"
+    if test "$(git status --porcelain 2> /dev/null || echo "")"
     then
         silent git add -A
         silent git rm -f ./setup-local.bash
