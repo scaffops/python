@@ -31,7 +31,7 @@ _tasks:
   && zip -r "artifacts.zip" *
   && cd -
   #%- endif %#
-  && ./setup-local.bash --run
+  && ./setup_local.bash --run
 
 repo:
   type: "str"

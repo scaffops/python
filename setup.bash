@@ -109,7 +109,7 @@ after_copy() {
     echo
     setup_poetry_virtualenv
     run_python_hook
-    silent builtin command rm -f ./setup-local.bash
+    silent builtin command rm -f ./setup_local.bash
     #% if not ctt %#
     if test "$(git rev-parse --show-toplevel 2> /dev/null)" != "$(pwd)"
     then
@@ -378,7 +378,7 @@ after_update_algorithm() {
     if test "$(git status --porcelain 2> /dev/null || echo "")"
     then
         silent git add -A
-        silent git rm -f ./setup-local.bash
+        silent git rm -f ./setup_local.bash
         if test "$LAST_REF" = "$NEW_REF"
         then
             info "The version of the skeleton has not changed."
