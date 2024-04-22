@@ -9,7 +9,7 @@ on: ["push"]
 
 jobs:
   test:
-    runs-on: "{{'${{matrix.platform}}'}}-latest"
+    runs-on: ["{{'${{matrix.platform}}'}}-latest", "x64"]
     environment: "Test"
     strategy:
       fail-fast: false
