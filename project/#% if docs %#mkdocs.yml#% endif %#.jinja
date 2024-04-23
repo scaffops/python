@@ -64,9 +64,22 @@ plugins:
     handlers:
       python:
         options:
+          # https://mkdocstrings.github.io/python/usage/configuration/
           docstring_style: "numpy"
+          docstring_section_style: "list"
+          docstring_options:
+            ignore_init_summary: true
+            trim_doctest_flags: false
           members_order: "source"
+          merge_init_into_class: true
+          parameter_headings: true
+          show_inheritance_diagram: true
+          show_if_no_docstring: true
           show_signature_annotations: true
+          show_labels: false
+          show_symbol_type_heading: true
+          show_symbol_type_toc: true
+          summary: true
         paths: ["{{package}}/"]
         import:
         - "https://docs.python.org/3/objects.inv"
