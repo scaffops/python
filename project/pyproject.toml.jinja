@@ -1,5 +1,9 @@
 # {{_origin|skeleton_notice(snref=snref, srev=srev)|indent("# ")}}
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "{{repo}}"
 version = "0.0.0"
@@ -169,7 +173,3 @@ relative_files = true
 
 [tool.coverage.report]
 fail_under = 90
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
