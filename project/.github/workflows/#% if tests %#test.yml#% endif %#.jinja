@@ -21,8 +21,9 @@ jobs:
         #%- endfor %#
         platform:
         - "ubuntu"
-        - "macos"
         - "windows"
+        # https://github.com/actions/setup-python/issues/696
+        # - "macos"
         include:
         #%- for intermediate_python in intermediate_pythons %#
         - python: "{{'%s.%s' % intermediate_python}}"
