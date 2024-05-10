@@ -1,7 +1,3 @@
 # SPDX-License-Identifier: {{license}}
 # (C) {{year}}-present {{copyright}} ({{github}})
-"""
-`{{package}}`.#% if description %#
-
-{{description}}#% endif %#
-"""
+"""#% if description %#{{description}}#% else %#Root of the `{{package}}` package.#% endif %#"""
