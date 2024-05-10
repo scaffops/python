@@ -7,9 +7,6 @@
 #%- if tests and public %#
 [![Coverage](https://coverage-badge.samuelcolvin.workers.dev/{{github}}/{{repo}}.svg)]({{coverage_url}})
 #%- endif %#
-#%- if docs %#
-[![Documentation Status](https://readthedocs.org/projects/{{rtd}}/badge/?version=latest)](https://{{rtd}}.readthedocs.io/en/latest/?badge=latest)
-#%- endif %#
 #%- if tidelift %#
 [![Lifted?](https://tidelift.com/badges/package/pypi/{{pypi_project}})]({{tidelift_url}}&utm_medium=readme)
 #%- endif %#

@@ -85,11 +85,6 @@ docs:
   type: "bool"
   default: true
   help: "Include documentation suite?"
-rtd:
-  type: "str"
-  default: "{{repo|kebabify}}"
-  help: "Documentation project slug (XXXXX.readthedocs.io)"
-  when: "{{docs}}"
 tests:
   type: "bool"
   default: true
@@ -114,7 +109,7 @@ python:
   help: "Minimal Python version"
 python_until:
   type: "str"
-  default: "{{python_max or python_ahead or '3.13'}}"
+  default: ""
   choices:
     "4.0": "4.0"
     "{{python_ahead or '3.13'}}": "{{python_ahead or '3.13'}}"
@@ -151,6 +146,7 @@ tidelift:
   type: "bool"
   default: false
   help: "Is the package lifted?"
+  when: "{{pypi}}"
 ctt:
   type: "bool"
   default: false

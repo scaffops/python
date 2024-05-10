@@ -9,7 +9,6 @@ copyright = "bswck"
 email = "bartoszpiotrslawecki@gmail.com"
 pypi = false
 docs = false
-rtd = "skeleton-ctt"
 tests = false
 package = "skeleton_ctt"
 python = "3.8"

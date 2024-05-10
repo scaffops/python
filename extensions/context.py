@@ -32,7 +32,7 @@ REPO_URL: Template = Template(
 )
 
 DOCS_URL: Template = Template(
-    "https://${rtd}.readthedocs.io/en/latest/",
+    "https://${github}.github.io/${repo}",
 )
 
 PYPI_URL: Template = Template(
